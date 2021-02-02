@@ -1,5 +1,8 @@
 from random import choice
+
+
 order = 5
+
 # with open("test.txt") as inputFile:
 #     inputText = inputFile.read()
 
