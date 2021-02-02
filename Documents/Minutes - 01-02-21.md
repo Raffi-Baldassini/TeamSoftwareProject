@@ -1,3 +1,4 @@
+
 ## Date: 01/02/21
 
 ### Attendees: Raffi, Pavel, Cormac, Niamh
@@ -18,3 +19,5 @@ Discussed how we would distribute the less desirable roles, with people taking t
 * Pavel - Database
 * Raffi - Markov Generator
 * Cormac and Niamh - Project Scheduling
+
+### Next Meeting: 03/01/21
