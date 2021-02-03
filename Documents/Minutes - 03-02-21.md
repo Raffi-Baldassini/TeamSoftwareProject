@@ -29,3 +29,5 @@ Document work done
 Possibly implement different test cases, and generation sets 
 
 Account Security
+
+Set up projects board on Github
