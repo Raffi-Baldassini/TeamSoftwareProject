@@ -88,7 +88,7 @@ def generateRandomString(frequencyDictionary, stringChars, stringLength):
 if __name__ == '__main__':
     
     startTime = time.time()
-    #wordString = importTextFile('..\\corncob_lowercase.txt')
+    #wordString = importTextFile('TextGeneration\\EnglishWords.txt')
     #letterDictionary = generateLetterFrequencyDictionary(wordString)
     letterDictionary = readFrequencyJSON('TextGeneration\\LetterFrequency.JSON')
     print(generateRandomString(letterDictionary, list(letterDictionary.keys()), 26))
