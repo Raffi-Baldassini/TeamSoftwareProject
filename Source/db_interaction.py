@@ -27,9 +27,6 @@ class Game:
         for i in range(len(mylist)):
             j = randint(0, n-1)
             mylist[i], mylist[j] = mylist[j], mylist[i]
-        #insert random spaces
-        #for e in range(randint(0, len(mylist) / 2)):
-        #    mylist[randint(0,len(mylist) - 1)] = " "
         gibberish = ''.join(mylist)
         return gibberish[randint(0, len(gibberish)/2 - 1):randint(len(gibberish)/2, len(gibberish)-1)].strip()
     
