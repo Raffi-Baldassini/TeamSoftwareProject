@@ -10,7 +10,6 @@ import prettytable
 
 #Simple mockup to generate data for the db
 class Game:
-
     def __init__(self, user=None):
         self.wpm = 0
         self.acc = 0
@@ -70,7 +69,6 @@ class Game:
         
 
 class DB:
-
     #returns a cursor object
     def get_cursor():
         con = DB.connect_db()
@@ -136,13 +134,7 @@ class DB:
 
     #these two functions are the only reason for the prettytables improt and can be removed if not being used for testing purposes
     def print_table(name):
-        db_con = pymysql.connect(host = "typing-trainer.cfg1087dpmin.eu-west-1.rds.amazonaws.com",
-                        user="admin",
-                        port=3306,
-                        passwd="zJh9g6UYobZ66JNSd",
-                        db="typing_trainer")
-
-        cursor = db_con.cursor()
+        cursor = DB.get_cursor()
         cursor.execute(f"DESCRIBE {name};")
         field_names = []
         for field in cursor.fetchall():
@@ -152,13 +144,10 @@ class DB:
         for row in cursor.fetchall():
             table.add_row(list(row))
         print(table)
-        
-        db_con.close()
 
     def print_all():
         DB.print_table("user")
         DB.print_table("stats")
-        
         
 #test of db interaction
 if __name__ == "__main__":
@@ -169,5 +158,3 @@ if __name__ == "__main__":
     game = Game(input("input a new or old id: "))
     DB.upload_game(game)
     DB.print_all()
-    
-    
