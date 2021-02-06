@@ -1,13 +1,13 @@
 from flask import Flask, render_template, redirect, url_for, request
-from flask_wtf import FlaskForm
 from flask_bootstrap import Bootstrap
 from flask_sqlalchemy import SQLAlchemy
-from flask_login import LoginManager, UserMixin, login_user as LoginUser, login_required, logout_user, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
-from wtforms import StringField, PasswordField, BooleanField
-from wtforms.validators import InputRequired, Email, Length
-
+from flask_login import LoginManager, UserMixin, login_user as LoginUser, login_required, logout_user, current_user
 from random import randint
+
+import user_management as um
+from db_setup import username, password, server, db_name
+
 
 """
 TO DO:
@@ -33,14 +33,8 @@ TO TEST:
 """
 
 
-# SQL connection details - Should replace these with encrypted fields later
-username = 'admin'
-password = 'zJh9g6UYobZ66JNSd'
-server = 'typing-trainer.cfg1087dpmin.eu-west-1.rds.amazonaws.com'
-db_name = 'typing_trainer'
-
 # Configure and instantiate the flask app
-app = Flask(__name__)
+app = Flask(__name__, template_folder='template')
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://%s:%s@%s/%s' % (username, password, server, db_name)
 app.config['SECRET_KEY'] = 'asecretkey'
 
@@ -52,32 +46,6 @@ login_manager.login_view = 'login'
 # Loads bootstrap and sqlalchemy into flask app
 Bootstrap(app)
 db = SQLAlchemy(app)
-
-
-# Represent the Flask login form - will be passed into flask bootstrap at routing
-class LoginForm(FlaskForm):
-    email = StringField('Email', validators=[InputRequired(),
-                                                   Length(min=4, max=50)
-                                                   ])
-    password = PasswordField('Password', validators=[InputRequired(),
-                                                     Length(min=8, max=80)
-                                                     ])
-    remember = BooleanField('Remember me')
-
-
-# Represent the Flask user registration form - will be passed into flask bootstrap at routing
-class RegistrationForm(FlaskForm):
-    email_message = "Please enter a valid email address"
-    username = StringField('Username', validators=[InputRequired(),
-                                                   Length(min=4, max=10),
-                                                   ])
-    email = StringField('Email', validators=[InputRequired(),
-                                             Email(message=str(email_message)),
-                                             Length(max=50)
-                                             ])
-    password = PasswordField('Password', validators=[InputRequired(),
-                                                     Length(min=8, max=80)
-                                                     ])
 
 
 # Represents user credentials
@@ -105,7 +73,7 @@ def index():
 # signup page
 @app.route('/signup', methods=['POST', 'GET'])
 def signup():
-    reg_form = RegistrationForm()
+    reg_form = um.RegistrationForm()
     if reg_form.validate_on_submit():
         password_hash = generate_password_hash(reg_form.password.data, method='sha256')
         new_user = User(uname=reg_form.username.data,
@@ -122,7 +90,7 @@ def signup():
 # login page
 @app.route('/login', methods=['POST', 'GET'])
 def login():
-    login_form = LoginForm()
+    login_form = um.LoginForm()
 
     if login_form.validate_on_submit():
         login_user = User.query.filter_by(email=login_form.email.data).first()
