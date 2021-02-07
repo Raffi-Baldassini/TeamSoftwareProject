@@ -11,12 +11,9 @@ from db_setup import username, password, server, db_name
 
 """
 TO DO:
-    - Split all functionality into different packages/files
     - Encrypt SQL login details (read them in indirectly)
     - Set up secret key generation - consider key rotation?
     - Registration should check for unique emails and username - currently does not
-        - Also does not include an option to input DOB
-            - DOB should be checked for certain age - over 12 or something?
     - Implement email confirmation to register an account!
     - Implement user id generation - maybe just auto-increment in SQL (simple but not secure)
     
