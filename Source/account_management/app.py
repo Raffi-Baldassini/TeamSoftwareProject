@@ -76,8 +76,8 @@ def signup():
     reg_form = um.RegistrationForm()
     if reg_form.validate_on_submit():
         password_hash = generate_password_hash(reg_form.password.data, method='sha256')
-        new_user = User(uname=reg_form.username.data,
-                        email=reg_form.email.data,
+        new_user = User(uname=reg_form.username.data.lower(),
+                        email=reg_form.email.data.lower(),
                         pword=password_hash,
                         id=randint(0, 5000)
                         )
