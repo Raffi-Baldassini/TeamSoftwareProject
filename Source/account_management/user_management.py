@@ -1,6 +1,10 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField
 from wtforms.validators import InputRequired, Email, Length, EqualTo
+from wtforms_components import DateRange
+from wtforms.fields.html5 import DateField
+from datetime import datetime, date
+from dateutil.relativedelta import relativedelta
 
 
 # Represent the Flask login form - will be passed into flask bootstrap at routing
@@ -19,6 +23,9 @@ class RegistrationForm(FlaskForm):
     email_message = "Please enter a valid email address"
     password_length_message = "Password must be between 8-80 characters"
     password_confirm_message = "Passwords do not match"
+    dob_message = "You must be over 12 years of age to create an account"
+    age_validator = date.today() - relativedelta(years=12)
+
     username = StringField('Username - up to 10 characters', validators=[InputRequired(),
                                                    Length(min=4, max=10),
                                                    ])
@@ -30,7 +37,11 @@ class RegistrationForm(FlaskForm):
                                                      Length(min=8, max=80,
                                                             message=password_length_message),
                                                      EqualTo('confirm_password',
-                                                             message=password_message)
+                                                             message=password_confirm_message)
                                                      ])
     confirm_password = PasswordField('Repeat Password')
+    dob = DateField('Date of birth', validators=[InputRequired(),
+                                                 DateRange(max=age_validator,
+                                                           message=dob_message)
+                                                 ])
 
