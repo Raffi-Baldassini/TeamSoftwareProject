@@ -71,6 +71,8 @@ def index():
 @app.route('/signup', methods=['POST', 'GET'])
 def signup():
     reg_form = um.RegistrationForm()
+
+    # If form is submitted
     if reg_form.validate_on_submit():
         password_hash = generate_password_hash(reg_form.password.data, method='sha256')
         new_user = User(uname=reg_form.username.data.lower(),
@@ -78,6 +80,14 @@ def signup():
                         pword=password_hash,
                         id=randint(0, 5000)
                         )
+        check_email = User.query.filter_by(email=reg_form.email.data).first()
+        check_username = User.query.filter_by(uname=reg_form.username.data).first()
+        print(check_username)
+        if check_email:
+            return "<h1>An account is already registered with that email address!</h1>"
+        elif check_username:
+            return "<h1>An account is already registered with that username!</h1>"
+
         db.session.add(new_user)
         db.session.commit()
         return '<h1>Thank you for creating an account, %s.</h1>' % reg_form.username.data
@@ -89,9 +99,12 @@ def signup():
 def login():
     login_form = um.LoginForm()
 
+    # User submits the form
     if login_form.validate_on_submit():
         login_user = User.query.filter_by(email=login_form.email.data).first()
+        # If form email matches stored email
         if login_user:
+            # If hashed form password == hashed stored password
             if check_password_hash(login_user.pword, login_form.password.data):
                 LoginUser(login_user, remember=login_form.remember.data)
                 return '<h1>Successfully logged in.</h1>'
