@@ -1,32 +1,35 @@
 {% extends "bootstrap/base.html" %}
 
-{{super()}}
+{% block head %}
+  {{ super() }}
+  <meta charset="utf-8" />
+  <title>{% block title %}{% endblock %}Tying Trainer</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+{% endblock %}
+
+
 {% block content %}
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <title>Tying Trainer</title>
-  </head>
-  <body>
-  
-
-  </body>
-  <nav class="navbar">
   <div class="container">
-    <div id="navbar" class="collapse navbar-collapse">
-      <ul class="nav navbar-nav">
-        <li><a href="{{ url_for('signup') }}">Sign Up</a></li>
-        <li><a href="{{ url_for('login') }}">Login</a></li>
-        <li><a href="{{ url_for('logout') }}">Logout</a></li>
-      </ul>
+    <div class="row">
+      <div class=col-sm">
+        <h1>Typing Trainer</h1>
+      </div>
     </div>
-  </div>
-</nav>
-<h1>Home</h1>
 
-</html>
+    <div class="row">
+      <div class="col-sm">
+        <a href="{{ url_for('login') }}">Login/Signup</a>
+       <!--- <a href="{{ url_for('signup') }}">Sign Up</a> --->
+        <!--- <a href="{{ url_for('logout') }}">Logout</a> --->
+      </div>
+      <div class="col-sm">
+        <a href="{{ url_for('practice') }}">Practice as Guest</a>
+      </div>
+    </div>
+
+  </div>
+
+
 {% endblock %}
 
 
