@@ -126,6 +126,12 @@ def secret_page():
     return "<h1>Test Page - Only logged in users should see this message</h1>"
 
 
+# Practice as guest page
+@app.route('/practice', methods=['POST', 'GET'])
+def practice():
+    return render_template('practice.html')
+
+
 # Run the applications
 if __name__ == '__main__':
     app.run(debug=True)
