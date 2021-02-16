@@ -8,27 +8,33 @@
 {% endblock %}
 
 {% block styles %}
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
   <link rel="stylesheet" href="{{url_for('.static', filename='normalize.css')}}">
   <link rel="stylesheet" href="{{url_for('.static', filename='base.css')}}">
 {% endblock %}
 
 {% block content %}
-  <div class="container">
-    <div class="row">
-      <div class=col-sm">
+  <div class="container-fluid">
+    <div class="row" id="header-container">
+      <div class=col-md">
         <h1>Typing Trainer</h1>
       </div>
     </div>
 
-    <div class="row">
-      <div class="col-sm">
-        <a href="{{ url_for('login') }}">Login/Signup</a>
+    <div class="row" id="button-container">
+      <div class="col-md">
+        <button class="account_button">
+          <a href="{{ url_for('login') }}">Login/Signup</a>
+        </button>
+      </div>
+
+      <div class="col-md">
+        <button class="guest_button">
+          <a href="{{ url_for('practice') }}">Practice as Guest</a>
+        </button>
+      </div>
        <!--- <a href="{{ url_for('signup') }}">Sign Up</a> --->
         <!--- <a href="{{ url_for('logout') }}">Logout</a> --->
-      </div>
-      <div class="col-sm">
-        <a href="{{ url_for('practice') }}">Practice as Guest</a>
-      </div>
     </div>
 
   </div>
