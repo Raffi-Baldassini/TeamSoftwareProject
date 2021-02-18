@@ -166,6 +166,7 @@ class DB:
         DB.print_table("user")
         DB.print_table("stats")
         DB.print_table("records")
+        DB.print_table("friends")
         
 #test of db interaction
 if __name__ == "__main__":
