@@ -1,25 +1,22 @@
-from flask import Flask, render_template, redirect, url_for, request
-from flask_wtf import FlaskForm
+from random import randint
+
+from flask import Flask, render_template, redirect, url_for
 from flask_bootstrap import Bootstrap
 from flask_sqlalchemy import SQLAlchemy
-from flask_login import LoginManager, UserMixin, login_user as LoginUser, login_required, logout_user, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
-from wtforms import StringField, PasswordField, BooleanField
-from wtforms.validators import InputRequired, Email, Length
+from flask_login import LoginManager, UserMixin, login_user, login_required,\
+    logout_user
+from db_setup import username, password, server, db_name
+import user_management as um
 
-from random import randint
 
 """
 TO DO:
-    - Split all functionality into different packages/files
     - Encrypt SQL login details (read them in indirectly)
     - Set up secret key generation - consider key rotation?
-    - Registration should check for unique emails and username - currently does not
-        - Also does not include an option to input DOB
-            - DOB should be checked for certain age - over 12 or something?
     - Implement email confirmation to register an account!
     - Implement user id generation - maybe just auto-increment in SQL (simple but not secure)
-    
+
 TO TEST:
     - Run script and go to http://127.0.0.1:5000/ in browser to view flask app
         - This will be index.html or home
@@ -33,16 +30,11 @@ TO TEST:
 """
 
 
-# SQL connection details - Should replace these with encrypted fields later
-username = 'admin'
-password = 'zJh9g6UYobZ66JNSd'
-server = 'typing-trainer.cfg1087dpmin.eu-west-1.rds.amazonaws.com'
-db_name = 'typing_trainer'
-
 # Configure and instantiate the flask app
-app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://%s:%s@%s/%s' % (username, password, server, db_name)
-app.config['SECRET_KEY'] = 'asecretkey'
+app = Flask(__name__, template_folder='template')
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://%s:%s@%s/%s'\
+                                        % (username, password, server, db_name)
+app.config['SECRET_KEY'] = 'secret_key'
 
 # Instantiates the login manager
 login_manager = LoginManager()
@@ -54,34 +46,8 @@ Bootstrap(app)
 db = SQLAlchemy(app)
 
 
-# Represent the Flask login form - will be passed into flask bootstrap at routing
-class LoginForm(FlaskForm):
-    email = StringField('Email', validators=[InputRequired(),
-                                                   Length(min=4, max=50)
-                                                   ])
-    password = PasswordField('Password', validators=[InputRequired(),
-                                                     Length(min=8, max=80)
-                                                     ])
-    remember = BooleanField('Remember me')
-
-
-# Represent the Flask user registration form - will be passed into flask bootstrap at routing
-class RegistrationForm(FlaskForm):
-    email_message = "Please enter a valid email address"
-    username = StringField('Username', validators=[InputRequired(),
-                                                   Length(min=4, max=10),
-                                                   ])
-    email = StringField('Email', validators=[InputRequired(),
-                                             Email(message=str(email_message)),
-                                             Length(max=50)
-                                             ])
-    password = PasswordField('Password', validators=[InputRequired(),
-                                                     Length(min=8, max=80)
-                                                     ])
-
-
 # Represents user credentials
-# UserMixin provides default implementations for the methods that Flask-Login expects user objects to have
+# Provides default implementations for the methods that Flask-Login expects user objects to have
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     uname = db.Column(db.String(10), unique=True)
@@ -105,14 +71,22 @@ def index():
 # signup page
 @app.route('/signup', methods=['POST', 'GET'])
 def signup():
-    reg_form = RegistrationForm()
+    reg_form = um.RegistrationForm()
+
+    # If form is submitted
     if reg_form.validate_on_submit():
         password_hash = generate_password_hash(reg_form.password.data, method='sha256')
-        new_user = User(uname=reg_form.username.data,
-                        email=reg_form.email.data,
+        new_user = User(uname=reg_form.username.data.lower(),
+                        email=reg_form.email.data.lower(),
                         pword=password_hash,
-                        id=randint(0, 5000)
-                        )
+                        id=randint(0, 5000))
+        check_email = User.query.filter_by(email=reg_form.email.data).first()
+        check_username = User.query.filter_by(uname=reg_form.username.data).first()
+        if check_email:
+            return "<h1>An account is already registered with that email address!</h1>"
+        elif check_username:
+            return "<h1>An account is already registered with that username!</h1>"
+
         db.session.add(new_user)
         db.session.commit()
         return '<h1>Thank you for creating an account, %s.</h1>' % reg_form.username.data
@@ -122,13 +96,16 @@ def signup():
 # login page
 @app.route('/login', methods=['POST', 'GET'])
 def login():
-    login_form = LoginForm()
+    login_form = um.LoginForm()
 
+    # User submits the form
     if login_form.validate_on_submit():
-        login_user = User.query.filter_by(email=login_form.email.data).first()
-        if login_user:
-            if check_password_hash(login_user.pword, login_form.password.data):
-                LoginUser(login_user, remember=login_form.remember.data)
+        submitted_user = User.query.filter_by(email=login_form.email.data).first()
+        # If form email matches stored email
+        if submitted_user:
+            # If hashed form password == hashed stored password
+            if check_password_hash(submitted_user.pword, login_form.password.data):
+                login_user(submitted_user, remember=login_form.remember.data)
                 return '<h1>Successfully logged in.</h1>'
         return '<h1>Invalid username/password!</h1>'
     return render_template('login.html', form=login_form)
@@ -147,6 +124,12 @@ def logout():
 @login_required
 def secret_page():
     return "<h1>Test Page - Only logged in users should see this message</h1>"
+
+
+# Practice as guest page
+@app.route('/practice', methods=['POST', 'GET'])
+def practice():
+    return render_template('practice.html')
 
 
 # Run the applications
