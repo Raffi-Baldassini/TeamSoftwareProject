@@ -1,32 +1,31 @@
-from random import choice
+from random import choice, randint
 
 
-order = 5
+with open("TextGeneration\\Frankenstein.txt", encoding='UTF-8') as inputFile:
+    inputText = inputFile.read()
 
-# with open("test.txt") as inputFile:
-#     inputText = inputFile.read()
 
 def generateNGrams(textInput, order):
 
     nGrams = {}
 
-    for charIndex in range(len(textInput)-(order-1)):
-        nGram = textInput[charIndex:charIndex+order]
+    for charIndex in range(len(textInput) - (order - 1)):
+        nGram = textInput[charIndex:charIndex + order]
         if nGram not in nGrams:
             nGrams[nGram] = []
-        if charIndex+order >= len(textInput):
+        if charIndex + order >= len(textInput):
             break
-        nGrams[nGram].append(textInput[charIndex+order])
+        nGrams[nGram].append(textInput[charIndex + order])
 
-    
     return nGrams
 
-def markovGenerator(textInput, order, Textlength, nGrams = None):
+
+def markovGenerator(textInput, order, Textlength, nGrams=None):
 
     if not nGrams:
         nGrams = generateNGrams(textInput, order)
-
-    currentNGram = textInput[0:order]
+    position = randint(0, len(textInput) - order)
+    currentNGram = textInput[position:position + order]
     markovString = currentNGram
     for i in range(Textlength):
         if currentNGram in nGrams:
@@ -34,10 +33,15 @@ def markovGenerator(textInput, order, Textlength, nGrams = None):
             if nextChars != []:
                 nextChar = choice(nextChars)
                 markovString += nextChar
-                currentNGram = markovString[(len(markovString)-order):len(markovString)]
+                currentNGram = markovString[(len(markovString) -
+                                             order):len(markovString)]
             else:
                 i -= 1
-                currentNGram = markovString[(len(markovString)-order):len(markovString)]
+                currentNGram = markovString[(len(markovString) -
+                                             order):len(markovString)]
     return markovString
 
-print(len(markovGenerator(inputText, order, 1000)))
+
+print('\nNGram order of 1:\n',markovGenerator(inputText, 1, 30))
+
+print('\nNGram order of 5:\n',markovGenerator(inputText, 5, 30))

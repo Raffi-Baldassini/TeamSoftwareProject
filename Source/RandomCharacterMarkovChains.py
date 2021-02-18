@@ -1,7 +1,7 @@
 import json, random, time
 
 
-def importTextFile(filePath):
+def import_text_file(filePath):
     '''
     Returns a file as a string
     
@@ -13,12 +13,12 @@ def importTextFile(filePath):
 
     '''
 
-    with open(filePath) as wordFile:
+    with open(filePath, encoding='UTF-8') as wordFile:
         wordString = wordFile.read()
     return wordString
 
 
-def generateLetterFrequencyDictionary(inputString):
+def generate_letter_frequency_dictionary(inputString):
     '''
     Creates a Dictionary containing letters that appeared and their total appearances
 
@@ -28,7 +28,7 @@ def generateLetterFrequencyDictionary(inputString):
     Returns:
         The created Dictionary
     '''
-    
+
     frequencyDic = {}
 
     for char in inputString:
@@ -39,17 +39,17 @@ def generateLetterFrequencyDictionary(inputString):
 
     return frequencyDic
 
-def generateFrequencyJSON(frequencyDictionary):
 
+def generate_frequency_JSON(frequencyDictionary, fileName):
     '''
     Converts a python dictionary to JSON
     '''
-    
-    with open('LetterFrequency.json', 'w') as frequencyOutput:
+
+    with open(f'TextGeneration\\{fileName}.json', 'w', encoding= 'UTF-8') as frequencyOutput:
         json.dump(frequencyDictionary, frequencyOutput)
 
-def readFrequencyJSON(fileName):
 
+def read_frequency_JSON(fileName):
     '''
     Reads a JSON file and returns it as a dictionary
 
@@ -59,13 +59,13 @@ def readFrequencyJSON(fileName):
     Returns:
         the converted JSON as a dictionary
     '''
-    with open(fileName, 'r') as frequencyJSON:
+    with open(fileName, 'r', encoding= 'UTF-8') as frequencyJSON:
         frequencyDictionary = json.load(frequencyJSON)
 
     return frequencyDictionary
 
-def generateRandomString(frequencyDictionary, stringChars, stringLength):
 
+def generate_random_string(frequencyDictionary, stringChars, stringLength):
     '''
     Generates a random string using the principles of Markov Chains
 
@@ -81,15 +81,23 @@ def generateRandomString(frequencyDictionary, stringChars, stringLength):
     charWeights = [frequencyDictionary[char] for char in stringChars]
     randomString = ''
     for i in range(stringLength):
-        randomString += str(random.choices(stringChars, charWeights)).strip('[]"\'')
-    
+        randomString += str(random.choices(stringChars,
+                                           charWeights)).strip('[]"\'')
+
     return randomString
 
+
 if __name__ == '__main__':
-    
+
     startTime = time.time()
-    #wordString = importTextFile('..\\corncob_lowercase.txt')
+    #wordString = importTextFile('TextGeneration\\EnglishWords.txt')
     #letterDictionary = generateLetterFrequencyDictionary(wordString)
-    letterDictionary = readFrequencyJSON('TextGeneration\\LetterFrequency.JSON')
-    print(generateRandomString(letterDictionary, list(letterDictionary.keys()), 26))
+    letterDictionary = read_frequency_JSON(
+        'TextGeneration\\LetterFrequency.JSON')
+    for i in range(10):
+        print(
+            generate_random_string(
+                letterDictionary,
+                ['a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l'],
+                random.randint(4, 7)))
     print(f"{time.time() - startTime}")
