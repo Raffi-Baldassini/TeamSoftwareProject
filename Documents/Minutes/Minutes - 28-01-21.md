@@ -1,3 +1,4 @@
+# Minutes 28-01-21
 
 ## Date: 28/01/21
 
@@ -10,7 +11,8 @@
 
 Settled on typing app for project
 
-### **Roles**:
+### **Roles**
+
 * Markov Chain Text Generation
 * Inputting words
 * Database for users and stats
@@ -18,7 +20,8 @@ Settled on typing app for project
 * Front end
 * Server
 
-### **Language**:
+### **Language**
+
 * Python
 * MySQL for Database
 
@@ -26,4 +29,4 @@ Settled on typing app for project
 
 Worked on Product Brief and made a large amount of progress, final touch ups will be done individually prior to deadline.
 
-**Next Meeting: 12:30 01/02/21**
+#### Next Meeting: 12:30 01/02/21
