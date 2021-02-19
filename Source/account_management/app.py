@@ -3,7 +3,6 @@ from flask_bootstrap import Bootstrap
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import LoginManager, UserMixin, login_user as LoginUser, login_required, logout_user, current_user
-from random import randint
 
 import user_management as um
 from db_setup import username, password, server, db_name
@@ -48,7 +47,7 @@ db = SQLAlchemy(app)
 # Represents user credentials
 # UserMixin provides default implementations for the methods that Flask-Login expects user objects to have
 class User(UserMixin, db.Model):
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     uname = db.Column(db.String(10), unique=True)
     email = db.Column(db.String(50), unique=True)
     pword = db.Column(db.String(80), unique=True)
@@ -89,9 +88,9 @@ def signup():
         password_hash = generate_password_hash(reg_form.password.data, method='sha256')
         new_user = User(uname=reg_form.username.data.lower(),
                         email=reg_form.email.data.lower(),
-                        pword=password_hash,
-                        id=randint(0, 5000)
+                        pword=password_hash
                         )
+
         check_email = User.query.filter_by(email=reg_form.email.data).first()
         check_username = User.query.filter_by(uname=reg_form.username.data).first()
         print(check_username)
