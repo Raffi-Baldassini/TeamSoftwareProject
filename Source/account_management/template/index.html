@@ -24,8 +24,9 @@
 
     <div class="row" id="button-container">
       <div class="col-md">
-        <button class="account_button">
-          <a href="{{ url_for('login') }}">Login/Signup</a>
+        <button class="account_button" onclick="openLogin()">
+          <!--- <a href="{{ url_for('login') }}">Login/Signup</a> --->
+          <p>Login/Signup</p>
         </button>
       </div>
 
@@ -41,11 +42,10 @@
     <div class="row" id="account_popup">
       <div class="col-md" id="account_popup_container">
         <form class="form-signin" method="POST" action="/login">
-          <h2 class="form-signin-heading">Please sign in</h2>
           {{ form.hidden_tag() }} <!--- XSS request forgery token --->
-          {{ wtf.form_field(form.email) }}
-          {{ wtf.form_field(form.password) }}
-          {{ wtf.form_field(form.remember) }}
+          {{ wtf.form_field(form.email, extra_classes='form_field') }}
+          {{ wtf.form_field(form.password, extra_classes='form_field') }}
+          {{ wtf.form_field(form.remember, extra_classes='form_field remember') }}
           <button class="btn" type="submit">Sign in</button>
         </form>
       </div>
@@ -54,8 +54,11 @@
 
   </div>
 
+<script>
+function openLogin() {
+  document.getElementById("account_popup").style.display = "block";
+}
+</script>
 
 {% endblock %}
-
-
 

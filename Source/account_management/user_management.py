@@ -8,10 +8,10 @@ from datetime import datetime, date
 
 # Represent the Flask login form - will be passed into flask bootstrap at routing
 class LoginForm(FlaskForm):
-    email = StringField('Email', validators=[InputRequired(),
+    email = StringField('Email:', validators=[InputRequired(),
                                                    Length(min=4, max=50)
                                                    ])
-    password = PasswordField('Password', validators=[InputRequired(),
+    password = PasswordField('Password:', validators=[InputRequired(),
                                                      Length(min=8, max=80)
                                                      ])
     remember = BooleanField('Remember me')

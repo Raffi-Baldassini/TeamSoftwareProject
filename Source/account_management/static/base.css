@@ -13,7 +13,7 @@ h1{
     font-family: 'Anonymous Pro';
 }
 
-a{
+a, p, h2, label{
     font-family: 'Inconsolata';
     font-style: normal;
     font-weight: 500;
@@ -38,7 +38,7 @@ a{
     align-self: center;
 }
 
-button{
+button, .btn{
     margin: 0.5em 0 0.5em 0.5em;
     background: #51A3A3;
     box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.25);
@@ -48,16 +48,84 @@ button{
     padding: 1.25em;
 }
 
-button:hover{
+button:hover, .btn:hover{
     background: #D56062;
 }
 
-a{
+a, button>p{
     font-size: 3em;
     color: white;
 }
 
-a:hover{
+a:hover, button>p:hover{
     color: white;
     text-decoration: none;
+}
+
+/* Login screen popup */
+
+#account_popup{
+    position: relative;
+    position: fixed;
+    display: none;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0,0,0,0.5);
+    z-index: 2;
+    cursor: pointer;
+}
+
+#account_popup_container{
+    background: #E5E5E5;
+    width: 50%;
+    height: 50%;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    margin: auto;
+    padding: 25px;
+}
+
+.form-group{
+    display: flex;
+    padding: 10px;
+    border: 2px solid #51A3A3;
+    box-sizing: border-box;
+    border-radius: 544px;
+}
+
+label{
+    align-self: center;
+    padding-right: 15px;
+    padding-left: 15px;
+    color: #565656;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 30px;
+    line-height: 31px;
+}
+
+input{
+    width: 80%;
+}
+
+.form-control{
+    background-color: #E5E5E5 !important;
+    border: none;
+}
+
+.checkbox>label{
+    font-size: 20px;
+    width: auto;
+    display: flex;
+}
+.checkbox>label>input{
+    align-self: center;
+    width: 10%;
 }
