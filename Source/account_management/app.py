@@ -64,7 +64,19 @@ def load_user(user_id):
 # home page
 @app.route('/')
 def index():
-    return render_template('index.html')
+    login_form = um.LoginForm()
+
+    # User submits the form
+    if login_form.validate_on_submit():
+        submitted_user = User.query.filter_by(email=login_form.email.data).first()
+        # If form email matches stored email
+        if submitted_user:
+            # If hashed form password == hashed stored password
+            if check_password_hash(submitted_user.pword, login_form.password.data):
+                login_user(submitted_user, remember=login_form.remember.data)
+                return '<h1>Successfully logged in.</h1>'
+        return '<h1>Invalid username/password!</h1>'
+    return render_template('index.html', form=login_form)
 
 
 # signup page
