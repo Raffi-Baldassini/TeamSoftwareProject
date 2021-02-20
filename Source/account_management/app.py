@@ -12,9 +12,7 @@ from db_setup import username, password, server, db_name
 TO DO:
     - Encrypt SQL login details (read them in indirectly)
     - Set up secret key generation - consider key rotation?
-    - Registration should check for unique emails and username - currently does not
     - Implement email confirmation to register an account!
-    - Implement user id generation - maybe just auto-increment in SQL (simple but not secure)
     
 TO TEST:
     - Run script and go to http://127.0.0.1:5000/ in browser to view flask app

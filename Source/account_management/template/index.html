@@ -48,9 +48,15 @@
           {{ wtf.form_field(form.remember, extra_classes='form_field remember') }}
           <button class="btn" type="submit">Sign in</button>
         </form>
-      </div>
 
+        <div class="row" id="sign_up_container">
+          <h2>Dont have an account yet?</h2>
+          <button class="signup_button">
+            <a href="{{ url_for('signup') }}">Sign up</a>
+          </button>
+        </div>
     </div>
+   </div>
 
   </div>
 
