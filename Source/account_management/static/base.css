@@ -96,6 +96,7 @@ a:hover, button>p:hover{
 
 form{
     height: 55%;
+    display: grid;
 }
 
 .form-group{
@@ -124,6 +125,18 @@ input{
 .form-control{
     background-color: #E5E5E5 !important;
     border: none;
+}
+
+.btn{
+    width: 30%;
+    justify-self: center;
+    font-size: 20px;
+    color: white;
+    padding: 1em;
+}
+.signup_button, .signup_button > a {
+    width: 30%;
+    font-size: 20px !important;
 }
 
 .checkbox>label{
@@ -160,5 +173,12 @@ input{
     }
     #sign_up_container{
         height: 40%;
+    }
+}
+
+
+@media (max-height: 890px){
+    #sign_up_container{
+        display: none;
     }
 }
