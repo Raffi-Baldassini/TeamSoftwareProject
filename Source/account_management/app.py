@@ -13,6 +13,7 @@ TO DO:
     - Encrypt SQL login details (read them in indirectly)
     - Set up secret key generation - consider key rotation?
     - Implement email confirmation to register an account!
+    - Depreciate login route
     
 TO TEST:
     - Run script and go to http://127.0.0.1:5000/ in browser to view flask app
@@ -103,7 +104,7 @@ def signup():
     return render_template('signup.html', form=reg_form)
 
 
-# login page
+# login page - WILL DEPRECIATE
 @app.route('/login', methods=['POST', 'GET'])
 def login():
     login_form = um.LoginForm()
