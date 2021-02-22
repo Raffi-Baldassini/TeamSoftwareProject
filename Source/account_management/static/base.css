@@ -132,10 +132,20 @@ input{
     justify-self: center;
     font-size: 20px;
     color: white;
-    padding: 1em;
+    padding: 0;
 }
+
+.exit{
+    justify-self: right;
+    width: 100px;
+    padding: 5px;
+    margin-left: 80%;
+    margin-bottom: 25px;
+    padding-top: 0;
+}
+
 .signup_button, .signup_button > a {
-    width: 30%;
+    width: 35%;
     font-size: 20px !important;
 }
 
