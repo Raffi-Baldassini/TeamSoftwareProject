@@ -104,24 +104,6 @@ def signup():
     return render_template('signup.html', form=reg_form)
 
 
-# login page - WILL DEPRECIATE
-@app.route('/login', methods=['POST', 'GET'])
-def login():
-    login_form = um.LoginForm()
-
-    # User submits the form
-    if login_form.validate_on_submit():
-        login_user = User.query.filter_by(email=login_form.email.data).first()
-        # If form email matches stored email
-        if login_user:
-            # If hashed form password == hashed stored password
-            if check_password_hash(login_user.pword, login_form.password.data):
-                LoginUser(login_user, remember=login_form.remember.data)
-                return '<h1>Successfully logged in.</h1>'
-        return '<h1>Invalid username/password!</h1>'
-    return render_template('login.html', form=login_form)
-
-
 # logout page
 @app.route('/logout')
 @login_required
