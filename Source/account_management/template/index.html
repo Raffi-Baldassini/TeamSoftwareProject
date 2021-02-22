@@ -12,6 +12,7 @@
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
   <link rel="stylesheet" href="{{url_for('.static', filename='normalize.css')}}">
   <link rel="stylesheet" href="{{url_for('.static', filename='base.css')}}">
+  <script src="{{url_for('.static', filename='scripts.js')}}"></script>
 {% endblock %}
 
 {% block content %}
@@ -25,7 +26,6 @@
     <div class="row" id="button-container">
       <div class="col-md">
         <button class="account_button" onclick="openLogin()">
-          <!--- <a href="{{ url_for('login') }}">Login/Signup</a> --->
           <p>Login/Signup</p>
         </button>
       </div>
@@ -35,12 +35,11 @@
           <a href="{{ url_for('practice') }}">Practice as Guest</a>
         </button>
       </div>
-       <!--- <a href="{{ url_for('signup') }}">Sign Up</a> --->
-        <!--- <a href="{{ url_for('logout') }}">Logout</a> --->
     </div>
 
     <div class="row" id="account_popup">
       <div class="col-md" id="account_popup_container">
+        <button class="row btn exit" onclick="closeLogin()">Close</button>
         <form class="form-signin" method="POST" action="/login">
           {{ form.hidden_tag() }} <!--- XSS request forgery token --->
           {{ wtf.form_field(form.email, extra_classes='form_field') }}
@@ -57,14 +56,7 @@
         </div>
       </div>
     </div>
-
   </div>
-
-<script>
-function openLogin() {
-  document.getElementById("account_popup").style.display = "block";
-}
-</script>
 
 {% endblock %}
 
