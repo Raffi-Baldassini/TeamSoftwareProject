@@ -1,0 +1,27 @@
+<html>
+	<head> 
+		<!-- Chart.JS resources are here -->
+		</html><script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"></script>
+	</head>
+	<body>
+		<!-- The only way that I could find to properly control the alignment was to put the canvas in a div, feel
+			free to fix if this is bad-->
+		<div class="chart-container" style="width: 600px; height:400px; float: left">
+			<canvas id="wpmChart";></canvas>
+			<script>
+				<!-- Information constructed in python file is collected here-->
+				var ctx = document.getElementById("wpmChart").getContext('2d');
+				var data = {{ wpmChartJSON | safe }}
+				var wpmChart = new Chart(ctx, data);
+			</script>
+		</div>
+		<div class="chart-container" style="width: 600px; height:400px; float: left">
+			<canvas id="accChart";></canvas>
+			<script>
+				var ctx2 = document.getElementById("accChart").getContext('2d');
+				var data = {{ accChartJSON | safe }}
+				var accChart = new Chart(ctx2, data);
+			</script>
+		</div>
+	</body>
+</html>
