@@ -45,3 +45,10 @@ class RegistrationForm(FlaskForm):
                                                            message=dob_message)
                                                  ])
 
+
+class SearchForm(FlaskForm):
+    username_message = "User not found!"
+
+    username = StringField('Username - up to 10 characters', validators=[InputRequired(),
+                                                                         Length(min=4, max=10),
+                                                                         ])
