@@ -133,8 +133,10 @@ def search_user():
     search_form = um.SearchForm()
     curr_user = current_user.id
     if search_form.validate_on_submit():
-        submitted_user = User.query.filter_by(uname=search_form.username.data.first())
+        submitted_user = User.query.filteby(uname=search_form.username.data.first())r_
         submitted_user_id = submitted_user.id
+        # Need to add load user call
+        # Need to add if statement to check if the user page is private or not
         if db.session.query(User.friends.id, User.friends.friend_id).filter(User.friends.id == submitted_user_id).filter(User.friends.friend_id == curr_user):
             return "<h1>Test Page - only logged in and added friend users should see this message</h1>"
 
