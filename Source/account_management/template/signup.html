@@ -18,13 +18,30 @@
 {% block content %}
 <div class="container">
   <div class="row" id="header">
-    <a href="{{ url_for('index') }}"><h1>Typing Trainer</h1></a>
+    <a href="{{ url_for('index') }}">
+      <h1>Typing Trainer</h1>
+    </a>
   </div>
+
   <div class="row" id="account_popup">
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        {% for message in messages %}
+          <div class="row" id="message_box_container">
+            <div id="message_box">
+              <h3>{{ message }}</h3>
+            </div>
+
+          </div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
     <div class="col-md" id="account_popup_container">
       <a href="{{ url_for('index') }}">
         <button class="row btn exit">Close</button>
       </a>
+
       <form class="form-signin" method="POST" action="/signup">
         {{ form.hidden_tag() }} <!--- XSS request forgery token --->
         {{ wtf.form_field(form.username) }}
