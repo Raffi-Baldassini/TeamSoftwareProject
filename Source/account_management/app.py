@@ -6,6 +6,7 @@ from flask_login import LoginManager, UserMixin, login_user, login_required, log
 
 import user_management as um
 from db_setup import username, password, server, db_name
+import user_management as um
 
 
 """
@@ -28,8 +29,9 @@ TO TEST:
 
 # Configure and instantiate the flask app
 app = Flask(__name__, template_folder='template')
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://%s:%s@%s/%s' % (username, password, server, db_name)
-app.config['SECRET_KEY'] = 'asecretkey'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://%s:%s@%s/%s'\
+                                        % (username, password, server, db_name)
+app.config['SECRET_KEY'] = 'secret_key'
 
 # Instantiates the login manager
 login_manager = LoginManager()
@@ -42,7 +44,7 @@ db = SQLAlchemy(app)
 
 
 # Represents user credentials
-# UserMixin provides default implementations for the methods that Flask-Login expects user objects to have
+# Provides default implementations for the methods that Flask-Login expects user objects to have
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     uname = db.Column(db.String(10), unique=True)
