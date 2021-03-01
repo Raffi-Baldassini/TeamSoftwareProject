@@ -1,4 +1,4 @@
-import json, time, random
+import json, time, random, platform
 from RandomCharacterMarkovChains import import_text_file, generate_frequency_JSON, read_frequency_JSON
 
 def generate_word_dictionary(inputString):
@@ -60,7 +60,10 @@ if __name__ == '__main__':
     #     ))
     # generate_frequency_JSON(wordDictionary, 'FrankensteinWordFrequency')
     startTime = time.time()
-    wordDictionary = read_frequency_JSON('TextGeneration\\FrankensteinWordFrequency.JSON')
+    if platform.system() == 'Linux':
+        wordDictionary = read_frequency_JSON('TextGeneration/FrankensteinWordFrequency.JSON')
+    elif platform.system() == 'Windows':
+        wordDictionary = read_frequency_JSON('TextGeneration\\FrankensteinWordFrequency.JSON')
     print(time.time() - startTime)
     for i in range(1):
         
