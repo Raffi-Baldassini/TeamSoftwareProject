@@ -1,3 +1,5 @@
+ /* Formatting specifically for /signup page */
+
 #account_popup{
     position: relative;
     position: fixed;
@@ -24,6 +26,11 @@ form{
 #sign_up_container{
     height: 25%;
 }
+
+.exit{
+    margin-bottom: 10px;
+}
+
 
 @media (min-height: 800px){
     #account_popup_container{

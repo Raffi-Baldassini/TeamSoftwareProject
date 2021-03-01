@@ -13,13 +13,25 @@ h1{
     font-family: 'Anonymous Pro';
 }
 
-a, p, h2, label, .btn{
+a, p, h2, h3, label, .btn{
     font-family: 'Inconsolata';
     font-style: normal;
     font-weight: 500;
 }
 
  /* index page specific styling */
+#message_box_container{
+    display: block;
+    text-align: center;
+    padding-top: 20px;
+}
+
+#message_box{
+    padding: 1em 2em 1em 2em;
+    display: inline-block;
+    background: #D56062;
+    color: white;
+}
 
  h1{
      font-size: 8rem;
@@ -132,10 +144,20 @@ input{
     justify-self: center;
     font-size: 20px;
     color: white;
-    padding: 1em;
+    padding: 0;
 }
+
+.exit{
+    justify-self: right;
+    width: 100px;
+    padding: 5px;
+    margin-left: 80%;
+    margin-bottom: 25px;
+    padding-top: 0;
+}
+
 .signup_button, .signup_button > a {
-    width: 30%;
+    width: 35%;
     font-size: 20px !important;
 }
 
