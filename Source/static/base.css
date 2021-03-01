@@ -199,8 +199,4 @@ input{
 }
 
 
-@media (max-height: 890px){
-    #sign_up_container{
-        display: none;
-    }
-}
+
