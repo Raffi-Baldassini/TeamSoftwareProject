@@ -14,7 +14,7 @@ def generate_word_dictionary(inputString):
     wordList = inputString.split()
     wordDictionary = {}
     for i in range(len(wordList) - 1):
-        #Not necessary, but makes functionality clear
+        #Not necessary to define these variables, but makes functionality clear
         currentWord = wordList[i]
         nextWord = wordList[i + 1]
         if currentWord not in wordDictionary:
