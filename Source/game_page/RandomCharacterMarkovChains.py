@@ -100,6 +100,4 @@ if __name__ == '__main__':
                 letterDictionary,
                 ['a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l'],
                 random.randint(4, 7)))
-    letterDictionary = read_frequency_JSON('TextGeneration\\LetterFrequency.JSON')
-    print(generate_random_string(letterDictionary, list(letterDictionary.keys()), 26))
     print(f"{time.time() - startTime}")
