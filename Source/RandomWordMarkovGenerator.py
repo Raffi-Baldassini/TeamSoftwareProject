@@ -60,14 +60,10 @@ if __name__ == '__main__':
     #     ))
     # generate_frequency_JSON(wordDictionary, 'FrankensteinWordFrequency')
     startTime = time.time()
-<<<<<<< HEAD
     if platform.system() == 'Linux':
         wordDictionary = read_frequency_JSON('TextGeneration/FrankensteinWordFrequency.JSON')
     elif platform.system() == 'Windows':
         wordDictionary = read_frequency_JSON('TextGeneration\\FrankensteinWordFrequency.JSON')
-=======
-    wordDictionary = read_frequency_JSON('TextGeneration/FrankensteinWordFrequency.JSON')
->>>>>>> 565e806edd682c68692c2981dcf67b6014299a4e
     print(time.time() - startTime)
     for i in range(1):
         
