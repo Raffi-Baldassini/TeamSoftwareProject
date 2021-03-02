@@ -75,12 +75,12 @@ a:hover, button>p:hover{
 }
 
 /* Login screen popup */
-
 #account_popup{
     position: relative;
     position: fixed;
     display: none;
     width: 100%;
+    min-width: 500px;
     height: 100%;
     top: 0;
     left: 0;
@@ -94,7 +94,9 @@ a:hover, button>p:hover{
 #account_popup_container{
     background: #E5E5E5;
     width: 50%;
+    min-width: 500px;
     height: 50%;
+    min-height: 500px;
     position: absolute;
     top: 0;
     right: 0;
@@ -175,17 +177,18 @@ input{
 #sign_up_container{
     display: block;
     height: 45%;
+    min-height: 200px;
     text-align: center;
     background: #D56062;
     border-bottom-left-radius: 63px;
     border-bottom-right-radius: 63px;
-
 }
 
 
 @media (min-width: 1100px){
     #account_popup_container{
         width: 35%;
+        min-width: 500px;
     }
 }
 
