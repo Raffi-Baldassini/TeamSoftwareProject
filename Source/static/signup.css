@@ -46,7 +46,7 @@ form{
     }
 }
 
-@media (max-height: 825px){
+@media (max-height: 850px){
     #sign_up_container{
         display: none;
     }

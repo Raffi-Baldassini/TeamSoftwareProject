@@ -11,6 +11,7 @@ class LoginForm(FlaskForm):
     email = StringField('Email:', validators=[InputRequired(),
                                                    Length(min=4, max=50)
                                                    ])
+
     password = PasswordField('Password:', validators=[InputRequired(),
                                                      Length(min=8, max=80)
                                                      ])
@@ -24,7 +25,7 @@ class RegistrationForm(FlaskForm):
     password_confirm_message = "Passwords do not match"
     dob_message = "You must be over 12 years of age to create an account"
 
-    username = StringField('Username - up to 10 characters', validators=[InputRequired(),
+    username = StringField('Username', validators=[InputRequired(),
                                                    Length(min=4, max=10),
                                                    ])
     email = StringField('Email', validators=[InputRequired(),
@@ -43,6 +44,6 @@ class RegistrationForm(FlaskForm):
 class SearchForm(FlaskForm):
     username_message = "User not found!"
 
-    username = StringField('Username - up to 10 characters', validators=[InputRequired(),
-                                                                         Length(min=4, max=10),
-                                                                         ])
+    username = StringField('Username', validators=[InputRequired(),
+                                                   Length(min=4, max=10)
+                                                   ])
