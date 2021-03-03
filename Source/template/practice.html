@@ -9,9 +9,10 @@
 {% endblock %}
 
 {% block styles %}
+  <link rel="stylesheet" href="{{url_for('.static', filename='practice.css')}}">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
   <link rel="stylesheet" href="{{url_for('.static', filename='normalize.css')}}">
-  <link rel="stylesheet" href="{{url_for('.static', filename='base.css')}}">
+  <link rel="stylesheet" href="{{url_for('.static', filename='base.css')}}">]
   
 {% endblock %}
 
@@ -51,12 +52,6 @@
       {% endfor %}
     {% endif %}
     {% endwith %}
-
-	<div class="row" id="header-container">
-      <div class=col-md">
-        <h1 style="font-size:10px">Nav-bar here</h1>
-      </div>
-    </div>
 
     <div class="row" id="header-container">
       <div class=col-md">
