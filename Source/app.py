@@ -3,10 +3,10 @@ from flask_bootstrap import Bootstrap
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
+import platform
 
 import user_management as um
 from db_setup import username, password, server, db_name
-import user_management as um
 from RandomWordMarkovGenerator import read_frequency_JSON, generate_random_paragraph
 """
 TO DO:
@@ -143,12 +143,16 @@ def secret_page():
 # Practice page for non-authenticated user
 @app.route('/practice', methods=['POST', 'GET'])
 def practice():
-    wordDictionary = read_frequency_JSON('TextGeneration\\FrankensteinWordFrequency.JSON')
+
+    if platform.system() == 'Linux':
+        wordDictionary = read_frequency_JSON('TextGeneration/FrankensteinWordFrequency.json')
+    elif platform.system() == 'Windows':
+        wordDictionary = read_frequency_JSON('TextGeneration\\FrankensteinWordFrequency.JSON')
 
     output = generate_random_paragraph(wordDictionary, 30)
     output = " ".join([str(word) for word in output])
 
-    return render_template('practice.html', generated_text = output)
+    return render_template('practice.html', generated_text=output)
 
 
 # Run the applications

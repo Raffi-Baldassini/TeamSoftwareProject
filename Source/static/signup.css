@@ -35,11 +35,20 @@ form{
 @media (min-height: 800px){
     #account_popup_container{
         height: 70%;
+        min-height: 750px;
     }
 }
 
 @media (max-height: 800px){
     #account_popup_container{
         height: 70%;
+        min-height: 750px;
     }
 }
+
+@media (max-height: 850px){
+    #sign_up_container{
+        display: none;
+    }
+}
+

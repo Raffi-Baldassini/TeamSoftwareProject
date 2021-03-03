@@ -93,7 +93,7 @@ if __name__ == '__main__':
     #wordString = importTextFile('TextGeneration\\EnglishWords.txt')
     #letterDictionary = generateLetterFrequencyDictionary(wordString)
     letterDictionary = read_frequency_JSON(
-        'TextGeneration/LetterFrequency.JSON')
+        'TextGeneration/LetterFrequency.json')
     for i in range(10):
         print(
             generate_random_string(
