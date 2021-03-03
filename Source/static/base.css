@@ -200,7 +200,7 @@ input{
 
 
 @media screen and (max-width: 768px) {
-    .container-fluid{
+    .container-fluid, .container{
         display: none;
     }
     .mobile-content{
