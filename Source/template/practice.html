@@ -9,7 +9,6 @@
 {% endblock %}
 
 {% block styles %}
-  <link rel="stylesheet" href="{{url_for('.static', filename='practice.css')}}">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
   <link rel="stylesheet" href="{{url_for('.static', filename='normalize.css')}}">
   <link rel="stylesheet" href="{{url_for('.static', filename='base.css')}}">
@@ -59,15 +58,8 @@
       </div>
     </div>
 
-    <div class="row" id="header-container">
-      <div class=col-md">
-        <p style="font-size:15px;max-width:100ch;margin:0 auto">{{ generated_text }}</p>
-      </div>
-    </div>
-
 	<div class="row" id="header-container">
-		<div class="keyboard-container" style="position: relative;width:70vw;height:30vw;margin: 0 auto">
-			<div class=col-md">
+		<div class="keyboard-container" style="position: relative;width:70vw;height:25vw;margin: 0 auto">
 				<div style="
 					width: 100%;
 					height: 100%;
@@ -76,7 +68,9 @@
 					top: 0;
 					background: rgba(86, 86, 86, 0.15);
 					border: 4px solid #D56062;
-					box-sizing: border-box">
+					box-sizing: border-box;
+					text-align: center;">
+					<p style="font-size:15px;max-width:100ch;margin:auto;">{{ generated_text }}</p>
 				</div>
 				
 				<div class="keyboard">
@@ -249,9 +243,8 @@
 					  <span>&#9654;</span>
 					</div>
 				  </div>
-				</div>
+
 			</div>
-				<p>stats here</p>
 		</div>
     </div>	
 	<script src="..\static\practice.js"></script>
