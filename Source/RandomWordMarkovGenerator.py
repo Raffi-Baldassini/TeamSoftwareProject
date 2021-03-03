@@ -1,5 +1,5 @@
 import json, time, random, platform
-from .RandomCharacterMarkovChains import import_text_file, generate_frequency_JSON, read_frequency_JSON
+from RandomCharacterMarkovChains import import_text_file, generate_frequency_JSON, read_frequency_JSON
 
 def generate_word_dictionary(inputString):
     '''
