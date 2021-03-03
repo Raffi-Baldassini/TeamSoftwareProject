@@ -157,4 +157,4 @@ def practice():
 
 # Run the applications
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(port=16932, host='0.0.0.0')
