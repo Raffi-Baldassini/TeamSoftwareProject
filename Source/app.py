@@ -5,9 +5,9 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 import platform
 
-import user_management as um
-from db_setup import username, password, server, db_name
-from RandomWordMarkovGenerator import read_frequency_JSON, generate_random_paragraph
+import Source.user_management as um
+from Source.db_setup import username, password, server, db_name
+from Source.RandomWordMarkovGenerator import read_frequency_JSON, generate_random_paragraph
 """
 TO DO:
     - Encrypt SQL login details (read them in indirectly)

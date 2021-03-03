@@ -9,7 +9,7 @@ import pymysql
 import prettytable
 #for historical records
 from datetime import datetime
-import db_setup
+
 
 #Simple mockup to generate data for the db
 class Game:
