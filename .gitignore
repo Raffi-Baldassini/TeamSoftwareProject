@@ -3,3 +3,4 @@ Source/account_management/__pycache__/
 Source/__pycache__/
 *.pyc
 *.pyc
+venv/
