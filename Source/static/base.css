@@ -204,8 +204,14 @@ input{
 /*keyboard stuff*/
 .keyboard {
     text-align: center;
-    font-size: 14px;
+    font-size: 12px;
     font-family: sans-serif;
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	left: 0;
+	top: 0;
+	padding-top: 8vw;
 }
 
 .keyboard__row {
@@ -225,21 +231,21 @@ input{
 
 .keyboard__row > * {
     position: relative;
-    background: #333;
+    background: #E4BAD0;
     text-align: center;
-    color: #eee;
+    color: #565656;
     float: left;
     border-radius: 0.3em;
     margin: 0.2em;
-    padding: 0.2em;
+    padding: 0em;
     width: 3.3em;
     height: 100%;
     box-sizing: border-box;
     cursor: pointer;
     -webkit-user-select: none;
-    border: 1px solid #444;
-    box-shadow: 0 0.2em 0 0.05em #222;
-    border-bottom-color: #555;
+    border: 1px solid #D56062;
+    box-shadow: 0 0.2em 0 0.05em #dbb2c7;
+    border-bottom-color: #D56062;
 }
 
 .keyboard__row--h1 > div {
@@ -248,8 +254,8 @@ input{
 
 .keyboard__row > div[data-pressed],
 .keyboard__row > div:active {
-    background: #2a2a2a;
-    color: #aaa;
+    background: #D56062;
+    color: black;
     position: relative;
     top: 0.2em;
     box-shadow: 0 0 0 0.05em black;
@@ -276,7 +282,7 @@ input{
 }
 
 .key--double > * {
-    padding-top: 0.1em;
+    padding-top: 0em;
 }
 
 .key--letter {
