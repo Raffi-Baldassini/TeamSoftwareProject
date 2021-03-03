@@ -24,7 +24,7 @@
             }, 200);
         }
 
-        var h1 = document.querySelector('h1');
+        var h1 = document.querySelector('a');
         var originalQueue = h1.innerHTML;
         var queue = h1.innerHTML;
 
