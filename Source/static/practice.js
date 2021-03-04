@@ -1,4 +1,6 @@
-        function getKey (e) {
+        
+		
+		function getKey (e) {
             var location = e.location;
             var selector;
             if (location === KeyboardEvent.DOM_KEY_LOCATION_RIGHT) {
@@ -27,6 +29,10 @@
         var h1 = document.querySelector('a');
         var originalQueue = h1.innerHTML;
         var queue = h1.innerHTML;
+		
+		var currentLetterIndex = 0;
+		var generated = document.getElementsByClassName('generated')[0].innerHTML;
+		var newGenerated = ""
 
         function next () {
             var c = queue[0];
@@ -48,6 +54,16 @@
             }
 
             key.setAttribute('data-pressed', 'on');
+			//window.alert(e.keycode || e.which + " " + generated[currentLetterIndex].toUpperCase().charCodeAt(0));
+			if (generated[currentLetterIndex].toUpperCase().charCodeAt(0) === (e.keyCode || e.which)) {
+				newGenerated = newGenerated + '<span style="color:green;">'+generated[currentLetterIndex]+'</span>';
+				document.getElementsByClassName('generated')[0].innerHTML = newGenerated + generated.substring(currentLetterIndex+1, generated.length);
+				currentLetterIndex++;
+			} else {
+				newGenerated = newGenerated + '<span style="color:red;">'+generated[currentLetterIndex]+'</span>';
+				document.getElementsByClassName('generated')[0].innerHTML = newGenerated + generated.substring(currentLetterIndex+1, generated.length);
+				newGenerated = newGenerated.substring(0, newGenerated.length - 33);
+			}
         });
 
         document.body.addEventListener('keyup', function (e) {
