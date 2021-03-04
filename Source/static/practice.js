@@ -66,29 +66,31 @@
 					MoveForwardOne()
 				}
 			}
-			if ((e.keyCode || e.which) == 188) {
+			else if ((e.keyCode || e.which) == 188) {
 				if (generated[currentLetterIndex].charCodeAt(0) == 44){
 					MoveForwardOne()
 				}
 			}
-			if ((e.keyCode || e.which) == 186) {
+			else if ((e.keyCode || e.which) == 186) {
 				if (generated[currentLetterIndex].charCodeAt(0) == 59 || generated[currentLetterIndex].charCodeAt(0) == 58){
 					MoveForwardOne()
 				}
 			}
-			if ((e.keyCode || e.which) == 191) {
+			else if ((e.keyCode || e.which) == 191) {
 				if (generated[currentLetterIndex].charCodeAt(0) == 63){
 					MoveForwardOne()
 				}
 			}
-			if ((e.keyCode || e.which) == 189) {
+			else if ((e.keyCode || e.which) == 189) {
 				if (generated[currentLetterIndex].charCodeAt(0) == 45){
 					MoveForwardOne()
 				}
 			}
-			if (generated[currentLetterIndex].toUpperCase().charCodeAt(0) === (e.keyCode || e.which)) {
+			else if (generated[currentLetterIndex].toUpperCase().charCodeAt(0) === (e.keyCode || e.which)){
 				MoveForwardOne()
-			} else {
+			} 
+			else if((e.keyCode || e.which) == 16) {}
+			else {
 				newGenerated = newGenerated + '<span style="color:red;">'+generated[currentLetterIndex]+'</span>';
 				document.getElementsByClassName('generated')[0].innerHTML = newGenerated + generated.substring(currentLetterIndex+1, generated.length);
 				newGenerated = newGenerated.substring(0, newGenerated.length - 33);
