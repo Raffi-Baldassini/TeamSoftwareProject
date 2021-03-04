@@ -14,6 +14,8 @@ var acc;
 var mistakes = 0;
 var wordCount;
 var charCount;
+var over = false;
+
 //updates stats in page every 10 milliseconds
 var updateLoop = window.setInterval(function() {
     if (currentLetterIndex === generated.length) {
@@ -153,10 +155,11 @@ document.body.addEventListener('keydown', function(e) {
             }
         }
         //round is over, ends stat updating loops and sets final stats
-        if (currentLetterIndex >= generated.length) {
+        if (currentLetterIndex >= generated.length && !(over)) {
             clearInterval(updateLoop);
 			wordCount++;
 			updateStats();
+			over = true;
         }
     }
 });
