@@ -1,4 +1,4 @@
-import json, random, time
+import json, random, time, platform
 
 
 def import_text_file(filePath):
@@ -45,8 +45,14 @@ def generate_frequency_JSON(frequencyDictionary, fileName):
     Converts a python dictionary to JSON
     '''
 
-    with open(f'TextGeneration\\{fileName}.json', 'w', encoding= 'UTF-8') as frequencyOutput:
-        json.dump(frequencyDictionary, frequencyOutput)
+    if platform.system() == 'Linux':
+        with open(f'TextGeneration/{fileName}.json', 'w',
+                  encoding='UTF-8') as frequencyOutput:
+            json.dump(frequencyDictionary, frequencyOutput)
+    elif platform.system() == 'Windows':
+        with open(f'TextGeneration\\{fileName}.json', 'w',
+                  encoding='UTF-8') as frequencyOutput:
+            json.dump(frequencyDictionary, frequencyOutput)
 
 
 def read_frequency_JSON(fileName):
@@ -59,7 +65,7 @@ def read_frequency_JSON(fileName):
     Returns:
         the converted JSON as a dictionary
     '''
-    with open(fileName, 'r', encoding= 'UTF-8') as frequencyJSON:
+    with open(fileName, 'r', encoding='UTF-8') as frequencyJSON:
         frequencyDictionary = json.load(frequencyJSON)
 
     return frequencyDictionary
@@ -87,17 +93,25 @@ def generate_random_string(frequencyDictionary, stringChars, stringLength):
     return randomString
 
 
-# if __name__ == '__main__':
+if __name__ == '__main__':
 
-    # startTime = time.time()
-    # #wordString = importTextFile('TextGeneration\\EnglishWords.txt')
-    # #letterDictionary = generateLetterFrequencyDictionary(wordString)
-    # letterDictionary = read_frequency_JSON(
-    #     'TextGeneration/LetterFrequency.json')
-    # for i in range(10):
-    #     print(
-    #         generate_random_string(
-    #             letterDictionary,
-    #             ['a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l'],
-    #             random.randint(4, 7)))
-    # print(f"{time.time() - startTime}")
+    startTime = time.time()
+    if platform.system() == 'Linux':
+        wordString = import_text_file('TextGeneration/EnglishWords.txt')
+        letterDictionary = generate_letter_frequency_dictionary(wordString)
+        letterDictionary = read_frequency_JSON(
+            'TextGeneration/LetterFrequency.json')
+
+    elif platform.system() == 'Windows':
+        wordString = import_text_file('TextGeneration\\EnglishWords.txt')
+        letterDictionary = generate_letter_frequency_dictionary(wordString)
+        letterDictionary = read_frequency_JSON(
+            'TextGeneration\\LetterFrequency.json')
+
+    for i in range(10):
+        print(
+            generate_random_string(
+                letterDictionary,
+                ['a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l'],
+                random.randint(4, 7)))
+    print(f"{time.time() - startTime}")

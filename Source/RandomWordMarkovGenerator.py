@@ -1,5 +1,6 @@
 import json, time, random, platform
-from RandomCharacterMarkovChains import import_text_file, generate_frequency_JSON, read_frequency_JSON
+from .RandomCharacterMarkovChains import import_text_file, generate_frequency_JSON, read_frequency_JSON
+
 
 def generate_word_dictionary(inputString):
     '''
@@ -30,6 +31,7 @@ def generate_word_dictionary(inputString):
 
     return wordDictionary
 
+
 def clean_input_text(inputString):
     '''
     Cleans the input text, removing obscure characters and splitting dashed words
@@ -49,6 +51,7 @@ def clean_input_text(inputString):
     cleanedText = ''
     return cleanedText.join(inputString)
 
+
 def check_valid_word(checkedWord):
     '''
     Checks if the word we are adding is valid
@@ -59,7 +62,7 @@ def check_valid_word(checkedWord):
     Returns:
         True or False based on validity of word
     '''
-    blacklist = ['Project','Gutenberg', '\ufeffthe', 'pglaf', 'ebooks,']
+    blacklist = ['Project', 'Gutenberg', '\ufeffthe', 'pglaf', 'ebooks,']
     if checkedWord in blacklist:
         return False
 
@@ -67,11 +70,11 @@ def check_valid_word(checkedWord):
         invalidChars = ['-', '’', '—', 'æ', 'ô', 'é', 'è', 'å', 'ê']
         if char.isdigit() or char in invalidChars:
             return False
-    
+
     return True
 
-def generate_random_paragraph(wordDictionary, length):
 
+def generate_random_paragraph(wordDictionary, length):
     '''
     Creates a random paragrpah using markov chains
 
@@ -84,7 +87,7 @@ def generate_random_paragraph(wordDictionary, length):
     '''
 
     output = []
-    
+
     currentWord = random.choice(list(wordDictionary.keys()))
     output.append(currentWord)
 
@@ -100,19 +103,22 @@ def generate_random_paragraph(wordDictionary, length):
 if __name__ == '__main__':
 
     wordDictionary = generate_word_dictionary(
-        clean_input_text(import_text_file(
-            'c:\\Users\\Raffi\\Documents\\College\\Programming\\TeamSoftwareProject\\Source\\TextGeneration\\Frankenstein.txt'
-        )))
+        clean_input_text(
+            import_text_file(
+                'c:\\Users\\Raffi\\Documents\\College\\Programming\\TeamSoftwareProject\\Source\\TextGeneration\\Frankenstein.txt'
+            )))
     generate_frequency_JSON(wordDictionary, 'FrankensteinWordFrequency')
     startTime = time.time()
     if platform.system() == 'Linux':
-        wordDictionary = read_frequency_JSON('TextGeneration/FrankensteinWordFrequency.json')
+        wordDictionary = read_frequency_JSON(
+            'TextGeneration/FrankensteinWordFrequency.json')
     elif platform.system() == 'Windows':
-        wordDictionary = read_frequency_JSON('c:\\Users\\Raffi\\Documents\\College\\Programming\\TeamSoftwareProject\\Source\\TextGeneration\\FrankensteinWordFrequency.JSON')
+        wordDictionary = read_frequency_JSON(
+            'c:\\Users\\Raffi\\Documents\\College\\Programming\\TeamSoftwareProject\\Source\\TextGeneration\\FrankensteinWordFrequency.JSON'
+        )
 
     print(time.time() - startTime)
     for i in range(100):
-        
+
         print(*generate_random_paragraph(wordDictionary, 100))
         print('\n')
-        
