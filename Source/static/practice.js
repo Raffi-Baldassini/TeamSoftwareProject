@@ -47,6 +47,7 @@
         h1.innerHTML = "&nbsp;";
         setTimeout(next, 500);
 
+		//Changes character at currentLetterIndex to green and increments to next character
 		function MoveForwardOne() {
 			newGenerated = newGenerated + '<span style="color:green;">'+generated[currentLetterIndex]+'</span>';
 			document.getElementsByClassName('generated')[0].innerHTML = newGenerated + generated.substring(currentLetterIndex+1, generated.length);
@@ -60,40 +61,51 @@
             }
 
             key.setAttribute('data-pressed', 'on');
+			//for testing
 			//window.alert(e.keycode || e.which + " " + generated[currentLetterIndex].toUpperCase().charCodeAt(0));
-			if ((e.keyCode || e.which) == 190) {
-				if (generated[currentLetterIndex].charCodeAt(0) == 46){
-					MoveForwardOne()
+			if (currentLetterIndex < generated.length) {
+				//check for period
+				if ((e.keyCode || e.which) == 190) {
+					if (generated[currentLetterIndex].charCodeAt(0) == 46){
+						MoveForwardOne()
+					}
 				}
-			}
-			else if ((e.keyCode || e.which) == 188) {
-				if (generated[currentLetterIndex].charCodeAt(0) == 44){
-					MoveForwardOne()
+				//chcek for comma
+				else if ((e.keyCode || e.which) == 188) {
+					if (generated[currentLetterIndex].charCodeAt(0) == 44){
+						MoveForwardOne()
+					}
 				}
-			}
-			else if ((e.keyCode || e.which) == 186) {
-				if (generated[currentLetterIndex].charCodeAt(0) == 59 || generated[currentLetterIndex].charCodeAt(0) == 58){
-					MoveForwardOne()
+				//check for colon or semi
+				else if ((e.keyCode || e.which) == 186) {
+					if (generated[currentLetterIndex].charCodeAt(0) == 59 || generated[currentLetterIndex].charCodeAt(0) == 58){
+						MoveForwardOne()
+					}
 				}
-			}
-			else if ((e.keyCode || e.which) == 191) {
-				if (generated[currentLetterIndex].charCodeAt(0) == 63){
-					MoveForwardOne()
+				//check for question mark or slash
+				else if ((e.keyCode || e.which) == 191) {
+					if (generated[currentLetterIndex].charCodeAt(0) == 63){
+						MoveForwardOne()
+					}
+				} 
+				//check for dash
+				else if ((e.keyCode || e.which) == 189) {
+					if (generated[currentLetterIndex].charCodeAt(0) == 45){
+						MoveForwardOne()
+					}
 				}
-			}
-			else if ((e.keyCode || e.which) == 189) {
-				if (generated[currentLetterIndex].charCodeAt(0) == 45){
+				//generic catch for everything else
+				else if (generated[currentLetterIndex].toUpperCase().charCodeAt(0) === (e.keyCode || e.which)){
 					MoveForwardOne()
+				} 
+				//ignore shift
+				else if((e.keyCode || e.which) == 16) {}
+				//changes incorrect character to be red
+				else {
+					newGenerated = newGenerated + '<span style="color:red;">'+generated[currentLetterIndex]+'</span>';
+					document.getElementsByClassName('generated')[0].innerHTML = newGenerated + generated.substring(currentLetterIndex+1, generated.length);
+					newGenerated = newGenerated.substring(0, newGenerated.length - 33);
 				}
-			}
-			else if (generated[currentLetterIndex].toUpperCase().charCodeAt(0) === (e.keyCode || e.which)){
-				MoveForwardOne()
-			} 
-			else if((e.keyCode || e.which) == 16) {}
-			else {
-				newGenerated = newGenerated + '<span style="color:red;">'+generated[currentLetterIndex]+'</span>';
-				document.getElementsByClassName('generated')[0].innerHTML = newGenerated + generated.substring(currentLetterIndex+1, generated.length);
-				newGenerated = newGenerated.substring(0, newGenerated.length - 33);
 			}
         });
 
