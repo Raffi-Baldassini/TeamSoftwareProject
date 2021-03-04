@@ -47,6 +47,12 @@
         h1.innerHTML = "&nbsp;";
         setTimeout(next, 500);
 
+		function MoveForwardOne() {
+			newGenerated = newGenerated + '<span style="color:green;">'+generated[currentLetterIndex]+'</span>';
+			document.getElementsByClassName('generated')[0].innerHTML = newGenerated + generated.substring(currentLetterIndex+1, generated.length);
+			currentLetterIndex++;
+		}
+		
         document.body.addEventListener('keydown', function (e) {
             var key = getKey(e);
             if (!key) {
@@ -55,10 +61,33 @@
 
             key.setAttribute('data-pressed', 'on');
 			//window.alert(e.keycode || e.which + " " + generated[currentLetterIndex].toUpperCase().charCodeAt(0));
+			if ((e.keyCode || e.which) == 190) {
+				if (generated[currentLetterIndex].charCodeAt(0) == 46){
+					MoveForwardOne()
+				}
+			}
+			if ((e.keyCode || e.which) == 188) {
+				if (generated[currentLetterIndex].charCodeAt(0) == 44){
+					MoveForwardOne()
+				}
+			}
+			if ((e.keyCode || e.which) == 186) {
+				if (generated[currentLetterIndex].charCodeAt(0) == 59 || generated[currentLetterIndex].charCodeAt(0) == 58){
+					MoveForwardOne()
+				}
+			}
+			if ((e.keyCode || e.which) == 191) {
+				if (generated[currentLetterIndex].charCodeAt(0) == 63){
+					MoveForwardOne()
+				}
+			}
+			if ((e.keyCode || e.which) == 189) {
+				if (generated[currentLetterIndex].charCodeAt(0) == 45){
+					MoveForwardOne()
+				}
+			}
 			if (generated[currentLetterIndex].toUpperCase().charCodeAt(0) === (e.keyCode || e.which)) {
-				newGenerated = newGenerated + '<span style="color:green;">'+generated[currentLetterIndex]+'</span>';
-				document.getElementsByClassName('generated')[0].innerHTML = newGenerated + generated.substring(currentLetterIndex+1, generated.length);
-				currentLetterIndex++;
+				MoveForwardOne()
 			} else {
 				newGenerated = newGenerated + '<span style="color:red;">'+generated[currentLetterIndex]+'</span>';
 				document.getElementsByClassName('generated')[0].innerHTML = newGenerated + generated.substring(currentLetterIndex+1, generated.length);
