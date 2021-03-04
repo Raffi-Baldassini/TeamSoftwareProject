@@ -6,17 +6,49 @@ var currentLetterIndex = 0;
 var generated = document.getElementsByClassName('generated')[0].innerHTML;
 var newGenerated = "";
 
-var start;
+var start
 var end;
 var timeTaken;
 var wpm;
 var acc;
 var mistakes = 0;
-var wordCount = generated.split(" ").length;
-var charCount = generated.split("").length;
-//console.log(wordCount + " " + charCount);
+var wordCount;
+var charCount;
+//updates stats in page every 10 milliseconds
+var updateLoop = window.setInterval(function() {
+    if (currentLetterIndex === generated.length) {
+        wordCount = generated.split(" ").length;
+    } else {
+        wordCount = generated.split(" ").length - generated.substring(currentLetterIndex).split(" ").length;
+        charCount = generated.length - generated.substring(currentLetterIndex).length;
+    }
+    if (start) {
+        timeTaken = (performance.now() - start) / 1000;
+    } else {
+        timeTaken = 0;
+    }
+    if (wordCount) {
+        wpm = Math.floor((wordCount / timeTaken) * 60);
+    } else {
+        wpm = 0;
+    }
+    if (mistakes == 0) {
+        acc = 100;
+    } else {
+        acc = Math.floor((charCount / (charCount + mistakes)) * 100);
+    }
+    updateStats();
+}, 100);
 
-
+//sets stats in page to current values
+function updateStats() {
+    document.getElementsByClassName('stats')[0].innerHTML = "<pre> words: " + wordCount +
+        " characters: " + charCount +
+        " time: " + timeTaken.toFixed(2) +
+        " mistakes: " + mistakes +
+        " wpm: " + wpm +
+        " acc: " + acc + "</pre>";
+}
 //retrieves key pressed
 function getKey(e) {
     var location = e.location;
@@ -68,72 +100,65 @@ function MoveForwardOne() {
 //retrieves pressed key and checks for correctness
 document.body.addEventListener('keydown', function(e) {
     var key = getKey(e);
-	if (key) {
-		key.setAttribute('data-pressed', 'on');	
-		//for testing
-		//window.alert(e.keycode || e.which + " " + generated[currentLetterIndex].toUpperCase().charCodeAt(0));
-		if (currentLetterIndex < generated.length) {
-			//check for period
-			if ((e.keyCode || e.which) == 190) {
-				if (generated[currentLetterIndex].charCodeAt(0) == 46) {
-					MoveForwardOne()
-				}
-			}
-			//chcek for comma
-			else if ((e.keyCode || e.which) == 188) {
-				if (generated[currentLetterIndex].charCodeAt(0) == 44) {
-					MoveForwardOne()
-				}
-			}
-			//check for colon or semi
-			else if ((e.keyCode || e.which) == 186) {
-				if (generated[currentLetterIndex].charCodeAt(0) == 59 || generated[currentLetterIndex].charCodeAt(0) == 58) {
-					MoveForwardOne()
-				}
-			}
-			//check for question mark or slash
-			else if ((e.keyCode || e.which) == 191) {
-				if (generated[currentLetterIndex].charCodeAt(0) == 63) {
-					MoveForwardOne()
-				}
-			}
-			//check for dash
-			else if ((e.keyCode || e.which) == 189) {
-				if (generated[currentLetterIndex].charCodeAt(0) == 45) {
-					MoveForwardOne()
-				}
-			}
-			//generic catch for everything else
-			else if (generated[currentLetterIndex].toUpperCase().charCodeAt(0) === (e.keyCode || e.which)) {
-				MoveForwardOne()
-				if (currentLetterIndex === 1) {
-					start = performance.now()
-				}
-			}
-			//ignore shift
-			else if ((e.keyCode || e.which) == 16) {}
-			//changes incorrect character to be red
-			else {
-				mistakes++;
-				newGenerated = newGenerated + '<span style="color:red;">' + generated[currentLetterIndex] + '</span>';
-				document.getElementsByClassName('generated')[0].innerHTML = newGenerated + generated.substring(currentLetterIndex + 1, generated.length);
-				newGenerated = newGenerated.substring(0, newGenerated.length - 33);
-			}
-		}
-		//round is over, calculates stats
-		if (currentLetterIndex >= generated.length) {
-			end = performance.now()
-			timeTaken = (end - start) / 1000;
-			wpm = Math.floor((wordCount / timeTaken) * 60);
-			if (mistakes == 0){
-				acc = 100;
-			}
-			else{
-				acc = Math.floor((charCount / (charCount + mistakes)) * 100);
-			}
-			window.alert("words: " + wordCount + "\nChars: " + charCount + "\nTime: " + timeTaken.toFixed(2) + "\nMistakes: " + mistakes + "\nwpm: " + wpm + "\nacc: " + acc);
-		}
-	}
+    if (key) {
+        key.setAttribute('data-pressed', 'on');
+        //for testing
+        //window.alert(e.keycode || e.which + " " + generated[currentLetterIndex].toUpperCase().charCodeAt(0));
+        if (currentLetterIndex < generated.length) {
+            //check for period
+            if ((e.keyCode || e.which) == 190) {
+                if (generated[currentLetterIndex].charCodeAt(0) == 46) {
+                    MoveForwardOne()
+                }
+            }
+            //chcek for comma
+            else if ((e.keyCode || e.which) == 188) {
+                if (generated[currentLetterIndex].charCodeAt(0) == 44) {
+                    MoveForwardOne()
+                }
+            }
+            //check for colon or semi
+            else if ((e.keyCode || e.which) == 186) {
+                if (generated[currentLetterIndex].charCodeAt(0) == 59 || generated[currentLetterIndex].charCodeAt(0) == 58) {
+                    MoveForwardOne()
+                }
+            }
+            //check for question mark or slash
+            else if ((e.keyCode || e.which) == 191) {
+                if (generated[currentLetterIndex].charCodeAt(0) == 63) {
+                    MoveForwardOne()
+                }
+            }
+            //check for dash
+            else if ((e.keyCode || e.which) == 189) {
+                if (generated[currentLetterIndex].charCodeAt(0) == 45) {
+                    MoveForwardOne()
+                }
+            }
+            //generic catch for everything else
+            else if (generated[currentLetterIndex].toUpperCase().charCodeAt(0) === (e.keyCode || e.which)) {
+                MoveForwardOne()
+                if (currentLetterIndex === 1) {
+                    start = performance.now()
+                }
+            }
+            //ignore shift
+            else if ((e.keyCode || e.which) == 16) {}
+            //changes incorrect character to be red
+            else {
+                mistakes++;
+                newGenerated = newGenerated + '<span style="color:red;">' + generated[currentLetterIndex] + '</span>';
+                document.getElementsByClassName('generated')[0].innerHTML = newGenerated + generated.substring(currentLetterIndex + 1, generated.length);
+                newGenerated = newGenerated.substring(0, newGenerated.length - 33);
+            }
+        }
+        //round is over, ends stat updating loops and sets final stats
+        if (currentLetterIndex >= generated.length) {
+            clearInterval(updateLoop);
+			wordCount++;
+			updateStats();
+        }
+    }
 });
 
 //removes 'pressed' attribute
