@@ -201,6 +201,20 @@ input{
     }
 }
 
+
+.game-box {
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	left: 0;
+	top: 0;
+	background: rgba(86, 86, 86, 0.15);
+	border: 4px solid #D56062;
+	box-sizing: border-box;
+	text-align: center;
+}
+
+
 /*keyboard stuff*/
 .keyboard {
     text-align: center;
