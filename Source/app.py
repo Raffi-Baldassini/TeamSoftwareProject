@@ -71,7 +71,7 @@ def index():
             if check_password_hash(submitted_user.pword, login_form.password.data):
                 login_user(submitted_user, remember=login_form.remember.data)
                 flash("Successfully logged in!")
-                return render_template('practice.html')
+                return render_template('index.html', form=login_form)
             else:
                 flash("Invalid login details!")
     return render_template('index.html', form=login_form)
@@ -81,6 +81,7 @@ def index():
 @app.route('/signup', methods=['POST', 'GET'])
 def signup():
     reg_form = um.RegistrationForm()
+    login_form = um.LoginForm()
 
     # If form is submitted
     if reg_form.validate_on_submit():
@@ -101,7 +102,7 @@ def signup():
             db.session.add(new_user)
             db.session.commit()
             flash("Thank you for creating an account!")
-            return render_template('practice.html')
+            return render_template('index.html', form=login_form)
     return render_template('signup.html', form=reg_form)
 
 
