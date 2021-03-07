@@ -180,3 +180,25 @@ window.addEventListener('resize', function(e) {
     size();
 });
 size();
+
+
+var currTheme = localStorage.getItem("theme");
+if(currTheme=="dark"){
+	document.documentElement.setAttribute("theme", "dark");
+	document.getElementById("theme").checked=true;
+}else{
+	document.documentElement.setAttribute("theme", "");
+	document.getElementById("theme").checked=false;
+}
+
+function changeTheme(){
+	if(document.getElementById("theme").checked==true){
+		document.documentElement.setAttribute("theme", "dark");
+		document.documentElement.classList.add("change");
+		localStorage.setItem("theme", "dark");
+	}else{
+		document.documentElement.setAttribute("theme", "");
+		document.documentElement.classList.add("change");
+		localStorage.setItem("theme", "");
+	}
+}
