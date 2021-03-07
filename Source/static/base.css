@@ -559,9 +559,14 @@ input[type=text]{
 /* nav bar */
 
 nav *{
-	background-color: (--bg) ;
+	background-color: var(--bg) ;
+    color: var(--title) !important;
 }
 
+nav {
+    height: 4em;
+    padding: 0;
+}
 nav li{
 	margin: 20px;
 }
