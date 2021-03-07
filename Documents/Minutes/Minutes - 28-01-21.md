@@ -11,7 +11,7 @@
 
 Settled on typing app for project
 
-### **Roles**
+### Roles
 
 * Markov Chain Text Generation
 * Inputting words
@@ -20,7 +20,7 @@ Settled on typing app for project
 * Front end
 * Server
 
-### **Language**
+### Language
 
 * Python
 * MySQL for Database
