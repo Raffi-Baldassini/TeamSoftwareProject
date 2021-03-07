@@ -2,6 +2,10 @@
 
 ## Beta-Release Documentation
 
+## About the Project:
+
+This typing trainer was developed as a means to practice touch typing, receiving feedback with every attempt and a way to collate your practice data over and extended period of time. Using Markov Chains, we generate text that closely mirrors real life applications. It was developed as a flask web app, and using JavaScript as the front end for the gameplay. The beta release only uses text generated from Mary Shelley's Frankenstein, but the final release will have a variety of sources to pull from to generate the practice sets.
+
 ## Running the Beta:
 
 ### From Your Local Machine:
