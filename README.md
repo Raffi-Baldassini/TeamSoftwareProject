@@ -1,27 +1,22 @@
 # TeamSoftwareProject - Group 8
 
-click==7.1.2
-decorator==4.4.2
-dnspython==2.1.0
-dominate==2.6.0
-email-validator==1.1.2
-Flask==1.1.2
-Flask-Bootstrap==3.3.7.1
-Flask-Login==0.5.0
-Flask-MySQLdb==0.2.0
-Flask-SQLAlchemy==2.4.4
-Flask-WTF==0.14.3
-idna==3.1
-infinity==1.5
-intervals==0.9.1
-itsdangerous==1.1.0
-Jinja2==2.11.3
-MarkupSafe==1.1.1
-mysqlclient==2.0.3
-six==1.15.0
-SQLAlchemy==1.3.23
-validators==0.18.2
-visitor==0.1.3
-Werkzeug==1.0.1
-WTForms==2.3.3
-WTForms-Components==0.10.5
+## Beta-Release Documentation
+
+## Running the Beta:
+
+### From Your Local Machine:
+
+1. If you wish to run the beta offline and directly from your machine, then you will need to download the development branch as a zip file
+or use the command `gh repo clone Raffi-Baldassini/TeamSoftwareProject` and `git checkout Development`
+
+2. Install the dependencies using `pip install -r requirements.txt`
+
+3. In the Source directory, use the command `flask run` to start the server and then go to the IP address it tells you it is running on
+
+### From Hosted Version:
+
+1. Navigate to [this](http://typing-trainer.pb97.container.netsoc.cloud:16555/) website.
+
+### Using the Typing-Trainer:
+
+Once on the site, whether locally hosted or not, you'll have the option to sign-in, sign-up, or play as a guest. Further information on the specifics can be found on [this](https://github.com/Raffi-Baldassini/TeamSoftwareProject/blob/Development/Documents/howto.pdf) document.
