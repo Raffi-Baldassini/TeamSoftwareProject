@@ -11,7 +11,7 @@ This typing trainer was developed as a means to practice touch typing, receiving
 ### From Your Local Machine:
 
 1. If you wish to run the beta offline and directly from your machine, then you will need to download the development branch as a zip file
-or use the command `git clone  https://github.com/Raffi-Baldassini/TeamSoftwareProject.git` and `git checkout Development`
+or use the command `git clone  https://github.com/Raffi-Baldassini/TeamSoftwareProject.git` and `git checkout beta`
 
 2. Install the dependencies using `pip install -r requirements.txt`
 
