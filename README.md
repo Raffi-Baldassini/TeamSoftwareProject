@@ -21,6 +21,19 @@ or use the command `gh repo clone Raffi-Baldassini/TeamSoftwareProject` and `git
 
 1. Navigate to [this](http://typing-trainer.pb97.container.netsoc.cloud:16555/) website.
 
-### Using the Typing-Trainer:
+## Usage:
 
 Once on the site, whether locally hosted or not, you'll have the option to sign-in, sign-up, or play as a guest. Further information on the specifics can be found on [this](https://github.com/Raffi-Baldassini/TeamSoftwareProject/blob/Development/Documents/howto.pdf) document.
+
+
+## Contributors:
+
+* Shane Fitzgerald Knott
+
+* Cormac Coleman
+
+* Niamh Healey
+
+* Pavel Belitskiy
+
+* Raffaele Baldassini
