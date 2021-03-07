@@ -1,0 +1,257 @@
+{% extends "bootstrap/base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block head %}
+  {{ super() }}
+  <meta charset="utf-8" />
+  <title>{% block title %}{% endblock %}Tying Trainer</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+{% endblock %}
+
+{% block styles %}
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <link rel="stylesheet" href="{{url_for('.static', filename='normalize.css')}}">
+  <link rel="stylesheet" href="{{url_for('.static', filename='base.css')}}">
+  
+{% endblock %}
+
+{% block content %}
+	
+
+    <nav class="navbar navbar-expand-lg">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">Typing Trainer</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link" href="#">Profile</a>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="dropdown04"  role="button" data-bs-toggle="dropdown" aria-expanded="false">Categories</a>
+              <ul class="dropdown-menu" aria-labelledby="dropdown04">
+                <li><a class="dropdown-item" href="#">Category 1</a></li>
+                <li><a class="dropdown-item" href="#">Category 2</a></li>
+                <li><a class="dropdown-item" href="#">Category 3</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+      {% for message in messages %}
+        <div class="row" id="message_box_container">
+          <div id="message_box">
+            <h3>{{ message }}</h3>
+          </div>
+        </div>
+      {% endfor %}
+    {% endif %}
+    {% endwith %}
+
+    <div class="row" id="header-container">
+      <div class="col-md">
+        <h1 style="font-size:20px">Practice Page</h1>
+      </div>
+    </div>
+	
+    <div class="row" id="header-container">
+      <div style="position: relative;width:50vw;height:7.5vw;margin: 0 auto">
+			<div class="game-box">
+				<p class="generated" style="font-size:20px;max-width:100ch;margin:auto;positon:absolute">{{ generated_text }}</p>
+				<br>
+				<p class="stats" style="font-size:15px;max-width:100ch;margin:auto;positon:absolute">
+				words: 0 characters: 0 time taken: 0 mistakes: 0 wpm: 0 acc: 0
+				</p>
+			</div>
+      </div>
+    </div>
+	
+	<div class="row" id="header-container">
+		<div class="game-box" style="position: relative;width:80vw;height:19vw;margin: 0 auto">				
+				<div class="keyboard">
+				  <div class="keyboard__row">
+					<div class="key--double" data-key="192">
+					  <div>~</div>
+					  <div>`</div>
+					</div>
+					<div class="key--double" data-key="49">
+					  <div>!</div>
+					  <div>1</div>
+					</div>
+					<div class="key--double" data-key="50">
+					  <div>@</div>
+					  <div>2</div>
+					</div>
+					<div class="key--double" data-key="51">
+					  <div>#</div>
+					  <div>3</div>
+					</div>
+					<div class="key--double" data-key="52">
+					  <div>$</div>
+					  <div>4</div>
+					</div>
+					<div class="key--double" data-key="53">
+					  <div>%</div>
+					  <div>5</div>
+					</div>
+					<div class="key--double" data-key="54">
+					  <div>^</div>
+					  <div>6</div>
+					</div>
+					<div class="key--double" data-key="55">
+					  <div>&</div>
+					  <div>7</div>
+					</div>
+					<div class="key--double" data-key="56">
+					  <div>*</div>
+					  <div>8</div>
+					</div>
+					<div class="key--double" data-key="57">
+					  <div>(</div>
+					  <div>9</div>
+					</div>
+					<div class="key--double" data-key="48">
+					  <div>)</div>
+					  <div>0</div>
+					</div>
+					<div class="key--double" data-key="189">
+					  <div>_</div>
+					  <div>-</div>
+					</div>
+					<div class="key--double" data-key="187">
+					  <div>+</div>
+					  <div>=</div>
+					</div>
+					<div class="key--bottom-right key--word key--w4" data-key="8">
+					  <span>backspace</span>
+					</div>
+				  </div>
+				  <div class="keyboard__row">
+					<div class="key--bottom-left key--word key--w4" data-key="9">
+					  <span>tab</span>
+					</div>
+					<div class="key--letter" data-char="Q">Q</div>
+					<div class="key--letter" data-char="W">W</div>
+					<div class="key--letter" data-char="E">E</div>
+					<div class="key--letter" data-char="R">R</div>
+					<div class="key--letter" data-char="T">T</div>
+					<div class="key--letter" data-char="Y">Y</div>
+					<div class="key--letter" data-char="U">U</div>
+					<div class="key--letter" data-char="I">I</div>
+					<div class="key--letter" data-char="O">O</div>
+					<div class="key--letter" data-char="P">P</div>
+					<div class="key--double" data-key="219" data-char="{[">
+					  <div>{</div>
+					  <div>[</div>
+					</div>
+					<div class="key--double" data-key="221" data-char="}]">
+					  <div>}</div>
+					  <div>]</div>
+					</div>
+					<div class="key--double" data-key="220" data-char="|\">
+					  <div>|</div>
+					  <div>\</div>
+					</div>
+				  </div>
+				  <div class="keyboard__row">
+					<div class="key--bottom-left key--word key--w5" data-key="20">
+					  <span>caps lock</span>
+					</div>
+					<div class="key--letter" data-char="A">A</div>
+					<div class="key--letter" data-char="S">S</div>
+					<div class="key--letter" data-char="D">D</div>
+					<div class="key--letter" data-char="F">F</div>
+					<div class="key--letter" data-char="G">G</div>
+					<div class="key--letter" data-char="H">H</div>
+					<div class="key--letter" data-char="J">J</div>
+					<div class="key--letter" data-char="K">K</div>
+					<div class="key--letter" data-char="L">L</div>
+					<div class="key--double" data-key="186">
+					  <div>:</div>
+					  <div>;</div>
+					</div>
+					<div class="key--double" data-key="222">
+					  <div>"</div>
+					  <div>'</div>
+					</div>
+					<div class="key--bottom-right key--word key--w5" data-key="13">
+					  <span>enter</span>
+					</div>
+				  </div>
+				  <div class="keyboard__row">
+					<div class="key--bottom-left key--word key--w6" data-key="16">
+					  <span>shift</span>
+					</div>
+					<div class="key--letter" data-char="Z">Z</div>
+					<div class="key--letter" data-char="X">X</div>
+					<div class="key--letter" data-char="C">C</div>
+					<div class="key--letter" data-char="V">V</div>
+					<div class="key--letter" data-char="B">B</div>
+					<div class="key--letter" data-char="N">N</div>
+					<div class="key--letter" data-char="M">M</div>
+					<div class="key--double" data-key="188">
+					  <div>&lt;</div>
+					  <div>,</div>
+					</div>
+					<div class="key--double" data-key="190">
+					  <div>&gt;</div>
+					  <div>.</div>
+					</div>
+					<div class="key--double" data-key="191">
+					  <div>?</div>
+					  <div>/</div>
+					</div>
+					<div class="key--bottom-right key--word key--w6" data-key="16-R">
+					  <span>shift</span>
+					</div>
+				  </div>
+				  <div class="keyboard__row keyboard__row--h3">
+					<div class="key--bottom-left key--word">
+					  <span>fn</span>
+					</div>
+					<div class="key--bottom-left key--word key--w1" data-key="17">
+					  <span>control</span>
+					</div>
+					<div class="key--bottom-left key--word key--w1" data-key="18">
+					  <span>option</span>
+					</div>
+					<div class="key--bottom-right key--word key--w3" data-key="91">
+					  <span>command</span>
+					</div>
+					<div class="key--double key--right key--space" data-key="32" data-char=" ">
+					  &nbsp;
+					</div>
+					<div class="key--bottom-left key--word key--w3" data-key="93-R">
+					  <span>command</span>
+					</div>
+					<div class="key--bottom-left key--word key--w1" data-key="18-R">
+					  <span>option</span>
+					</div>
+					<div data-key="37" class="key--arrow">
+					  <span>&#9664;</span>
+					</div>
+					<div class="key--double key--arrow--tall" data-key="38">
+					  <div>&#9650;</div>
+					  <div>&#9660;</div>
+					</div>
+					<div data-key="39" class="key--arrow">
+					  <span>&#9654;</span>
+					</div>
+				  </div>
+
+			</div>
+		</div>
+    </div>	
+    <div class="row" id="toggle-container">
+        <label class="toggle">
+			<input type="checkbox" id="theme" onclick="changeTheme()"/>
+			<span class="slider"></span>
+		</label>
+    </div>
+	<script src="..\static\practice.js"></script>
+{% endblock %}

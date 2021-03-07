@@ -7,6 +7,9 @@ from time import time
 import pymysql
 #for printing db information
 import prettytable
+#for historical records
+from datetime import datetime
+#import db_setup
 
 #Simple mockup to generate data for the db
 class Game:
@@ -76,11 +79,11 @@ class DB:
     
     #returns a connection object
     def connect_db():
-        return pymysql.connect(host = "typing-trainer.cfg1087dpmin.eu-west-1.rds.amazonaws.com",
-                    user="admin",
+        return pymysql.connect(host = db_setup.server,
+                    user= db_setup.username,
                     port=3306,
-                    passwd="zJh9g6UYobZ66JNSd",
-                    db="typing_trainer")
+                    passwd=db_setup.password,
+                    db= db_setup.db_name)
 
     
     def upload_game(game):
@@ -105,7 +108,7 @@ class DB:
                                     words, chars, wpm, accuracy, acc_best, acc_worst,
                                     wpm_best,wpm_worst)
                                     VALUES(%s,1,0,%s,%s,%s,%s,%s,%s,%s,%s);
-                                    """, (user,words,chars,wpm,acc,acc,acc,wpm,wpm))            
+                                    """, (user,words,chars,wpm,acc,acc,acc,wpm,wpm))
         else:
             cursor.execute("SELECT * FROM stats WHERE id = %s;", (user))
             stats = list(cursor.fetchall()[0])
@@ -129,10 +132,24 @@ class DB:
                         wpm_best = %s, wpm_worst = %s WHERE id = %s""",
                        (stats[1],stats[3],stats[4],stats[5],stats[6],stats[7],
                         stats[8],stats[9],stats[10],stats[0]))
+
+        today = datetime.utcnow().strftime('%Y-%m-%d')
+            
+        cursor.execute("SELECT * FROM records WHERE id = %s AND SCORE_DATE = %s",
+                           (user, today))
+        if len(cursor.fetchall()) == 0:
+                cursor.execute("""INSERT INTO records(id, score_date, wpm, acc)
+                                VALUES (%s, %s, %s,%s);""",
+                                (user, today, wpm, acc))
+        else:
+            cursor.execute("SELECT wpm,accuracy FROM stats WHERE id = 1")
+            (current_wpm, current_acc) = cursor.fetchall()[0]
+            cursor.execute("""UPDATE records SET wpm = %s, acc = %s WHERE id = %s AND score_date = %s""",
+                           (current_wpm, current_acc, user, today))
         connection.commit()
         connection.close()
 
-    #these two functions are the only reason for the prettytables improt and can be removed if not being used for testing purposes
+    #these two functions are the only reason for the prettytables import and can be removed if not being used for testing purposes
     def print_table(name):
         cursor = DB.get_cursor()
         cursor.execute(f"DESCRIBE {name};")
@@ -148,6 +165,8 @@ class DB:
     def print_all():
         DB.print_table("user")
         DB.print_table("stats")
+        DB.print_table("records")
+        DB.print_table("friends")
         
 #test of db interaction
 if __name__ == "__main__":
