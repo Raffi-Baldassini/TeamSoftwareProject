@@ -35,7 +35,7 @@
     {% endwith %}
 
     <div class="row" id="header-container">
-      <div class=col-md">
+      <div class="col-md">
         <h1>Typing Trainer</h1>
       </div>
     </div>
@@ -49,9 +49,16 @@
 
       <div class="col-md">
         <button class="guest_button">
-          <a href="{{ url_for('practice') }}">Practice as Guest</a>
+          <a href="{{ url_for('practice') }}">Practice as<br> Guest</a>
         </button>
       </div>
+    </div>
+    
+    <div class="row" id="toggle-container">
+        <label class="toggle">
+			<input type="checkbox" id="theme" onclick="changeTheme()"/>
+			<span class="slider"></span>
+		</label>
     </div>
 
     <div class="row" id="account_popup">
