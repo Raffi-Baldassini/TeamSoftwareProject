@@ -1,45 +1,156 @@
  /* Base styling & formatting */
+ 
+@import url('https://fonts.googleapis.com/css2?family=Anonymous+Pro&family=Inconsolata:wght@300&display=swap');
 
-html{
-    background: #E5E5E5;
+html {
+	--bg: #f7f8ee;
+	--button1: #3B8EA5;
+	--button1-hover: #296882;
+	--text-dark: #212E33;
+	--text-medium: #565656;
+	--text-light: #f7f8ee;
+	--login-outline: #629CB3;
+	--keypad: #3B8EA5;
+	--input-color: #565656;
+	--title: #7F5C79;
+	--title-shading: #6D597A;	
+	--signup-bg1: #4a7687;
+	--signup-bg2: #629CB3;
+	--signup-btn: #f7f8ee;
+	--signup-btn-hover: #6D597A;
+	--signin-bg1: #f7f8ee;
+	--signin-bg2: #d3d4cd;
+	--textbox-bg: #e2e3dc;
+	--signup-text: #565656;
+	--keypad-outline: #173f4f;
+	--text-bg: #c4c4c4;
+	--stats: #212E33;
+	--nav-1: #3B8EA5;
+	--nav-2: #f7f8ee;
 }
 
-body{
+body {
+	background: var(--bg);				   
     min-height: 100vh;
 }
 
-h1{
-    color: #D56062;
-    font-family: 'Anonymous Pro';
+h1 {
+    color: var(--title);
+    font-family: 'Anonymous Pro', monospace;
+	font-size: 170px;
+	text-shadow:0 0 1px var(--title), -1px 1px 1px var(--title-shading), 1px -1px 1px var(--title-shading), -1px -1px 1px var(--title-shading), 1px 1px 1px var(--title-shading);												
 }
 
-a, p, h2, h3, label, .btn{
-    font-family: 'Inconsolata';
+a,
+p,
+h2,
+h3,
+label,
+.btn{ 
+    font-family: 'Inconsolata', monospace;
     font-style: normal;
     font-weight: 500;
 }
 
+ /* dark/light mode */
+
+html[theme='dark'] {
+	--button1: #474A50;
+	--button1-hover: #3B8EA5;
+	--text-dark: #111b1f;
+	--text-medium: #565656;
+	--text-light: #f7f8ee;
+    --bg: #2F3239;
+	--hover-text: #111b1f;
+	--login-outline: #cacfcd;
+	--keypad: #474A50;
+	--input-color: #a5a5a1;
+	--title: #f7f8ee;
+	--title-shading: #11171a;
+	--signup-bg1: #4a7687;
+	--signup-bg2: #629CB3;
+	--signup-btn: #2F3239;
+	--signup-btn-hover: #6D597A;
+	--signin-bg1: #2F3239;
+	--signin-bg2: #2A2D33;
+	--textbox-bg: #26292E;
+	--signup-text: #f7f8ee;
+	--text-bg: #c4c4c4;
+	--keypad-outline: #26292E;
+	--stats: #f7f8ee;
+	--nav-1: #7F5C79;
+	--nav-2: #f7f8ee;
+}
+
+html.change * {
+  transition: .5s;
+}
+
+.toggle {
+	top: 90%; 
+	position: absolute;
+	left: 90%;  
+}
+
+.toggle input {
+	height: 0;
+	width: 0;
+	visibility: hidden;
+}
+
+.slider {
+	background: var(--bg);
+	border: 3px solid var(--title);
+	border-radius: 90px;
+	cursor: pointer;
+	height: 50px;
+	position: absolute;
+	transition: .5s;
+	width: 99px;
+}
+
+.slider:before {
+	content: '';
+	background: radial-gradient(50% 50% at 50% 50%, var(--button1) 0%, #22566B 100%);
+	border-radius: 30px;
+	bottom: 2px; left: 2px;
+	position: absolute;
+	transition: .5s;
+	width: 40px; height: 40px;
+}
+
+input:checked + .slider {
+	background: var(--bg);
+	border: 3px solid var(--title);				  
+}
+
+input:checked + .slider:before {
+	background: radial-gradient(50% 50% at 50% 50%, var(--title) 0%, #c4c4c4 100%);
+	transform: translateX(46px);		 
+}
+
  /* index page specific styling */
-#message_box_container{
+ 
+#message_box_container {
     display: block;
     text-align: center;
     padding-top: 20px;
 }
 
-#message_box{
+#message_box {
     padding: 1em 2em 1em 2em;
     display: inline-block;
     background: #D56062;
     color: white;
 }
 
- h1{
-     font-size: 8rem;
-     margin: 1em 0 1em 0;
-     align-self: center;
+ h1 {					   
+    font-size: 8rem;
+    margin: .5em 0 .75em 0;
+    align-self: center;
  }
 
-#header-container{
+#header-container {
     text-align: center;
     align-self: center;
     display: inline;
@@ -50,33 +161,44 @@ a, p, h2, h3, label, .btn{
     align-self: center;
 }
 
-button, .btn{
-    margin: 0.5em 0 0.5em 0.5em;
-    background: #51A3A3;
-    box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.25);
+button,
+.btn {
+	background: var(--button1);
+	border: none;
     border-radius: 25px;
+    box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.25);
+	height: 135px;		   
+    margin: 0.5em 0 0.5em 0.5em;
     text-decoration: none;
     border: none;
-    padding: 1.25em;
+    padding: 2px 10px;
+	width: 392px;
 }
 
-button:hover, .btn:hover{
-    background: #D56062;
+button:hover,
+.btn:hover {			
+    background: var(--button1-hover);
+	color: var(--text-light);
 }
 
-a, button>p{
-    font-size: 3em;
-    color: white;
+a,
+button>p {						   
+	color: var(--text-light);
+    font-size: 44px;
 }
 
-a:hover, button>p:hover{
-    color: white;
+a:hover,
+button>p:hover {
+    color: var(--text-light);
     text-decoration: none;
+}
+
+#sign_up_container h2{
+	color: white;
 }
 
 /* Login screen popup */
 #account_popup{
-    position: relative;
     position: fixed;
     display: none;
     width: 100%;
@@ -91,116 +213,158 @@ a:hover, button>p:hover{
     cursor: pointer;
 }
 
-#account_popup_container{
-    background: #E5E5E5;
+#account_popup_container {
+	background: linear-gradient(to bottom, var(--signin-bg1) 40%, var(--signin-bg2) 100%);
     width: 50%;
     min-width: 500px;
     height: 50%;
-    min-height: 500px;
+    min-height: 450px;
     position: absolute;
-    top: 0;
+    top: 5%;
     right: 0;
-    bottom: 0;
+    bottom: 5%;
     left: 0;
     margin: auto;
-    padding-top: 25px;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     border-radius: 63px;
 }
 
-form{
+form {
     height: 55%;
     display: grid;
 }
 
-.form-group{
+.form-group {
     display: flex;
     padding: 10px;
-    border: 2px solid #51A3A3;
+    border: 2px solid var(--login-outline) !important;
     box-sizing: border-box;
     border-radius: 544px;
 }
 
-label{
+label {
     align-self: center;
     padding-right: 15px;
     padding-left: 15px;
-    color: #565656;
+    color: var(--input-color);
     font-style: normal;
     font-weight: 500;
     font-size: 30px;
     line-height: 31px;
 }
 
-input{
+input {
     width: 80%;
 }
 
-.form-control{
-    background-color: #E5E5E5 !important;
-    border: none;
+input[type=text]{
+	color: var(--input-color) !important;
 }
 
-.btn{
-    width: 30%;
+.form-control {
+	background: var(--textbox-bg) !important;
+    border: 1px solid #999999;
+	border-radius: 35px;
+}
+
+.btn {
+    width: 50%;
+	height: 50px;
+	text-align: center;
     justify-self: center;
-    font-size: 20px;
-    color: white;
+    font-size: 35px;
+    color: var(--text-light);
     padding: 0;
+	border-radius: 90px;
+	margin-bottom: 5px;
+	line-height: 50px;
 }
 
-.exit{
+.exit {
     justify-self: right;
-    width: 100px;
+    width: 65px;
+	height: 35px;	  
     padding: 5px;
-    margin-left: 80%;
-    margin-bottom: 25px;
-    padding-top: 0;
+    margin-left: 85%;
+    margin-bottom: 2%;
+    margin-top: 3%;
+	font-size: 15px;
+	border-radius: 40px;
+	line-height: 10px;
+	text-align: center;
 }
 
-.signup_button, .signup_button > a {
-    width: 35%;
-    font-size: 20px !important;
+.signup_button *{
+	color: var(--signup-text) !important;
 }
 
-.checkbox>label{
+.signup_button:hover *{
+	color: var(--text-light) !important;
+	background: var(--signup-btn-hover);
+}
+
+.signup_button,
+.signup_button > a {
+	background: var(--signup-btn);
+    width: 50%;
+	height: 50px;
+    font-size: 35px !important;
+	border-radius: 90px;
+	color: var(--text-light);
+	line-height: 40px;
+	text-align: center;
+}
+
+.signup_button:hover,
+.signup_button > a:hover {
+	background: var(--signup-btn-hover);
+    width: 50%;
+	height: 50px;
+    font-size: 35px !important;
+	border-radius: 90px;
+	line-height: 35px;
+	text-align: center;
+}
+
+.checkbox>label{ 
     font-size: 20px;
     width: auto;
     display: flex;
 }
 
-.checkbox>label>input{
+.checkbox>label>input {
     align-self: center;
     width: 10%;
 }
 
-#sign_up_container{
+#sign_up_container {
     display: block;
     height: 45%;
-    min-height: 200px;
+    min-height: 50px;
     text-align: center;
-    background: #D56062;
+	padding-top: 5%;
+    background: linear-gradient(to bottom, var(--signup-bg1) 10%, var(--signup-bg2) 100%);
     border-bottom-left-radius: 63px;
     border-bottom-right-radius: 63px;
 }
 
-.mobile-content{
+.mobile-content {
     display: none;
     text-align: center;
 }
 
-.mobile-content h2{
+.mobile-content h2 {
     color: #D56062;
     font-size: 2.75em;
 }
 
-.mobile-content img{
+.mobile-content img {
     width: 75%;
 }
 
 
 @media screen and (max-width: 768px) {
-    .container-fluid, .container{
+    .container-fluid, .container {
         display: none;
     }
     .mobile-content{
@@ -209,13 +373,13 @@ input{
 }
 
 @media (min-width: 1100px){
-    #account_popup_container{
+    #account_popup_container {
         width: 35%;
         min-width: 500px;
     }
 }
 
-@media (max-height: 1060px){
+@media (max-height: 1060px) {
     form{
         height: 60%;
     }
@@ -231,23 +395,24 @@ input{
 	left: 0;
 	top: 0;
 	background: rgba(86, 86, 86, 0.15);
-	border: 4px solid #D56062;
 	box-sizing: border-box;
 	text-align: center;
 }
 
 
 /*keyboard stuff*/
+
 .keyboard {
     text-align: center;
     font-size: 12px;
-    font-family: sans-serif;
+    font-family: 'Inconsolata', monospace;
 	width: 100%;
 	height: 100%;
 	position: absolute;
 	left: 0;
 	top: 0;
 	padding-top: 1vw;
+	background-color: var(--bg);
 }
 
 .keyboard__row {
@@ -267,9 +432,9 @@ input{
 
 .keyboard__row > * {
     position: relative;
-    background: #E4BAD0;
+    background: var(--keypad);
     text-align: center;
-    color: #565656;
+    color: #f7f8ee;
     float: left;
     border-radius: 0.3em;
     margin: 0.2em;
@@ -279,9 +444,9 @@ input{
     box-sizing: border-box;
     cursor: pointer;
     -webkit-user-select: none;
-    border: 1px solid #D56062;
-    box-shadow: 0 0.2em 0 0.05em #dbb2c7;
-    border-bottom-color: #D56062;
+    border: 1px solid var(--keypad-outline);
+    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+    border-bottom-color: var(--title-shading);
 }
 
 .keyboard__row--h1 > div {
@@ -290,11 +455,13 @@ input{
 
 .keyboard__row > div[data-pressed],
 .keyboard__row > div:active {
-    background: #D56062;
-    color: black;
+    background: #296882;
+	box-shadow: inset 0px 4px 4px rgba(0, 0, 0, 0.25);
+	filter: none;
+    color: #f7f8ee;
+	font-weight: 900;
     position: relative;
     top: 0.2em;
-    box-shadow: 0 0 0 0.05em black;
 }
 
 .key--w3 {
@@ -370,4 +537,50 @@ input{
 
 .keyboard > .keyboard__row {
     text-align: center;
+}
+
+.stats{
+	position: relative;
+	text-align: center;
+	line-height: 30px;
+	font-size: 25px;
+	background-color: var(--text-bg);
+}
+
+.game-box{
+	background-color: var(--bg);
+}
+
+.generated{
+	background-color: var(--text-bg);
+	font-size: 15px !important;
+}
+
+/* nav bar */
+
+nav *{
+	background-color: (--bg) ;
+}
+
+nav li{
+	margin: 20px;
+}
+
+nav li a{
+	border: 2px solid var(--title);
+	box-sizing: border-box;
+	border-radius: 20px;
+	margin-left: 0.5em;
+	color: var(--title) !important;
+	text-align: center;
+	font-size: 20px ;
+	background-color: var(--bg);
+	padding-left: 20px !important;
+	padding-right: 20px !important;
+}
+
+nav li a:hover{
+	border: 2px solid var(--nav-2);
+	color: var(--nav-2) !important;
+	background-color: var(--nav-1);
 }
