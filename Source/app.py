@@ -134,6 +134,8 @@ def login():
 @app.route('/logout')
 @login_required
 def logout():
+    global userID
+    userID = None
     logout_user()
     flash("Logout successful!")
     return redirect(url_for('index'))
