@@ -134,6 +134,8 @@ document.body.addEventListener('keydown', function(e) {
 		if ((e.keyCode || e.which) == 8) {
 			resetStats();
 			currentLetterIndex=0;
+			over = false;
+			setStatLoop();
 			newGenerated = "";
 			document.getElementsByClassName('generated')[0].innerHTML = generated;
 		}
