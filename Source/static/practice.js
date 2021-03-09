@@ -110,6 +110,14 @@ function resetStats() {
 	wordCount = null;
 	charCount = null;
 }
+
+function resetGame(newText) {
+	document.getElementsByClassName('generated')[0].innerHTML = newText;
+	resetStats();
+	generated=document.getElementsByClassName('generated')[0].innerHTML;
+	newGenerated="";
+	currentLetterIndex = 0;
+}
 //retrieves pressed key and checks for correctness
 document.body.addEventListener('keydown', function(e) {
     var key = getKey(e);
@@ -131,15 +139,11 @@ document.body.addEventListener('keydown', function(e) {
 				dataType:'json',
 				url:'http://127.0.0.1:5000/reset',
 				success:function(data) {
-					var reply=data.reply;
-					document.getElementsByClassName('generated')[0].innerHTML=reply;
-					generated=reply;
-					newgenerated="";
-					resetStats();
+					resetGame(data.reply);
 				}
 			});
 		}
-        if (currentLetterIndex < generated.length) {
+        else if (currentLetterIndex < generated.length) {
             //check for period
             if ((e.keyCode || e.which) == 190) {
                 if (generated[currentLetterIndex].charCodeAt(0) == 46) {
