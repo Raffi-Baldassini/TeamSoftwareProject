@@ -150,7 +150,6 @@ def secret_page():
 # Practice page for non-authenticated user
 @app.route('/practice', methods=['POST', 'GET'])
 def practice():
-
     if platform.system() == 'Linux':
         wordDictionary = read_frequency_JSON('TextGeneration/FrankensteinWordFrequency.json')
     elif platform.system() == 'Windows':
@@ -160,6 +159,19 @@ def practice():
     output = " ".join([str(word) for word in output])
 
     return render_template('practice.html', generated_text=output)
+    
+@app.route('/reset', methods=['GET'])
+def reset():
+    if platform.system() == 'Linux':
+        wordDictionary = read_frequency_JSON('TextGeneration/FrankensteinWordFrequency.json')
+    elif platform.system() == 'Windows':
+        wordDictionary = read_frequency_JSON('TextGeneration\\FrankensteinWordFrequency.JSON')
+
+    output = generate_random_paragraph(wordDictionary, 2)
+    output = " ".join([str(word) for word in output])
+
+    return jsonify({'reply':output})
+    
 
 
 @app.route('/stats',methods=['POST'])

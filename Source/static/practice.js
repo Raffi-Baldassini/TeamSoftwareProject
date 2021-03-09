@@ -99,13 +99,46 @@ function MoveForwardOne() {
     document.getElementsByClassName('generated')[0].innerHTML = newGenerated + generated.substring(currentLetterIndex + 1, generated.length);
     currentLetterIndex++;
 }
+
+function resetStats() {
+	start = null;
+	end = null;
+	timeTaken = null;
+	wpm = null;
+	acc = null;
+	mistakes = 0;
+	wordCount = null;
+	charCount = null;
+}
 //retrieves pressed key and checks for correctness
 document.body.addEventListener('keydown', function(e) {
     var key = getKey(e);
     if (key) {
         key.setAttribute('data-pressed', 'on');
-        //for testing
-        //window.alert(e.keycode || e.which + " " + generated[currentLetterIndex].toUpperCase().charCodeAt(0));
+		//resets current text
+		if ((e.keyCode || e.which) == 8) {
+			resetStats();
+			currentLetterIndex=0;
+			newGenerated = "";
+			document.getElementsByClassName('generated')[0].innerHTML = generated;
+		}
+		//generates new text
+		else if ((e.keyCode || e.which) == 13) {
+			$.ajax(
+			{
+				type:'GET',
+				contentType:'application/json;charset-utf-08',
+				dataType:'json',
+				url:'http://127.0.0.1:5000/reset',
+				success:function(data) {
+					var reply=data.reply;
+					document.getElementsByClassName('generated')[0].innerHTML=reply;
+					generated=reply;
+					newgenerated="";
+					resetStats();
+				}
+			});
+		}
         if (currentLetterIndex < generated.length) {
             //check for period
             if ((e.keyCode || e.which) == 190) {
@@ -128,12 +161,6 @@ document.body.addEventListener('keydown', function(e) {
             //check for question mark or slash
             else if ((e.keyCode || e.which) == 191) {
                 if (generated[currentLetterIndex].charCodeAt(0) == 63) {
-                    MoveForwardOne()
-                }
-            }
-            //check for dash
-            else if ((e.keyCode || e.which) == 189) {
-                if (generated[currentLetterIndex].charCodeAt(0) == 45) {
                     MoveForwardOne()
                 }
             }
@@ -160,7 +187,7 @@ document.body.addEventListener('keydown', function(e) {
 			wordCount++;
 			updateStats();
 			over = true;
-						var stats = [wordCount, charCount, wpm, acc];
+				var stats = [wordCount, charCount, wpm, acc];
 				$.ajax(
 				{
 					type:'POST',
