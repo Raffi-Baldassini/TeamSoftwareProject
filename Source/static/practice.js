@@ -1,6 +1,6 @@
-var h1 = document.querySelector('a');
-var originalQueue = h1.innerHTML;
-var queue = h1.innerHTML;
+var title = document.querySelector('a');
+var originalQueue = title.innerHTML;
+var queue = title.innerHTML;
 
 var currentLetterIndex = 0;
 var generated = document.getElementsByClassName('generated')[0].innerHTML;
@@ -87,14 +87,14 @@ function pressKey(char) {
 function next() {
     var c = queue[0];
     queue = queue.slice(1);
-    h1.innerHTML = originalQueue.slice(0, originalQueue.length - queue.length);
+    title.innerHTML = originalQueue.slice(0, originalQueue.length - queue.length);
     pressKey(c);
     if (queue.length) {
         setTimeout(next, Math.random() * 200 + 50);
     }
 }
 
-h1.innerHTML = "&nbsp;";
+title.innerHTML = "&nbsp;";
 setTimeout(next, 500);
 
 //Changes character at currentLetterIndex to green and increments to next character
