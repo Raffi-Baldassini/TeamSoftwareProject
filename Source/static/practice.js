@@ -131,12 +131,20 @@ document.body.addEventListener('keydown', function(e) {
                     MoveForwardOne()
                 }
             }
-            //check for dash
-            else if ((e.keyCode || e.which) == 189) {
-                if (generated[currentLetterIndex].charCodeAt(0) == 45) {
-                    MoveForwardOne()
-                }
-            }
+			//resets current text
+			else if ((e.keyCode || e.which) == 8) {
+				start = null;
+				end = null;
+				timeTaken = null;
+				wpm = null;
+				acc = null;
+				mistakes = 0;
+				wordCount = null;
+				charCount = null;
+				currentLetterIndex=0;
+				newGenerated = "";
+				document.getElementsByClassName('generated')[0].innerHTML = generated;
+				}
             //generic catch for everything else
             else if (generated[currentLetterIndex].toUpperCase().charCodeAt(0) === (e.keyCode || e.which)) {
                 MoveForwardOne()

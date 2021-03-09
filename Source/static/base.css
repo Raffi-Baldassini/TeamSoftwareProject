@@ -539,6 +539,14 @@ input[type=text]{
     text-align: center;
 }
 
+#enter {
+	background-color: #9E1A1A;
+}
+
+#backspace {
+	background-color: #9E1A1A;
+}
+
 .stats{
 	position: relative;
 	text-align: center;
