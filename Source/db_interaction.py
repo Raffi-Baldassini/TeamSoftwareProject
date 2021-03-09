@@ -10,6 +10,7 @@ import prettytable
 #for historical records
 from datetime import datetime
 #import db_setup
+from Source import db_setup
 
 #Simple mockup to generate data for the db
 class Game:
@@ -86,9 +87,8 @@ class DB:
                     db= db_setup.db_name)
 
     
-    def upload_game(game):
+    def upload_game(game_stats):
         #retrieves stats from a game object as specified above
-        game_stats = game.stats()
         user = game_stats[0]
         words = game_stats[1]
         chars = game_stats[2]

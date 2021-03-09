@@ -1,13 +1,15 @@
-from flask import Flask, render_template, redirect, url_for, request, flash
+from flask import Flask, render_template, redirect, url_for, request, flash, jsonify
 from flask_bootstrap import Bootstrap
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 import platform
+import pymysql
 
 import Source.user_management as um
 from Source.db_setup import username, password, server, db_name
 from Source.RandomWordMarkovGenerator import read_frequency_JSON, generate_random_paragraph
+from Source.db_interaction import DB
 """
 TO DO:
     - Encrypt SQL login details (read them in indirectly)
@@ -159,7 +161,7 @@ def practice():
 @app.route('/stats',methods=['POST'])
 def store_stats():
     stats=request.args.get('value')
-    print(stats)
+    DB.upload_game(stats)
     return jsonify({'reply':'success'})
 
 
