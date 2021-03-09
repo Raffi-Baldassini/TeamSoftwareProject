@@ -155,10 +155,12 @@ def practice():
     
     if platform.system() == 'Linux':
         Frequency_dicts = os.listdir('TextGeneration/FrequencyDictionaries')
+        Frequency_dicts.remove('LetterFrequency.json')
         filepath = choice(Frequency_dicts)
         wordDictionary = read_frequency_JSON(f'TextGeneration/FrequencyDictionaries/{filepath}')
     elif platform.system() == 'Windows':
         Frequency_dicts = os.listdir('TextGeneration\\FrequencyDictionaries')
+        Frequency_dicts.remove('LetterFrequency.json')
         filepath = choice(Frequency_dicts)
         wordDictionary = read_frequency_JSON(f'TextGeneration\\FrequencyDictionaries\\{filepath}')
 
@@ -171,10 +173,12 @@ def practice():
 def reset():
     if platform.system() == 'Linux':
         Frequency_dicts = os.listdir('TextGeneration/FrequencyDictionaries')
+        Frequency_dicts.remove('LetterFrequency.json')
         filepath = choice(Frequency_dicts)
         wordDictionary = read_frequency_JSON(f'TextGeneration/FrequencyDictionaries/{filepath}')
     elif platform.system() == 'Windows':
         Frequency_dicts = os.listdir('TextGeneration\\FrequencyDictionaries')
+        Frequency_dicts.remove('LetterFrequency.json')
         filepath = choice(Frequency_dicts)
         wordDictionary = read_frequency_JSON(f'TextGeneration\\FrequencyDictionaries\\{filepath}')
 
