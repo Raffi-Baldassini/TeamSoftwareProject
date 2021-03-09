@@ -1,5 +1,5 @@
 import json, time, random, platform
-from Source.RandomCharacterMarkovChains import import_text_file, generate_frequency_JSON, read_frequency_JSON
+from .RandomCharacterMarkovChains import import_text_file, generate_frequency_JSON, read_frequency_JSON
 
 
 def generate_word_dictionary(inputString):
@@ -15,14 +15,22 @@ def generate_word_dictionary(inputString):
     order = 2
     wordList = inputString.split()
     wordDictionary = {}
-    for i in range(len(wordList) - (order*2)):
+    finalNGram = None
+    firstNGram = None
+    for i in range(len(wordList)):
         appendItem = get_NGram(wordList, i, order)
+        if i == 0:
+            firstNGram = appendItem
         nextNGram = get_NGram(wordList, i+order, order)
         if appendItem not in wordDictionary:
-            wordDictionary[appendItem] = {nextNGram: 0}
+            wordDictionary[appendItem] = {}
         if nextNGram not in wordDictionary[appendItem]:
             wordDictionary[appendItem][nextNGram] = 0
         wordDictionary[appendItem][nextNGram] += 1
+        finalNGram = nextNGram
+
+    if finalNGram not in wordDictionary:
+        wordDictionary[finalNGram] = {firstNGram: 1}
 
     return wordDictionary
 
@@ -38,9 +46,16 @@ def get_NGram(wordList, position, order):
     Returns:
         A NGram of specified length
     '''
-    output = [wordList[position + i] for i in range(order)]
+    output = ''
+    for i in range(order):
+        index = position + i
+        if index >= len(wordList):
+            index = index - len(wordList)
+            output = output + ' ' + wordList[index]
+        else:
+            output = output + ' ' + wordList[index]
 
-    return ' '.join(map(str, output))
+    return output.strip()
 
 def clean_input_text(inputString):
     '''
@@ -79,7 +94,7 @@ def check_valid_word(checkedWord):
     Returns:
         True or False based on validity of word
     '''
-    blacklist = ['Project', 'Gutenberg', '\ufeffthe', 'pglaf', 'ebooks,']
+    blacklist = ['Project', 'Gutenberg', '\ufeffthe', 'pglaf', 'ebooks,', '.']
     if checkedWord in blacklist:
         return False
 
@@ -122,7 +137,7 @@ if __name__ == '__main__':
     wordDictionary = generate_word_dictionary(
         clean_input_text(
             import_text_file(
-                'c:\\Users\\Raffi\\Documents\\College\\Programming\\TeamSoftwareProject\\Source\\TextGeneration\\Frankenstein.txt'
+                'TextGeneration\\Frankenstein.txt'
             )))
     generate_frequency_JSON(wordDictionary, 'FrankensteinWordFrequency')
     startTime = time.time()
@@ -131,7 +146,7 @@ if __name__ == '__main__':
             'TextGeneration/FrankensteinWordFrequency.json')
     elif platform.system() == 'Windows':
         wordDictionary = read_frequency_JSON(
-            'c:\\Users\\Raffi\\Documents\\College\\Programming\\TeamSoftwareProject\\Source\\TextGeneration\\FrankensteinWordFrequency.JSON'
+            'TextGeneration\\FrankensteinWordFrequency.JSON'
         )
 
     print(time.time() - startTime)

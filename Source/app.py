@@ -3,8 +3,10 @@ from flask_bootstrap import Bootstrap
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
+from random import choice
 import platform
 import pymysql
+import os
 
 import Source.user_management as um
 from Source.db_setup import username, password, server, db_name
@@ -150,12 +152,17 @@ def secret_page():
 # Practice page for non-authenticated user
 @app.route('/practice', methods=['POST', 'GET'])
 def practice():
+    
     if platform.system() == 'Linux':
-        wordDictionary = read_frequency_JSON('TextGeneration/FrankensteinWordFrequency.json')
+        Frequency_dicts = os.listdir('TextGeneration/FrequencyDictionaries')
+        filepath = choice(Frequency_dicts)
+        wordDictionary = read_frequency_JSON(f'TextGeneration/FrequencyDictionaries/{filepath}')
     elif platform.system() == 'Windows':
-        wordDictionary = read_frequency_JSON('TextGeneration\\FrankensteinWordFrequency.JSON')
+        Frequency_dicts = os.listdir('TextGeneration\\FrequencyDictionaries')
+        filepath = choice(Frequency_dicts)
+        wordDictionary = read_frequency_JSON(f'TextGeneration\\FrequencyDictionaries\\{filepath}')
 
-    output = generate_random_paragraph(wordDictionary, 2)
+    output = generate_random_paragraph(wordDictionary, 6)
     output = " ".join([str(word) for word in output])
 
     return render_template('practice.html', generated_text=output)
@@ -163,11 +170,15 @@ def practice():
 @app.route('/reset', methods=['GET'])
 def reset():
     if platform.system() == 'Linux':
-        wordDictionary = read_frequency_JSON('TextGeneration/FrankensteinWordFrequency.json')
+        Frequency_dicts = os.listdir('TextGeneration/FrequencyDictionaries')
+        filepath = choice(Frequency_dicts)
+        wordDictionary = read_frequency_JSON(f'TextGeneration/FrequencyDictionaries/{filepath}')
     elif platform.system() == 'Windows':
-        wordDictionary = read_frequency_JSON('TextGeneration\\FrankensteinWordFrequency.JSON')
+        Frequency_dicts = os.listdir('TextGeneration\\FrequencyDictionaries')
+        filepath = choice(Frequency_dicts)
+        wordDictionary = read_frequency_JSON(f'TextGeneration\\FrequencyDictionaries\\{filepath}')
 
-    output = generate_random_paragraph(wordDictionary, 2)
+    output = generate_random_paragraph(wordDictionary, 6)
     output = " ".join([str(word) for word in output])
 
     return jsonify({'reply':output})

@@ -1,7 +1,7 @@
 from random import choice, randint
 
 
-with open("TextGeneration/Frankenstein.txt", encoding='UTF-8') as inputFile:
+with open("TextGeneration/Texts/Frankenstein.txt", encoding='UTF-8') as inputFile:
     inputText = inputFile.read()
 
 
