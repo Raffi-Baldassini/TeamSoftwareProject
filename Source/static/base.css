@@ -82,9 +82,7 @@ html[theme='dark'] {
 	--nav-2: #f7f8ee;
 }
 
-html.change * {
-  transition: .5s;
-}
+
 
 .toggle {
 	top: 90%; 
