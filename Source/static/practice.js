@@ -115,8 +115,30 @@ document.body.addEventListener('keydown', function(e) {
     var key = getKey(e);
     if (key) {
         key.setAttribute('data-pressed', 'on');
-        //for testing
-        //window.alert(e.keycode || e.which + " " + generated[currentLetterIndex].toUpperCase().charCodeAt(0));
+		//resets current text
+		if ((e.keyCode || e.which) == 8) {
+			resetStats();
+			currentLetterIndex=0;
+			newGenerated = "";
+			document.getElementsByClassName('generated')[0].innerHTML = generated;
+		}
+		//generates new text
+		else if ((e.keyCode || e.which) == 13) {
+			$.ajax(
+			{
+				type:'GET',
+				contentType:'application/json;charset-utf-08',
+				dataType:'json',
+				url:'http://127.0.0.1:5000/reset',
+				success:function(data) {
+					var reply=data.reply;
+					document.getElementsByClassName('generated')[0].innerHTML=reply;
+					generated=reply;
+					newgenerated="";
+					resetStats();
+				}
+			});
+		}
         if (currentLetterIndex < generated.length) {
             //check for period
             if ((e.keyCode || e.which) == 190) {
@@ -142,30 +164,6 @@ document.body.addEventListener('keydown', function(e) {
                     MoveForwardOne()
                 }
             }
-			//resets current text
-			else if ((e.keyCode || e.which) == 8) {
-				resetStats();
-				currentLetterIndex=0;
-				newGenerated = "";
-				document.getElementsByClassName('generated')[0].innerHTML = generated;
-				}
-			//generates new text
-			else if ((e.keyCode || e.which) == 13) {
-				$.ajax(
-				{
-					type:'GET',
-					contentType:'application/json;charset-utf-08',
-					dataType:'json',
-					url:'http://127.0.0.1:5000/reset',
-					success:function(data) {
-						var reply=data.reply;
-						document.getElementsByClassName('generated')[0].innerHTML=reply;
-						generated=reply;
-						newgenerated="";
-						resetStats();
-					}
-				});
-			}
             //generic catch for everything else
             else if (generated[currentLetterIndex].toUpperCase().charCodeAt(0) === (e.keyCode || e.which)) {
                 MoveForwardOne()
