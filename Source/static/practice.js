@@ -101,7 +101,12 @@ setTimeout(next, 500);
 
 //Changes character at currentLetterIndex to green and increments to next character
 function MoveForwardOne() {
-    newGenerated = newGenerated + '<span style="color:green;">' + generated[currentLetterIndex] + '</span>';
+	if (generated[currentLetterIndex] == " ") {
+		newGenerated = newGenerated + '<span style="color:green;">' + "_" + '</span>';
+	}
+	else {
+		newGenerated = newGenerated + '<span style="color:green;">' + generated[currentLetterIndex] + '</span>';
+	}
     document.getElementsByClassName('generated')[0].innerHTML = newGenerated + generated.substring(currentLetterIndex + 1, generated.length);
     currentLetterIndex++;
 }
@@ -196,7 +201,12 @@ document.body.addEventListener('keydown', function(e) {
             else {
 				if (currentLetterIndex !== 0) {
 					mistakes++;
-					newGenerated = newGenerated + '<span style="color:red;">' + generated[currentLetterIndex] + '</span>';
+					if (generated[currentLetterIndex] == " ") {
+						newGenerated = newGenerated + '<span style="color:red;">' + "_" + '</span>';
+					}
+					else {
+						newGenerated = newGenerated + '<span style="color:red;">' + generated[currentLetterIndex] + '</span>';
+					}
 					document.getElementsByClassName('generated')[0].innerHTML = newGenerated + generated.substring(currentLetterIndex + 1, generated.length);
 					newGenerated = newGenerated.substring(0, newGenerated.length - 33);
 				}
