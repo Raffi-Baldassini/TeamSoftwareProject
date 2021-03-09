@@ -12,66 +12,6 @@ from datetime import datetime
 #import db_setup
 from Source import db_setup
 
-#Simple mockup to generate data for the db
-class Game:
-    def __init__(self, user=None):
-        self.wpm = 0
-        self.acc = 0
-        self.mistakes = 0
-        self.user = user
-        self.words = 0
-        self.chars = 0
-        self.play()
-
-    #generates alphabet soup text to be typed
-    def generate_string(self):
-        mylist = list(string.ascii_lowercase)
-        n = len(mylist)
-        for i in range(len(mylist)):
-            j = randint(0, n-1)
-            mylist[i], mylist[j] = mylist[j], mylist[i]
-        gibberish = ''.join(mylist)
-        return gibberish[randint(0, len(gibberish)/2 - 1):randint(len(gibberish)/2, len(gibberish)-1)].strip()
-    
-    def play(self):
-        self.words = int(input("how many words would you like to type?\n"))
-        start = time()
-        word_num = 0
-        while word_num < self.words:
-            substring = self.generate_string()
-            if len(substring) == 0:
-                continue
-            self.chars += len(substring)
-            print(substring)
-            
-            ans = None
-            while True:
-                ans = input("")
-                #because I'm bad at typing
-                if ans == "skip":
-                    break
-                if ans != substring:
-                    self.mistakes+=1
-                else:
-                    break
-            word_num += 1
-
-        #calculating words per minute and accuracy during game
-        self.wpm = int((self.words / (time() - start)) * 60)
-        if self.mistakes == 0:
-            self.acc = 100
-        else:
-            self.acc = int((self.words / (self.words + self.mistakes)) * 100)
-        print(self)
-
-    #information from db is tuple, using tuple for stats for uniformity
-    def stats(self):
-        return (self.user, self.words, self.chars, self.wpm,  self.acc)
-
-    def __str__(self):
-        return f"\nWords typed: {self.words}\nCharacters typed: {self.chars}\nMistakes: {self.mistakes}\nAccuracy: {self.acc}%\nWPM: {self.wpm}"
-        
-
 class DB:
     #returns a cursor object
     def get_cursor():
