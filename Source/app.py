@@ -161,14 +161,8 @@ def practice():
 @app.route('/stats',methods=['POST'])
 def store_stats():
     stats=request.args.get('value').split(",")
-    print(type(stats))
     for i in range(len(stats)):
-        if "." in stats[i]:
-            stats[i] = float(stats[i])
-        else:
-            stats[i] = int(stats[i].strip())
-    for i in stats:
-        print(stats)
+        stats[i] = int(stats[i].strip())
     DB.upload_game(stats)
     return jsonify({'reply':'success'})
 
