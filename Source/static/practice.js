@@ -15,32 +15,37 @@ var mistakes = 0;
 var wordCount;
 var charCount;
 var over = false;
+var updateLoop;
+
+setStatLoop();
 
 //updates stats in page every 10 milliseconds
-var updateLoop = window.setInterval(function() {
-    if (currentLetterIndex === generated.length) {
-        wordCount = generated.split(" ").length;
-    } else {
-        wordCount = generated.split(" ").length - generated.substring(currentLetterIndex).split(" ").length;
-        charCount = generated.length - generated.substring(currentLetterIndex).length;
-    }
-    if (start) {
-        timeTaken = (performance.now() - start) / 1000;
-    } else {
-        timeTaken = 0;
-    }
-    if (wordCount) {
-        wpm = Math.floor((wordCount / timeTaken) * 60);
-    } else {
-        wpm = 0;
-    }
-    if (mistakes == 0) {
-        acc = 100;
-    } else {
-        acc = Math.floor((charCount / (charCount + mistakes)) * 100);
-    }
-    updateStats();
-}, 100);
+function setStatLoop() {
+	updateLoop = window.setInterval(function() {
+		if (currentLetterIndex === generated.length) {
+			wordCount = generated.split(" ").length;
+		} else {
+			wordCount = generated.split(" ").length - generated.substring(currentLetterIndex).split(" ").length;
+			charCount = generated.length - generated.substring(currentLetterIndex).length;
+		}
+		if (start) {
+			timeTaken = (performance.now() - start) / 1000;
+		} else {
+			timeTaken = 0;
+		}
+		if (wordCount) {
+			wpm = Math.floor((wordCount / timeTaken) * 60);
+		} else {
+			wpm = 0;
+		}
+		if (mistakes == 0) {
+			acc = 100;
+		} else {
+			acc = Math.floor((charCount / (charCount + mistakes)) * 100);
+		}
+		updateStats();
+	}, 100);
+}
 
 //sets stats in page to current values
 function updateStats() {
@@ -117,6 +122,8 @@ function resetGame(newText) {
 	generated=document.getElementsByClassName('generated')[0].innerHTML;
 	newGenerated="";
 	currentLetterIndex = 0;
+	over = false;
+	setStatLoop();
 }
 //retrieves pressed key and checks for correctness
 document.body.addEventListener('keydown', function(e) {
@@ -179,10 +186,12 @@ document.body.addEventListener('keydown', function(e) {
             else if ((e.keyCode || e.which) == 16) {}
             //changes incorrect character to be red
             else {
-                mistakes++;
-                newGenerated = newGenerated + '<span style="color:red;">' + generated[currentLetterIndex] + '</span>';
-                document.getElementsByClassName('generated')[0].innerHTML = newGenerated + generated.substring(currentLetterIndex + 1, generated.length);
-                newGenerated = newGenerated.substring(0, newGenerated.length - 33);
+				if (currentLetterIndex !== 0) {
+					mistakes++;
+					newGenerated = newGenerated + '<span style="color:red;">' + generated[currentLetterIndex] + '</span>';
+					document.getElementsByClassName('generated')[0].innerHTML = newGenerated + generated.substring(currentLetterIndex + 1, generated.length);
+					newGenerated = newGenerated.substring(0, newGenerated.length - 33);
+				}
             }
         }
         //round is over, ends stat updating loops and sets final stats
