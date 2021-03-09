@@ -9,8 +9,8 @@ import pymysql
 import prettytable
 #for historical records
 from datetime import datetime
-#import db_setup
-from Source import db_setup
+import db_setup
+#from Source import db_setup
 
 class DB:
     #returns a cursor object
@@ -39,11 +39,8 @@ class DB:
         cursor = connection.cursor()
         
         #checks for user existence and adds game data into both 'user' and 'stats' tables if id is not in 'user'
-        cursor.execute("SELECT id FROM user WHERE id = %s;", (user))
+        cursor.execute("SELECT id FROM stats WHERE id = %s;", (user))
         if len(cursor.fetchall()) == 0:
-            cursor.execute("""INSERT INTO user(id, uname, pword, email, dob)
-                           VALUES (%s, 'test', 'test', 'test@test.com', '2021-02-04');
-                           """, (user))
             cursor.execute("""INSERT INTO stats(id, solo_games, online_games,
                                     words, chars, wpm, accuracy, acc_best, acc_worst,
                                     wpm_best,wpm_worst)

@@ -115,7 +115,6 @@ def signup():
 @app.route('/login', methods=['POST', 'GET'])
 def login():
     login_form = um.LoginForm()
-
     if login_form.validate_on_submit():
         submitted_user = User.query.filter_by(email=login_form.email.data).first()
         # If form email matches stored email
