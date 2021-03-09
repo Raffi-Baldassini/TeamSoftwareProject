@@ -37,3 +37,6 @@ Once on the site, whether locally hosted or not, you'll have the option to sign-
 * Pavel Belitskiy
 
 * Raffaele Baldassini
+
+## Special Thanks:
+Much of the code that we initially based our keyboard implementation on was written by Gregory Schier, as can be seen [here](https://codepen.io/gschier/pen/VKgyaY)
