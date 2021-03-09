@@ -10,8 +10,7 @@ import prettytable
 #for historical records
 from datetime import datetime
 #import db_setup
-#from Source
-import db_setup
+from Source import db_setup
 
 class DB:
     #returns a cursor object
@@ -86,7 +85,7 @@ class DB:
             cursor.execute("SELECT wpm,accuracy FROM stats WHERE id = 1")
             (current_wpm, current_acc) = cursor.fetchall()[0]
             cursor.execute("""UPDATE records SET wpm = %s, acc = %s WHERE id = %s AND score_date = %s""",
-                           (current_wpm, current_acc, user, today))
+                           (max(wpm,current_wpm), (max(acc,current_acc)), user, today))
         connection.commit()
         connection.close()
 
