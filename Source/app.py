@@ -156,6 +156,13 @@ def practice():
     return render_template('practice.html', generated_text=output)
 
 
+@app.route('/stats',methods=['POST'])
+def store_stats():
+    stats=request.args.get('value')
+    print(stats)
+    return jsonify({'reply':'success'})
+
+
 # Run the applications
 if __name__ == '__main__':
     app.run(port=16932, host='0.0.0.0')

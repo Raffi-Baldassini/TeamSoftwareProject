@@ -160,6 +160,23 @@ document.body.addEventListener('keydown', function(e) {
 			wordCount++;
 			updateStats();
 			over = true;
+			var stats = [1, wordCount, charCount, timeTaken, mistakes, wpm, acc];
+				$.ajax(
+				{
+					type:'POST',
+					contentType:'application/json;charset-utf-08',
+					dataType:'json',
+					url:'http://127.0.0.1:5000/stats?value='+stats,
+					success:function(data) {
+						var reply=data.reply;
+						if (reply=="success") {
+							return;
+						}
+						else{
+							console.log("error occured")
+						}
+					}
+				});
         }
     }
 });
