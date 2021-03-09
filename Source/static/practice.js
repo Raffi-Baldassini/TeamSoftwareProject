@@ -160,7 +160,7 @@ document.body.addEventListener('keydown', function(e) {
 			wordCount++;
 			updateStats();
 			over = true;
-			var stats = [1, wordCount, charCount, wpm, acc];
+						var stats = [1, wordCount, charCount, wpm, acc];
 				$.ajax(
 				{
 					type:'POST',
@@ -177,6 +177,7 @@ document.body.addEventListener('keydown', function(e) {
 						}
 					}
 				});
+
         }
     }
 });

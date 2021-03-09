@@ -10,7 +10,8 @@ import prettytable
 #for historical records
 from datetime import datetime
 #import db_setup
-from Source import db_setup
+#from Source
+import db_setup
 
 class DB:
     #returns a cursor object
@@ -29,11 +30,11 @@ class DB:
     
     def upload_game(game_stats):
         #retrieves stats from a game object as specified above
-        user = game_stats[0]
-        words = game_stats[1]
-        chars = game_stats[2]
-        wpm = game_stats[3]
-        acc = game_stats[4]
+        user = int(game_stats[0])
+        words = int(game_stats[1])
+        chars = int(game_stats[2])
+        wpm = int(game_stats[3])
+        acc = int(game_stats[4])
         
         connection = DB.connect_db()
         cursor = connection.cursor()
@@ -112,8 +113,4 @@ class DB:
 if __name__ == "__main__":
     print("##### Database Test #####")
     print("current user and stats tables:\n")
-    DB.print_all()
-    print("game begin")
-    game = Game(input("input a new or old id: "))
-    DB.upload_game(game)
     DB.print_all()

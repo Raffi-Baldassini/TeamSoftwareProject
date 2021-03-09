@@ -152,7 +152,7 @@ def practice():
     elif platform.system() == 'Windows':
         wordDictionary = read_frequency_JSON('TextGeneration\\FrankensteinWordFrequency.JSON')
 
-    output = generate_random_paragraph(wordDictionary, 30)
+    output = generate_random_paragraph(wordDictionary, 2)
     output = " ".join([str(word) for word in output])
 
     return render_template('practice.html', generated_text=output)
@@ -160,7 +160,15 @@ def practice():
 
 @app.route('/stats',methods=['POST'])
 def store_stats():
-    stats=request.args.get('value')
+    stats=request.args.get('value').split(",")
+    print(type(stats))
+    for i in range(len(stats)):
+        if "." in stats[i]:
+            stats[i] = float(stats[i])
+        else:
+            stats[i] = int(stats[i].strip())
+    for i in stats:
+        print(stats)
     DB.upload_game(stats)
     return jsonify({'reply':'success'})
 
