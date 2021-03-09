@@ -99,6 +99,17 @@ function MoveForwardOne() {
     document.getElementsByClassName('generated')[0].innerHTML = newGenerated + generated.substring(currentLetterIndex + 1, generated.length);
     currentLetterIndex++;
 }
+
+function resetStats() {
+	start = null;
+	end = null;
+	timeTaken = null;
+	wpm = null;
+	acc = null;
+	mistakes = 0;
+	wordCount = null;
+	charCount = null;
+}
 //retrieves pressed key and checks for correctness
 document.body.addEventListener('keydown', function(e) {
     var key = getKey(e);
@@ -133,18 +144,28 @@ document.body.addEventListener('keydown', function(e) {
             }
 			//resets current text
 			else if ((e.keyCode || e.which) == 8) {
-				start = null;
-				end = null;
-				timeTaken = null;
-				wpm = null;
-				acc = null;
-				mistakes = 0;
-				wordCount = null;
-				charCount = null;
+				resetStats();
 				currentLetterIndex=0;
 				newGenerated = "";
 				document.getElementsByClassName('generated')[0].innerHTML = generated;
 				}
+			//generates new text
+			else if ((e.keyCode || e.which) == 13) {
+				$.ajax(
+				{
+					type:'GET',
+					contentType:'application/json;charset-utf-08',
+					dataType:'json',
+					url:'http://127.0.0.1:5000/reset',
+					success:function(data) {
+						var reply=data.reply;
+						document.getElementsByClassName('generated')[0].innerHTML=reply;
+						generated=reply;
+						newgenerated="";
+						resetStats();
+					}
+				});
+			}
             //generic catch for everything else
             else if (generated[currentLetterIndex].toUpperCase().charCodeAt(0) === (e.keyCode || e.which)) {
                 MoveForwardOne()
@@ -168,7 +189,7 @@ document.body.addEventListener('keydown', function(e) {
 			wordCount++;
 			updateStats();
 			over = true;
-						var stats = [wordCount, charCount, wpm, acc];
+				var stats = [wordCount, charCount, wpm, acc];
 				$.ajax(
 				{
 					type:'POST',
