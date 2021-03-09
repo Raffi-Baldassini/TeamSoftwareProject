@@ -16,7 +16,6 @@ var wordCount;
 var charCount;
 var over = false;
 var updateLoop;
-
 setStatLoop();
 
 //updates stats in page every 10 milliseconds
@@ -117,6 +116,7 @@ function resetStats() {
 }
 
 function resetGame(newText) {
+	clearInterval(updateLoop);
 	document.getElementsByClassName('generated')[0].innerHTML = newText;
 	resetStats();
 	generated=document.getElementsByClassName('generated')[0].innerHTML;
@@ -132,12 +132,14 @@ document.body.addEventListener('keydown', function(e) {
         key.setAttribute('data-pressed', 'on');
 		//resets current text
 		if ((e.keyCode || e.which) == 8) {
+			clearInterval(updateLoop);
+			document.getElementsByClassName('generated')[0].innerHTML = generated;
 			resetStats();
 			currentLetterIndex=0;
+			newGenerated = "";
 			over = false;
 			setStatLoop();
-			newGenerated = "";
-			document.getElementsByClassName('generated')[0].innerHTML = generated;
+			
 		}
 		//generates new text
 		else if ((e.keyCode || e.which) == 13) {
