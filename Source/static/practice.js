@@ -1,6 +1,6 @@
-var h1 = document.querySelector('a');
-var originalQueue = h1.innerHTML;
-var queue = h1.innerHTML;
+var title = document.querySelector('a');
+var originalQueue = title.innerHTML;
+var queue = title.innerHTML;
 
 var currentLetterIndex = 0;
 var generated = document.getElementsByClassName('generated')[0].innerHTML;
@@ -14,9 +14,10 @@ var acc;
 var mistakes = 0;
 var wordCount;
 var charCount;
+
 var over = false;
 var updateLoop;
-
+var isRedo = false;
 setStatLoop();
 
 //updates stats in page every 10 milliseconds
@@ -88,19 +89,24 @@ function pressKey(char) {
 function next() {
     var c = queue[0];
     queue = queue.slice(1);
-    h1.innerHTML = originalQueue.slice(0, originalQueue.length - queue.length);
+    title.innerHTML = originalQueue.slice(0, originalQueue.length - queue.length);
     pressKey(c);
     if (queue.length) {
         setTimeout(next, Math.random() * 200 + 50);
     }
 }
 
-h1.innerHTML = "&nbsp;";
+title.innerHTML = "&nbsp;";
 setTimeout(next, 500);
 
 //Changes character at currentLetterIndex to green and increments to next character
 function MoveForwardOne() {
-    newGenerated = newGenerated + '<span style="color:green;">' + generated[currentLetterIndex] + '</span>';
+	if (generated[currentLetterIndex] == " ") {
+		newGenerated = newGenerated + '<span style="color:green;">' + "_" + '</span>';
+	}
+	else {
+		newGenerated = newGenerated + '<span style="color:green;">' + generated[currentLetterIndex] + '</span>';
+	}
     document.getElementsByClassName('generated')[0].innerHTML = newGenerated + generated.substring(currentLetterIndex + 1, generated.length);
     currentLetterIndex++;
 }
@@ -117,12 +123,14 @@ function resetStats() {
 }
 
 function resetGame(newText) {
+	clearInterval(updateLoop);
 	document.getElementsByClassName('generated')[0].innerHTML = newText;
 	resetStats();
 	generated=document.getElementsByClassName('generated')[0].innerHTML;
 	newGenerated="";
 	currentLetterIndex = 0;
 	over = false;
+	isRedo=false;
 	setStatLoop();
 }
 //retrieves pressed key and checks for correctness
@@ -132,12 +140,15 @@ document.body.addEventListener('keydown', function(e) {
         key.setAttribute('data-pressed', 'on');
 		//resets current text
 		if ((e.keyCode || e.which) == 8) {
+			clearInterval(updateLoop);
+			document.getElementsByClassName('generated')[0].innerHTML = generated;
 			resetStats();
 			currentLetterIndex=0;
-			over = false;
-			setStatLoop();
 			newGenerated = "";
-			document.getElementsByClassName('generated')[0].innerHTML = generated;
+			over = false;
+			isRedo = true;
+			setStatLoop();
+			
 		}
 		//generates new text
 		else if ((e.keyCode || e.which) == 13) {
@@ -190,7 +201,12 @@ document.body.addEventListener('keydown', function(e) {
             else {
 				if (currentLetterIndex !== 0) {
 					mistakes++;
-					newGenerated = newGenerated + '<span style="color:red;">' + generated[currentLetterIndex] + '</span>';
+					if (generated[currentLetterIndex] == " ") {
+						newGenerated = newGenerated + '<span style="color:red;">' + "_" + '</span>';
+					}
+					else {
+						newGenerated = newGenerated + '<span style="color:red;">' + generated[currentLetterIndex] + '</span>';
+					}
 					document.getElementsByClassName('generated')[0].innerHTML = newGenerated + generated.substring(currentLetterIndex + 1, generated.length);
 					newGenerated = newGenerated.substring(0, newGenerated.length - 33);
 				}
@@ -202,6 +218,7 @@ document.body.addEventListener('keydown', function(e) {
 			wordCount++;
 			updateStats();
 			over = true;
+			if (!(isRedo)) {
 				var stats = [wordCount, charCount, wpm, acc];
 				$.ajax(
 				{
@@ -219,6 +236,7 @@ document.body.addEventListener('keydown', function(e) {
 						}
 					}
 				});
+			}
 
         }
     }

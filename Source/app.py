@@ -182,8 +182,6 @@ def reset():
     output = " ".join([str(word) for word in output])
 
     return jsonify({'reply':output})
-    
-
 
 @app.route('/stats',methods=['POST'])
 def store_stats():
