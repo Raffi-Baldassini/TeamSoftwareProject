@@ -14,8 +14,10 @@ var acc;
 var mistakes = 0;
 var wordCount;
 var charCount;
+
 var over = false;
 var updateLoop;
+var isRedo = false;
 setStatLoop();
 
 //updates stats in page every 10 milliseconds
@@ -123,6 +125,7 @@ function resetGame(newText) {
 	newGenerated="";
 	currentLetterIndex = 0;
 	over = false;
+	isRedo=false;
 	setStatLoop();
 }
 //retrieves pressed key and checks for correctness
@@ -138,6 +141,7 @@ document.body.addEventListener('keydown', function(e) {
 			currentLetterIndex=0;
 			newGenerated = "";
 			over = false;
+			isRedo = true;
 			setStatLoop();
 			
 		}
@@ -204,6 +208,7 @@ document.body.addEventListener('keydown', function(e) {
 			wordCount++;
 			updateStats();
 			over = true;
+			if (!(isRedo)) {
 				var stats = [wordCount, charCount, wpm, acc];
 				$.ajax(
 				{
@@ -221,6 +226,7 @@ document.body.addEventListener('keydown', function(e) {
 						}
 					}
 				});
+			}
 
         }
     }
