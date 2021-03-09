@@ -1,5 +1,5 @@
 import json, time, random, platform
-from .RandomCharacterMarkovChains import import_text_file, generate_frequency_JSON, read_frequency_JSON
+from RandomCharacterMarkovChains import import_text_file, generate_frequency_JSON, read_frequency_JSON
 
 
 def generate_word_dictionary(inputString):
@@ -38,7 +38,7 @@ def get_NGram(wordList, position, order):
     Returns:
         A NGram of specified length
     '''
-    output = [wordList[position + i].strip('(!?){}[];:’‘_"“”$') for i in range(order)]
+    output = [wordList[position + i] for i in range(order)]
 
     return ' '.join(map(str, output))
 
@@ -56,7 +56,7 @@ def clean_input_text(inputString):
     inputString = list(inputString)
     for char in range(len(inputString)):
 
-        if not inputString[char].isalpha():
+        if not inputString[char].isalpha() and inputString[char] not in ['.', ',', ';', '?']:
             inputString[char] = ' '
     cleanedText = ''
     cleanedText = cleanedText.join(inputString).split()
