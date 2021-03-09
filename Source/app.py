@@ -27,6 +27,7 @@ TO TEST:
         - The login screen should pop up
 """
 
+userID = None
 
 # Configure and instantiate the flask app
 app = Flask(__name__, template_folder='template')
@@ -63,6 +64,7 @@ def load_user(user_id):
 # home page
 @app.route('/', methods=['POST', 'GET'])
 def index():
+    global userID
     login_form = um.LoginForm()
 
     if login_form.validate_on_submit():
@@ -71,6 +73,7 @@ def index():
         if submitted_user:
             # If hashed form password == hashed stored password
             if check_password_hash(submitted_user.pword, login_form.password.data):
+                userID = submitted_user.id
                 login_user(submitted_user, remember=login_form.remember.data)
                 flash("Successfully logged in!")
                 return render_template('index.html', form=login_form)
@@ -160,10 +163,13 @@ def practice():
 
 @app.route('/stats',methods=['POST'])
 def store_stats():
-    stats=request.args.get('value').split(",")
-    for i in range(len(stats)):
-        stats[i] = int(stats[i].strip())
-    DB.upload_game(stats)
+    global userID
+    if userID:
+        stats=request.args.get('value').split(",")
+        for i in range(len(stats)):
+            stats[i] = int(stats[i].strip())
+        stats = [userID] + stats
+        DB.upload_game(stats)
     return jsonify({'reply':'success'})
 
 
