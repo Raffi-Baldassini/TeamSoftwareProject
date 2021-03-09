@@ -159,7 +159,7 @@ document.body.addEventListener('keydown', function(e) {
             clearInterval(updateLoop);
 			wordCount++;
 			updateStats();
-			over = true;
+			over = true;			
         }
     }
 });
