@@ -18,6 +18,7 @@ var charCount;
 var over = false;
 var updateLoop;
 var isRedo = false;
+var uppercase = false;
 setStatLoop();
 
 //updates stats in page every 10 milliseconds
@@ -188,6 +189,12 @@ document.body.addEventListener('keydown', function(e) {
                     MoveForwardOne()
                 }
             }
+			//check for space
+			else if ((e.keyCode || e.which) == 32) {
+				if (generated[currentLetterIndex].charCodeAt(0) == 32) {
+                    MoveForwardOne()
+                }
+			}
             //generic catch for everything else
             else if (generated[currentLetterIndex].toUpperCase().charCodeAt(0) === (e.keyCode || e.which)) {
                 MoveForwardOne()
@@ -195,8 +202,14 @@ document.body.addEventListener('keydown', function(e) {
                     start = performance.now()
                 }
             }
-            //ignore shift
-            else if ((e.keyCode || e.which) == 16) {}
+            //check for shift
+            else if ((e.keyCode || e.which) == 16) {
+				uppercase = !uppercase;
+			}
+			//check for capslock
+			else if ((e.keyCode || e.which) == 20) {
+				uppercase = !uppercase;
+			}
             //changes incorrect character to be red
             else {
 				if (currentLetterIndex !== 0) {
