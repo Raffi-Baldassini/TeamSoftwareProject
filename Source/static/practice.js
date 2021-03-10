@@ -264,13 +264,21 @@ document.body.addEventListener('keydown', function(e) {
     }
 });
 
-//removes 'pressed' attribute
+//removes 'pressed' attribute, flips uppercase if shifts
 document.body.addEventListener('keyup', function(e) {
     var key = getKey(e);
 	if ((e.keyCode || e.which) == 16) {
 		uppercase = !uppercase;
 	}
-    key && key.removeAttribute('data-pressed');
+	if (!((e.keyCode || e.which) == 20)) {
+		key && key.removeAttribute('data-pressed');
+	}
+	else {
+		if (!uppercase) {
+			key && key.removeAttribute('data-pressed');
+		}
+	}
+    
 });
 
 function size() {
