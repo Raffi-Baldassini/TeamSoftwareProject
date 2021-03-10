@@ -197,6 +197,13 @@ def store_stats():
         stats = [userID] + stats
         DB.upload_game(stats)
     return jsonify({'reply':'success'})
+    
+@app.route('/isloggedin',methods=['GET'])
+def ifLoggedInSendID():
+    global userID
+    if userID != None:
+        return jsonify({'reply':'yes','id':userID})
+    return jsonify({'reply':''})
 
 
 # Run the applications

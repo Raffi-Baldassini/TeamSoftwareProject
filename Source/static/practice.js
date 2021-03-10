@@ -19,7 +19,23 @@ var over = false;
 var updateLoop;
 var isRedo = false;
 var uppercase = false;
-setStatLoop();
+
+//checks if logged in
+function displayProfileLinkIfLoggedIn() {
+	$.ajax(
+	{
+		type:'GET',
+		contentType:'application/json;charset-utf-08',
+		dataType:'json',
+		url:'http://127.0.0.1:5000/isloggedin',
+		success:function(data) {
+			reply = data.reply;
+			if (reply == "yes") {
+				document.getElementById('profile-link').innerHTML = "<a class='nav-link' href='/"+data.id+"'>Profile</a>"
+			}
+		}
+	});
+}
 
 //updates stats in page every 10 milliseconds
 function setStatLoop() {
@@ -290,7 +306,6 @@ var keyboard = document.querySelector('.keyboard');
 window.addEventListener('resize', function(e) {
     size();
 });
-size();
 
 
 var currTheme = localStorage.getItem("theme");
@@ -313,3 +328,7 @@ function changeTheme(){
 		localStorage.setItem("theme", "");
 	}
 }
+
+size();
+setStatLoop();
+displayProfileLinkIfLoggedIn()
