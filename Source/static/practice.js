@@ -195,14 +195,7 @@ document.body.addEventListener('keydown', function(e) {
                     MoveForwardOne()
                 }
 			}
-            //generic catch for everything else
-            else if (generated[currentLetterIndex].toUpperCase().charCodeAt(0) === (e.keyCode || e.which)) {
-                MoveForwardOne()
-                if (currentLetterIndex === 1) {
-                    start = performance.now()
-                }
-            }
-            //check for shift
+			//check for shift
             else if ((e.keyCode || e.which) == 16) {
 				uppercase = !uppercase;
 			}
@@ -210,6 +203,22 @@ document.body.addEventListener('keydown', function(e) {
 			else if ((e.keyCode || e.which) == 20) {
 				uppercase = !uppercase;
 			}
+            //generic catch for upper-case
+            else if (uppercase && generated[currentLetterIndex].toUpperCase().charCodeAt(0) == generated[currentLetterIndex].charCodeAt(0) &&
+					generated[currentLetterIndex].toUpperCase().charCodeAt(0) == (e.keyCode || e.which)) {
+                MoveForwardOne()
+                if (currentLetterIndex === 1) {
+                    start = performance.now()
+                }
+            }
+			//generic catch for lower-case
+			else if (!uppercase && generated[currentLetterIndex].toUpperCase().charCodeAt(0) !== generated[currentLetterIndex].charCodeAt(0) &&
+					generated[currentLetterIndex].toUpperCase().charCodeAt(0) == (e.keyCode || e.which)) {
+                MoveForwardOne()
+                if (currentLetterIndex === 1) {
+                    start = performance.now()
+                }
+            }
             //changes incorrect character to be red
             else {
 				if (currentLetterIndex !== 0) {
@@ -258,6 +267,9 @@ document.body.addEventListener('keydown', function(e) {
 //removes 'pressed' attribute
 document.body.addEventListener('keyup', function(e) {
     var key = getKey(e);
+	if ((e.keyCode || e.which) == 16) {
+		uppercase = !uppercase;
+	}
     key && key.removeAttribute('data-pressed');
 });
 
