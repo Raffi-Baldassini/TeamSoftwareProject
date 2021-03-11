@@ -22,6 +22,8 @@ var uppercase = false;
 
 var wpm_day;
 var wpm_best;
+var wpm_span = "";
+var close_wpm = "";
 
 //checks if logged in and if so retrieves uID and WPM records
 function displayProfileandGetInfoIfLoggedIN() {
@@ -36,6 +38,7 @@ function displayProfileandGetInfoIfLoggedIN() {
 				document.getElementById('profile-link').innerHTML = "<a class='nav-link' href='/"+data.id+"'>Profile</a>";
 				wpm_day = data.wpm_day;
 				wpm_best = data.wpm_best;
+				console.log(wpm_day, wpm_best);
 			}
 		}
 	});
@@ -71,12 +74,24 @@ function setStatLoop() {
 
 //sets stats in page to current values
 function updateStats() {
-    document.getElementsByClassName('stats')[0].innerHTML = "<pre> words: " + wordCount +
+	if (wpm_day){
+		if (wpm > wpm_day && wpm_day <= wpm_best) {
+			wpm_span = "MOTHER<span style='color:'green'>";
+			close_wpm = "</span>";
+		}
+		else if (wpm > wpm_best) {
+			wpm_span = "FUCKER<span style='color:'gold'>";
+			close_wpm = "</span>";
+		}
+	}
+    document.getElementsByClassName('stats')[0].innerHTML = /*"<pre>*/ "words: " + wordCount +
         " characters: " + charCount +
         " time: " + timeTaken.toFixed(2) +
-        " mistakes: " + mistakes +
-        " wpm: " + wpm +
-        " acc: " + acc + "</pre>";
+        " mistakes: " + mistakes + wpm_span +
+        " wpm: " + wpm + close_wpm +
+        " acc: " + acc/* + "</pre>"*/;
+	wpm_span = "";
+	close_wpm = "";
 }
 //retrieves key pressed
 function getKey(e) {
@@ -335,5 +350,4 @@ function changeTheme(){
 
 size();
 setStatLoop();
-displayProfileandGetInfoIfLoggedIN()
-console.log(wpm_day, wpm_best);
+displayProfileandGetInfoIfLoggedIN();
