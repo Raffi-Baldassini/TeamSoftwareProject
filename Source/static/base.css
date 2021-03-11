@@ -561,7 +561,7 @@ input[type=text]{
 
 .generated{
 	background-color: var(--text-bg);
-	font-size: 18px !important;
+	font-size: 1vw !important;
     max-width:100ch;
     margin:auto;
 }
