@@ -23,7 +23,7 @@ var uppercase = false;
 var wpm_day;
 var wpm_best;
 
-//checks if logged in
+//checks if logged in and if so retrieves uID and WPM records
 function displayProfileandGetInfoIfLoggedIN() {
 	$.ajax(
 	{
@@ -337,3 +337,4 @@ function changeTheme(){
 size();
 setStatLoop();
 displayProfileandGetInfoIfLoggedIN()
+console.log(wpm_day, wpm_best);

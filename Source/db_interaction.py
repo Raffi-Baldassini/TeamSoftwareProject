@@ -9,8 +9,8 @@ import pymysql
 import prettytable
 #for historical records
 from datetime import datetime
-import db_setup
-#from Source import db_setup
+#import db_setup
+from Source import db_setup
 
 class DB:
     #returns a cursor object

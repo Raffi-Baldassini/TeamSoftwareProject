@@ -202,7 +202,7 @@ def store_stats():
 def ifLoggedInSendIDandWPM():
     global userID
     if userID != None:
-        wpms = DB.getBestWPM()
+        wpms = DB.getBestWPM(userID)
         return jsonify({'reply':'yes','id':userID,'wpm_day':wpms[0],'wpm_best':wpms[1]})
     return jsonify({'reply':''})
 
