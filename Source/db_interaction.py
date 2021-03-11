@@ -83,8 +83,13 @@ class DB:
             (current_wpm, current_acc) = cursor.fetchall()[0]
             if current_wpm > wpm:
                 day_best = (current_wpm, current_acc)
-            else:
+            elif wpm > current_wpm:
                 day_best = (wpm, acc)
+            else:
+                if current_acc > acc:
+                    day_best = (current_wpm, current_acc)
+                else:
+                    day_best = (wpm, acc)
             cursor.execute("""UPDATE records SET wpm = %s, acc = %s WHERE id = %s AND score_date = %s""",
                            (day_best[0], day_best[1], user, today))
         connection.commit()
