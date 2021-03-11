@@ -269,7 +269,7 @@ document.body.addEventListener('keydown', function(e) {
 				if (currentLetterIndex !== 0) {
 					mistakes++;
 					if (generated[currentLetterIndex] == " ") {
-						newGenerated = newGenerated + '<span style="color:#8B0000;">' + "_" + '</span>';
+						newGenerated = newGenerated + '<b style="color:#8B0000;">' + "_" + '</b>';
 					}
 					else {
 						newGenerated = newGenerated + '<b style="color:#8B0000;">' + generated[currentLetterIndex] + '</b>';
