@@ -164,6 +164,7 @@ function resetStats() {
 	mistakes = 0;
 	wordCount = null;
 	charCount = null;
+	displayProfileandGetInfoIfLoggedIN()
 }
 
 //reset all game-specific variables
@@ -176,6 +177,7 @@ function resetGame(newText) {
 	currentLetterIndex = 0;
 	over = false;
 	isRedo=false;
+	displayProfileandGetInfoIfLoggedIN()
 	setStatLoop();
 }
 
