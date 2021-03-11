@@ -275,7 +275,7 @@ document.body.addEventListener('keydown', function(e) {
 						newGenerated = newGenerated + '<b style="color:#8B0000;">' + generated[currentLetterIndex] + '</b>';
 					}
 					document.getElementsByClassName('generated')[0].innerHTML = newGenerated + generated.substring(currentLetterIndex + 1, generated.length);
-					newGenerated = newGenerated.substring(0, newGenerated.length - 27);
+					newGenerated = newGenerated.substring(0, newGenerated.length - 31);
 				}
             }
         }
