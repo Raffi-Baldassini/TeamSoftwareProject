@@ -72,14 +72,14 @@ class DB:
 
         today = datetime.utcnow().strftime('%Y-%m-%d')
             
-        cursor.execute("SELECT * FROM records WHERE id = %s AND SCORE_DATE = %s",
+        cursor.execute("SELECT * FROM records WHERE id = %s AND score_date = %s",
                            (user, today))
         if len(cursor.fetchall()) == 0:
                 cursor.execute("""INSERT INTO records(id, score_date, wpm, acc)
                                 VALUES (%s, %s, %s,%s);""",
                                 (user, today, wpm, acc))
         else:
-            cursor.execute("SELECT wpm,accuracy FROM stats WHERE id = 1")
+            cursor.execute("SELECT wpm,acc FROM records WHERE id = %s AND score_date = %s", (user, today))
             (current_wpm, current_acc) = cursor.fetchall()[0]
             if current_wpm > wpm:
                 day_best = (current_wpm, current_acc)
