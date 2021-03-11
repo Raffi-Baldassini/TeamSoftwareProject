@@ -9,8 +9,8 @@ import pymysql
 import prettytable
 #for historical records
 from datetime import datetime
-#import db_setup
-from Source import db_setup
+import db_setup
+#from Source import db_setup
 
 class DB:
     #returns a cursor object
@@ -94,6 +94,23 @@ class DB:
                            (day_best[0], day_best[1], user, today))
         connection.commit()
         connection.close()
+
+    def getBestWPM(user):
+        today = datetime.utcnow().strftime('%Y-%m-%d')
+        cursor = DB.get_cursor()
+        cursor.execute("SELECT wpm FROM records WHERE id=%s AND score_date=%s", (user, today))
+        ans = cursor.fetchall()
+        if len(ans) != 0:
+            wpm_day = ans[0][0]
+        else:
+            wpm_day = 0
+        cursor.execute("SELECT wpm_best FROM stats WHERE id=%s", (user))
+        ans = cursor.fetchall()
+        if len(ans) != 0:
+            wpm_all = ans[0][0]
+        else:
+            wpm_all = 0
+        return wpm_day, wpm_all
 
     #these two functions are the only reason for the prettytables import and can be removed if not being used for testing purposes
     def print_table(name):

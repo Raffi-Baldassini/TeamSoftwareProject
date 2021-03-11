@@ -198,11 +198,12 @@ def store_stats():
         DB.upload_game(stats)
     return jsonify({'reply':'success'})
     
-@app.route('/isloggedin',methods=['GET'])
-def ifLoggedInSendID():
+@app.route('/loggedinidwpm',methods=['GET'])
+def ifLoggedInSendIDandWPM():
     global userID
     if userID != None:
-        return jsonify({'reply':'yes','id':userID})
+        wpms = DB.getBestWPM()
+        return jsonify({'reply':'yes','id':userID,'wpm_day':wpms[0],'wpm_best':wpms[1]})
     return jsonify({'reply':''})
 
 

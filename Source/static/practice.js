@@ -20,18 +20,23 @@ var updateLoop;
 var isRedo = false;
 var uppercase = false;
 
+var wpm_day;
+var wpm_best;
+
 //checks if logged in
-function displayProfileLinkIfLoggedIn() {
+function displayProfileandGetInfoIfLoggedIN() {
 	$.ajax(
 	{
 		type:'GET',
 		contentType:'application/json;charset-utf-08',
 		dataType:'json',
-		url:'http://127.0.0.1:5000/isloggedin',
+		url:'http://127.0.0.1:5000/loggedinidwpm',
 		success:function(data) {
 			reply = data.reply;
 			if (reply == "yes") {
-				document.getElementById('profile-link').innerHTML = "<a class='nav-link' href='/"+data.id+"'>Profile</a>"
+				document.getElementById('profile-link').innerHTML = "<a class='nav-link' href='/"+data.id+"'>Profile</a>";
+				wpm_day = reply.wpm_day;
+				wpm_best = reply.wpm_best;
 			}
 		}
 	});
@@ -331,4 +336,4 @@ function changeTheme(){
 
 size();
 setStatLoop();
-displayProfileLinkIfLoggedIn()
+displayProfileandGetInfoIfLoggedIN()
