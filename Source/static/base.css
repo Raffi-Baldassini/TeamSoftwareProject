@@ -548,8 +548,7 @@ input[type=text]{
 .stats{
 	position: relative;
 	text-align: center;
-	line-height: 30px;
-	font-size: 18px;
+	font-size: 1vw !important;
 	background-color: var(--text-bg);
     max-width:100ch;
     margin:auto;
@@ -561,7 +560,7 @@ input[type=text]{
 
 .generated{
 	background-color: var(--text-bg);
-	font-size: 18px !important;
+	font-size: 1vw !important;
     max-width:100ch;
     margin:auto;
 }
