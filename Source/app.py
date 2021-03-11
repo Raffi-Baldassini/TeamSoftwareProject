@@ -12,22 +12,6 @@ import Source.user_management as um
 from Source.db_setup import username, password, server, db_name
 from Source.RandomWordMarkovGenerator import read_frequency_JSON, generate_random_paragraph
 from Source.db_interaction import DB
-"""
-TO DO:
-    - Encrypt SQL login details (read them in indirectly)
-    - Set up secret key generation - consider key rotation?
-    
-TO TEST:
-    - Run script and go to http://127.0.0.1:5000/ in browser to view flask app
-        - This will be index.html or home
-    - Click sign up and complete the registration with fake details
-        - The username and email are not validated for uniqueness yet so this does not matter
-    - Go to: http://127.0.0.1:5000/secret_page
-        - This is only visible when logged in
-    - Go to: http://127.0.0.1:5000/logout
-    - Then back to http://127.0.0.1:5000/ and http://127.0.0.1:5000/secret_page
-        - The login screen should pop up
-"""
 
 userID = None
 
@@ -82,6 +66,22 @@ def index():
             else:
                 flash("Invalid login details!")
     return render_template('index.html', form=login_form)
+
+
+@app.route('/profile', methods=['POST', 'GET'])
+@login_required
+def profile():
+    #search_form = um.SearchForm()
+    #submitted_user = User.query.filter_by(email=search_form.data).first()
+    #user_id = db.session.query(User.user.id).filter(User.user.username==username)
+    #user_stats = db.session.query(User.stats.*).filter(User.stats.id==user_id)
+    #return render_template('/template/profile.html', username=username, user_id=user_id, solo_games=user_stats.solo_games, online_games=user_stats.online_games, words=user_stats.words, chars=user_stats.chars, wpm=user_stats.wpm, accuracy=user_stats.accuracy, acc_best=user_stats.acc_best, acc_worst=user_stats.acc_worst, wpm_best=user_stats.wpm_best, wpm_worst=user_stats.wpm_worst)
+    cursor = DB.get_cursor()
+
+    statement = "SELECT `wpm` FROM `stats` WHERE id = %s;" % userID
+    cursor.execute(statement)
+    response = cursor.fetchall()
+    return "<p> %s </p>" % str(response)
 
 
 # signup page

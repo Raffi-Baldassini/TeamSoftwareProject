@@ -549,8 +549,10 @@ input[type=text]{
 	position: relative;
 	text-align: center;
 	line-height: 30px;
-	font-size: 25px;
+	font-size: 18px;
 	background-color: var(--text-bg);
+    max-width:100ch;
+    margin:auto;
 }
 
 .game-box{
@@ -560,7 +562,8 @@ input[type=text]{
 .generated{
 	background-color: var(--text-bg);
 	font-size: 18px !important;
-	max-width:100ch !important
+    max-width:100ch;
+    margin:auto;
 }
 
 /* nav bar */
