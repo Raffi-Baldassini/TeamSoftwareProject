@@ -548,8 +548,7 @@ input[type=text]{
 .stats{
 	position: relative;
 	text-align: center;
-	line-height: 30px;
-	font-size: 18px;
+	font-size: 1vw !important;
 	background-color: var(--text-bg);
     max-width:100ch;
     margin:auto;

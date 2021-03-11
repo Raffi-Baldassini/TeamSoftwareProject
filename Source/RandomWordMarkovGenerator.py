@@ -71,7 +71,7 @@ def clean_input_text(inputString):
     inputString = list(inputString)
     for char in range(len(inputString)):
 
-        if not inputString[char].isalpha() and inputString[char] not in ['.', ',', ';', '?']:
+        if not inputString[char].isalpha() and inputString[char] not in ['.', ',', ';', '?', '\'']:
             inputString[char] = ' '
     cleanedText = ''
     cleanedText = cleanedText.join(inputString).split()
