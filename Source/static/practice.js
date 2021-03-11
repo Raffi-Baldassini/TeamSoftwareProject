@@ -269,10 +269,10 @@ document.body.addEventListener('keydown', function(e) {
 				if (currentLetterIndex !== 0) {
 					mistakes++;
 					if (generated[currentLetterIndex] == " ") {
-						newGenerated = newGenerated + '<span style="color:8B0000;">' + "_" + '</span>';
+						newGenerated = newGenerated + '<span style="color:#8B0000;">' + "_" + '</span>';
 					}
 					else {
-						newGenerated = newGenerated + '<b style="color:8B0000;">' + generated[currentLetterIndex] + '</b>';
+						newGenerated = newGenerated + '<b style="color:#8B0000;">' + generated[currentLetterIndex] + '</b>';
 					}
 					document.getElementsByClassName('generated')[0].innerHTML = newGenerated + generated.substring(currentLetterIndex + 1, generated.length);
 					newGenerated = newGenerated.substring(0, newGenerated.length - 27);
