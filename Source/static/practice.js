@@ -59,7 +59,7 @@ function setStatLoop() {
 			timeTaken = 0;
 		}
 		if (wordCount) {
-			wpm = Math.floor((wordCount / timeTaken) * 60);
+			wpm = Math.floor(((charCount/5) / timeTaken) * 60);
 		} else {
 			wpm = 0;
 		}
