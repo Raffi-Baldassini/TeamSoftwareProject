@@ -32,11 +32,10 @@ function displayProfileandGetInfoIfLoggedIN() {
 		dataType:'json',
 		url:'http://127.0.0.1:5000/loggedinidwpm',
 		success:function(data) {
-			reply = data.reply;
-			if (reply == "yes") {
+			if (data.reply == "yes") {
 				document.getElementById('profile-link').innerHTML = "<a class='nav-link' href='/"+data.id+"'>Profile</a>";
-				wpm_day = reply.wpm_day;
-				wpm_best = reply.wpm_best;
+				wpm_day = data.wpm_day;
+				wpm_best = data.wpm_best;
 			}
 		}
 	});
