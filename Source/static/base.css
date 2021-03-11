@@ -559,7 +559,8 @@ input[type=text]{
 
 .generated{
 	background-color: var(--text-bg);
-	font-size: 15px !important;
+	font-size: 18px !important;
+	max-width:100ch !important
 }
 
 /* nav bar */
