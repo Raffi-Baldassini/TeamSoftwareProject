@@ -1,0 +1,32 @@
+{% extends "bootstrap/base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block head %}
+  {{ super() }}
+  <meta charset="utf-8" />
+  <title>{% block title %}{% endblock %}Tying Trainer</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+{% endblock %}
+
+{% block styles %}
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <link rel="stylesheet" href="{{url_for('.static', filename='normalize.css')}}">
+  <link rel="stylesheet" href="{{url_for('.static', filename='base.css')}}">
+  <script src="{{url_for('.static', filename='scripts.js')}}"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+{% endblock %}
+
+
+
+
+
+<div class="mobile-content">
+  <h2>Typing Trainer</h2>
+  <p>Oops! Our developers found a tear in the spacetime continuum and haven't returned yet to develop a mobile version
+    of Typing Trainer!</p>
+    <br>
+  <p>Come back to us on a laptop or PC!</p>
+  <img src="static/assets/space_devs.gif">
+</div>
+{% endblock %}
+
