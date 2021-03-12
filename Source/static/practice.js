@@ -58,8 +58,8 @@ function setStatLoop() {
 		} else {
 			timeTaken = 0;
 		}
-		if (wordCount) {
-			wpm = Math.floor((wordCount / timeTaken) * 60);
+		if (charCount >= 5) {
+			wpm = Math.floor(((charCount/5) / timeTaken) * 60);
 		} else {
 			wpm = 0;
 		}
@@ -164,6 +164,7 @@ function resetStats() {
 	mistakes = 0;
 	wordCount = null;
 	charCount = null;
+	displayProfileandGetInfoIfLoggedIN()
 }
 
 //reset all game-specific variables
@@ -176,6 +177,7 @@ function resetGame(newText) {
 	currentLetterIndex = 0;
 	over = false;
 	isRedo=false;
+	displayProfileandGetInfoIfLoggedIN()
 	setStatLoop();
 }
 
