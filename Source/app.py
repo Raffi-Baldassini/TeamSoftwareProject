@@ -118,14 +118,7 @@ def profile():
     wpm_worst_statement = "SELECT `wpm_worst` FROM `stats` WHERE id = %s;" % userID
     cursor.execute(wpm_worst_statement)
     wpm_worst_response = cursor.fetchall()[0][0]
-
-    return "<p> <ul><li>Solo Games: %s</li><li>Online Games: %s</li><li>Total Words: %s</li>" \
-           "<li>Total Characters: %s</li><li>Words Per Minute: %s</li><li>Accuracy: %s</li><li>Highest Accuracy: %s</li>" \
-           "<li>Lowest Accuracy: %s</li><li>Highest WPM: %s</li><li>Lowest WPM: %s</li></ul> </p>" \
-           % (str(solo_game_response), str(online_game_response), str(words_response), str(chars_response),
-              str(wpm_response), str(accuracy_response), str(acc_best_statement), str(acc_worst_response),
-              str(wpm_best_response), str(wpm_worst_response))
-
+    return ("<p><ul><li>Solo Games: %s" % (str(solo_game_response)))
 
 
 # signup page
