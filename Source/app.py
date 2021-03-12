@@ -78,10 +78,47 @@ def profile():
     #return render_template('/template/profile.html', username=username, user_id=user_id, solo_games=user_stats.solo_games, online_games=user_stats.online_games, words=user_stats.words, chars=user_stats.chars, wpm=user_stats.wpm, accuracy=user_stats.accuracy, acc_best=user_stats.acc_best, acc_worst=user_stats.acc_worst, wpm_best=user_stats.wpm_best, wpm_worst=user_stats.wpm_worst)
     cursor = DB.get_cursor()
 
-    statement = "SELECT `wpm` FROM `stats` WHERE id = %s;" % userID
-    cursor.execute(statement)
-    response = cursor.fetchall()
-    return "<p> %s </p>" % str(response)
+    solo_game_statement = "SELECT `solo_games` FROM `stats` WHERE id = %s;" % userID
+    cursor.execute(solo_game_statement)
+    solo_game_response = cursor.fetchall()[0][0]
+
+    online_game_statement = "SELECT `online_games` FROM `stats` WHERE id = %s;" % userID
+    cursor.execute(online_game_statement)
+    online_game_response = cursor.fetchall()[0][0]
+
+    words_statement = "SELECT `words` FROM `stats` WHERE id = %s;" % userID
+    cursor.execute(words_statement)
+    words_response = cursor.fetchall()[0][0]
+
+    chars_statement = "SELECT `chars` FROM `stats` WHERE id = %s;" % userID
+    cursor.execute(chars_statement)
+    chars_response = cursor.fetchall()[0][0]
+
+    wpm_statement = "SELECT `wpm` FROM `stats` WHERE id = %s;" % userID
+    cursor.execute(wpm_statement)
+    wpm_response = cursor.fetchall()[0][0]
+
+    accuracy_statement = "SELECT `accuracy` FROM `stats` WHERE id = %s;" % userID
+    cursor.execute(accuracy_statement)
+    accuracy_response = cursor.fetchall()[0][0]
+
+    acc_best_statement = "SELECT `acc_best` FROM `stats` WHERE id = %s;" % userID
+    cursor.execute(acc_best_statement)
+    acc_best_response = cursor.fetchall()[0][0]
+
+    acc_worst_statement = "SELECT `acc_worst` FROM `stats` WHERE id = %s;" % userID
+    cursor.execute(acc_worst_statement)
+    acc_worst_response = cursor.fetchall()[0][0]
+
+    wpm_best_statement = "SELECT `wpm_best` FROM `stats` WHERE id = %s;" % userID
+    cursor.execute(wpm_best_statement)
+    wpm_best_response = cursor.fetchall()[0][0]
+
+    wpm_worst_statement = "SELECT `wpm_worst` FROM `stats` WHERE id = %s;" % userID
+    cursor.execute(wpm_worst_statement)
+    wpm_worst_response = cursor.fetchall()[0][0]
+    return "<p> <ul><li>Solo Games: %s</li><li>Online Games: %s</li><li>Total Words: %s</li><li>Total Characters: %s</li><li>Words Per Minute: %s</li><li>Accuracy: %s</li><li>Highest Accuracy: %s</li><li>Lowest Accuracy: %s</li><li>Highest WPM: %s</li><li>Lowest WPM: %s</li></ul> </p>" % str(solo_game_response, online_game_response, words_response, chars_response, wpm_response, accuracy_response, acc_best_statement, acc_worst_response, wpm_best_response, wpm_worst_response)
+
 
 
 # signup page
