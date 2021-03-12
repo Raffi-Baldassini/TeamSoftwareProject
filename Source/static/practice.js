@@ -230,6 +230,12 @@ document.body.addEventListener('keydown', function(e) {
                     MoveForwardOne()
                 }
             }
+			//check for apostrophe
+            else if ((e.keyCode || e.which) == 192) {
+                if (generated[currentLetterIndex].charCodeAt(0) == 39 || generated[currentLetterIndex].charCodeAt(0) == 39) {
+                    MoveForwardOne()
+                }
+            }
             //check for question mark or slash
             else if ((e.keyCode || e.which) == 191) {
                 if (generated[currentLetterIndex].charCodeAt(0) == 63) {
