@@ -77,6 +77,7 @@ def profile():
     #user_stats = db.session.query(User.stats.*).filter(User.stats.id==user_id)
     #return render_template('/template/profile.html', username=username, user_id=user_id, solo_games=user_stats.solo_games, online_games=user_stats.online_games, words=user_stats.words, chars=user_stats.chars, wpm=user_stats.wpm, accuracy=user_stats.accuracy, acc_best=user_stats.acc_best, acc_worst=user_stats.acc_worst, wpm_best=user_stats.wpm_best, wpm_worst=user_stats.wpm_worst)
     cursor = DB.get_cursor()
+    global userID
 
     solo_game_statement = "SELECT `solo_games` FROM `stats` WHERE id = %s;" % userID
     cursor.execute(solo_game_statement)
@@ -117,7 +118,13 @@ def profile():
     wpm_worst_statement = "SELECT `wpm_worst` FROM `stats` WHERE id = %s;" % userID
     cursor.execute(wpm_worst_statement)
     wpm_worst_response = cursor.fetchall()[0][0]
-    return "<p> <ul><li>Solo Games: %s</li><li>Online Games: %s</li><li>Total Words: %s</li><li>Total Characters: %s</li><li>Words Per Minute: %s</li><li>Accuracy: %s</li><li>Highest Accuracy: %s</li><li>Lowest Accuracy: %s</li><li>Highest WPM: %s</li><li>Lowest WPM: %s</li></ul> </p>" % str(solo_game_response), str(online_game_response), str(words_response), str(chars_response), str(wpm_response), str(accuracy_response), str(acc_best_statement), str(acc_worst_response), str(wpm_best_response), str(wpm_worst_response)
+
+    return "<p> <ul><li>Solo Games: %s</li><li>Online Games: %s</li><li>Total Words: %s</li>" \
+           "<li>Total Characters: %s</li><li>Words Per Minute: %s</li><li>Accuracy: %s</li><li>Highest Accuracy: %s</li>" \
+           "<li>Lowest Accuracy: %s</li><li>Highest WPM: %s</li><li>Lowest WPM: %s</li></ul> </p>" \
+           % (str(solo_game_response), str(online_game_response), str(words_response), str(chars_response),
+              str(wpm_response), str(accuracy_response), str(acc_best_statement), str(acc_worst_response),
+              str(wpm_best_response), str(wpm_worst_response))
 
 
 
