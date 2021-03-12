@@ -140,7 +140,7 @@ setTimeout(next, 500);
 //Changes character at currentLetterIndex to green and increments to next character
 function MoveForwardOne() {
 	if (generated[currentLetterIndex] == " ") {
-		newGenerated = newGenerated + '<span style="color:green;">' + "_" + '</span>';
+		newGenerated = newGenerated + '<span style="color:green; text-decoration: underline;">' + " " + '</span>';
 	}
 	else {
 		newGenerated = newGenerated + '<span style="color:green;">' + generated[currentLetterIndex] + '</span>';

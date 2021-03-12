@@ -201,7 +201,7 @@ def practice():
         filepath = choice(Frequency_dicts)
         wordDictionary = read_frequency_JSON(f'TextGeneration\\FrequencyDictionaries\\{filepath}')
 
-    output = generate_random_paragraph(wordDictionary, 6)
+    output = generate_random_paragraph(wordDictionary, 10)
     output = " ".join([str(word) for word in output])
 
     return render_template('practice.html', generated_text=output)
@@ -219,7 +219,7 @@ def reset():
         filepath = choice(Frequency_dicts)
         wordDictionary = read_frequency_JSON(f'TextGeneration\\FrequencyDictionaries\\{filepath}')
 
-    output = generate_random_paragraph(wordDictionary, 6)
+    output = generate_random_paragraph(wordDictionary, 10)
     output = " ".join([str(word) for word in output])
 
     return jsonify({'reply':output})
