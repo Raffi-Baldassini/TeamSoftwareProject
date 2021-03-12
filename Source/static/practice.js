@@ -21,8 +21,8 @@ var updateLoop;
 var isRedo = false;
 var uppercase = false;
 //for wpm highlighting
-var wpm_day;
-var wpm_best;
+var wpm_day = 0;
+var wpm_best = 0;
 var wpm_span = "";
 var close_wpm = "";
 
@@ -75,7 +75,7 @@ function setStatLoop() {
 //sets stats in page to current values
 function updateStats() {
 	//highlights WPM if best-of day or best-of all-time is currently achieved
-	if (wpm_day){
+	if (wpm_best){
 		if (wpm > wpm_day && wpm <= wpm_best) {
 			wpm_span = "<b style='color:#FF33EC;'>";
 			close_wpm = "</b>";
