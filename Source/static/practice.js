@@ -1,11 +1,12 @@
+//used for tping the title on load
 var title = document.querySelector('a');
 var originalQueue = title.innerHTML;
 var queue = title.innerHTML;
-
+//used for keeping track of position in text and current representation of text
 var currentLetterIndex = 0;
 var generated = document.getElementsByClassName('generated')[0].innerHTML;
 var newGenerated = "";
-
+//game spceific statistics
 var start
 var end;
 var timeTaken;
@@ -14,12 +15,12 @@ var acc;
 var mistakes = 0;
 var wordCount;
 var charCount;
-
+//state tracking variables
 var over = false;
 var updateLoop;
 var isRedo = false;
 var uppercase = false;
-
+//for wpm highlighting
 var wpm_day;
 var wpm_best;
 var wpm_span = "";
@@ -38,7 +39,6 @@ function displayProfileandGetInfoIfLoggedIN() {
 				document.getElementById('profile-link').innerHTML = "<a class='nav-link' href='/"+data.id+"'>Profile</a>";
 				wpm_day = data.wpm_day;
 				wpm_best = data.wpm_best;
-				console.log(wpm_day, wpm_best);
 			}
 		}
 	});
@@ -58,8 +58,8 @@ function setStatLoop() {
 		} else {
 			timeTaken = 0;
 		}
-		if (wordCount) {
-			wpm = Math.floor((wordCount / timeTaken) * 60);
+		if (charCount >= 5) {
+			wpm = Math.floor(((charCount/5) / timeTaken) * 60);
 		} else {
 			wpm = 0;
 		}
@@ -74,25 +74,27 @@ function setStatLoop() {
 
 //sets stats in page to current values
 function updateStats() {
+	//highlights WPM if best-of day or best-of all-time is currently achieved
 	if (wpm_day){
-		if (wpm > wpm_day && wpm_day <= wpm_best) {
-			wpm_span = "MOTHER<span style='color:'green'>";
-			close_wpm = "</span>";
+		if (wpm > wpm_day && wpm <= wpm_best) {
+			wpm_span = "<b style='color:#FF33EC;'>";
+			close_wpm = "</b>";
 		}
 		else if (wpm > wpm_best) {
-			wpm_span = "FUCKER<span style='color:'gold'>";
-			close_wpm = "</span>";
+			wpm_span = "<b style='color:gold;'>";
+			close_wpm = "</b>";
 		}
 	}
-    document.getElementsByClassName('stats')[0].innerHTML = /*"<pre>*/ "words: " + wordCount +
+    document.getElementsByClassName('stats')[0].innerHTML = "words: " + wordCount +
         " characters: " + charCount +
         " time: " + timeTaken.toFixed(2) +
         " mistakes: " + mistakes + wpm_span +
         " wpm: " + wpm + close_wpm +
-        " acc: " + acc/* + "</pre>"*/;
+        " acc: " + acc;
 	wpm_span = "";
 	close_wpm = "";
 }
+
 //retrieves key pressed
 function getKey(e) {
     var location = e.location;
@@ -109,7 +111,7 @@ function getKey(e) {
     return document.querySelector(selector);
 }
 
-//used to type heading on load
+//used to type title on load
 function pressKey(char) {
     var key = document.querySelector('[data-char*="' + char.toUpperCase() + '"]');
     if (!key) {
@@ -143,10 +145,16 @@ function MoveForwardOne() {
 	else {
 		newGenerated = newGenerated + '<span style="color:green;">' + generated[currentLetterIndex] + '</span>';
 	}
-    document.getElementsByClassName('generated')[0].innerHTML = newGenerated + generated.substring(currentLetterIndex + 1, generated.length);
-    currentLetterIndex++;
+	if (currentLetterIndex < generated.length - 1) {
+		document.getElementsByClassName('generated')[0].innerHTML = newGenerated + "<b style='font-size:19'>" + generated[currentLetterIndex + 1] + "</b>" + generated.substring(currentLetterIndex + 2, generated.length);
+    }
+	else {
+		document.getElementsByClassName('generated')[0].innerHTML = newGenerated + generated.substring(currentLetterIndex + 1, generated.length);
+	}
+	currentLetterIndex++;
 }
 
+//used to reset game-specific stats
 function resetStats() {
 	start = null;
 	end = null;
@@ -156,8 +164,10 @@ function resetStats() {
 	mistakes = 0;
 	wordCount = null;
 	charCount = null;
+	displayProfileandGetInfoIfLoggedIN()
 }
 
+//reset all game-specific variables
 function resetGame(newText) {
 	clearInterval(updateLoop);
 	document.getElementsByClassName('generated')[0].innerHTML = newText;
@@ -167,8 +177,10 @@ function resetGame(newText) {
 	currentLetterIndex = 0;
 	over = false;
 	isRedo=false;
+	displayProfileandGetInfoIfLoggedIN()
 	setStatLoop();
 }
+
 //retrieves pressed key and checks for correctness
 document.body.addEventListener('keydown', function(e) {
     var key = getKey(e);
@@ -259,13 +271,13 @@ document.body.addEventListener('keydown', function(e) {
 				if (currentLetterIndex !== 0) {
 					mistakes++;
 					if (generated[currentLetterIndex] == " ") {
-						newGenerated = newGenerated + '<span style="color:red;">' + "_" + '</span>';
+						newGenerated = newGenerated + '<b style="color:#8B0000;">' + "_" + '</b>';
 					}
 					else {
-						newGenerated = newGenerated + '<span style="color:red;">' + generated[currentLetterIndex] + '</span>';
+						newGenerated = newGenerated + '<b style="color:#8B0000;">' + generated[currentLetterIndex] + '</b>';
 					}
 					document.getElementsByClassName('generated')[0].innerHTML = newGenerated + generated.substring(currentLetterIndex + 1, generated.length);
-					newGenerated = newGenerated.substring(0, newGenerated.length - 33);
+					newGenerated = newGenerated.substring(0, newGenerated.length - 31);
 				}
             }
         }
@@ -275,6 +287,7 @@ document.body.addEventListener('keydown', function(e) {
 			wordCount++;
 			updateStats();
 			over = true;
+			//stats are only sent to back-end if text is completed on first try
 			if (!(isRedo)) {
 				var stats = [wordCount, charCount, wpm, acc];
 				$.ajax(
@@ -347,7 +360,9 @@ function changeTheme(){
 		localStorage.setItem("theme", "");
 	}
 }
-
+//sets size of keyboard text
+//begins the loop for updating stats
+//and retrieves user information
 size();
 setStatLoop();
 displayProfileandGetInfoIfLoggedIN();
