@@ -576,6 +576,7 @@ nav {
     height: 4em;
     padding: 0;
 }
+
 nav li{
 	margin: 20px;
 }
@@ -584,7 +585,6 @@ nav li a{
 	border: 2px solid var(--title);
 	box-sizing: border-box;
 	border-radius: 20px;
-	margin-left: 0.5em;
 	color: var(--title) !important;
 	text-align: center;
 	font-size: 20px ;
