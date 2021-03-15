@@ -45,7 +45,7 @@ class DB:
                                     words, chars, wpm, accuracy, acc_best, acc_worst,
                                     wpm_best,wpm_worst)
                                     VALUES(%s,1,0,%s,%s,%s,%s,%s,%s,%s,%s);
-                                    """, (user,words,chars,wpm,acc,acc,acc,wpm,wpm))
+                                    """, (user,words,chars,acc,acc,wpm,wpm,wpm,acc))
         else:
             cursor.execute("SELECT * FROM stats WHERE id = %s;", (user))
             stats = list(cursor.fetchall()[0])
@@ -55,18 +55,18 @@ class DB:
             stats[1] += 1
             stats[3] += words
             stats[4] += chars
-            #acc/wpm calc'd as average of current value weighted by number of games + game value
-            stats[5] = (stats[5] * weight + wpm) / stats[1]
-            stats[6] = (stats[6] * weight + acc) / stats[1]
             #best/worst just max/min comparison with game value and value in 'stats' table
-            stats[7] = max(stats[7], acc)
-            stats[8] = min(stats[8], acc)
-            stats[9] = max(stats[9], wpm)
-            stats[10] = min(stats[10], wpm)
+            stats[5] = max(stats[5], acc)
+            stats[6] = min(stats[6], acc)
+            stats[7] = max(stats[7], wpm)
+            stats[8] = min(stats[8], wpm)
+            #acc/wpm calc'd as average of current value weighted by number of games + game value
+            stats[9] = (stats[9] * weight + wpm) / stats[1]
+            stats[10] = (stats[10] * weight + acc) / stats[1]
 
             cursor.execute("""UPDATE stats SET solo_games = %s, words = %s, chars = %s,
-                        wpm = %s, accuracy = %s, acc_best = %s, acc_worst = %s,
-                        wpm_best = %s, wpm_worst = %s WHERE id = %s""",
+                        acc_best = %s, acc_worst = %s, wpm_best = %s, wpm_worst = %s, 
+                        wpm = %s, accuracy = %s WHERE id = %s""",
                        (stats[1],stats[3],stats[4],stats[5],stats[6],stats[7],
                         stats[8],stats[9],stats[10],stats[0]))
 
