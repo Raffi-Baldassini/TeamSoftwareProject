@@ -20,7 +20,41 @@
 
 {% block content %}
 
-{{ data }}
+<div id="user_stats_container">
+  <div>
+    <h2>User: {{ uname }}</h2>
+  </div>
+  <div>
+    <p>Solo games played: {{ data1 }}</p>
+  </div>
+  <div>
+    <p>Online games played: {{ data2 }}</p>
+  </div>
+  <div>
+    <p>Words typed: {{ data3 }}</p>
+  </div>
+  <div>
+    <p>Characters typed: {{ data4 }}</p>
+  </div>
+  <div>
+    <p>Overall WPM: {{ data5 }}</p>
+  </div>
+  <div>
+    <p>Overall Accuracy: {{ data6 }}</p>
+  </div>
+  <div>
+    <p>Highest recorded WPM: {{ data7 }}</p>
+  </div>
+  <div>
+    <p>Lowest recorded WPM: {{ data8 }}</p>
+  </div>
+  <div>
+    <p>Highest recorded accuracy: {{ data9 }}</p>
+  </div>
+  <div>
+    <p>Lowest recorded accuracy: {{ data10 }}</p>
+  </div>
+</div>
 <div class="mobile-content">
   <h2>Typing Trainer</h2>
   <p>Oops! Our developers found a tear in the spacetime continuum and haven't returned yet to develop a mobile version
