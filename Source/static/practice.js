@@ -36,7 +36,7 @@ function displayProfileandGetInfoIfLoggedIN() {
 		url:'http://127.0.0.1:5000/loggedinidwpm',
 		success:function(data) {
 			if (data.reply == "yes") {
-				document.getElementById('profile-link').innerHTML = "<a class='nav-link' href='/"+data.id+"'>Profile</a>";
+				document.getElementById('profile-link').innerHTML = "<a class='nav-link' href='/profile'>Profile</a>";
 				wpm_day = data.wpm_day;
 				wpm_best = data.wpm_best;
 			}
