@@ -37,7 +37,7 @@
 </nav>
 
 <div class="col-md">
-  <div id="user_stats_container">
+  <div id="user_stats">
     <div>
       <h2>User: {{ uname }}</h2>
     </div>
@@ -72,6 +72,12 @@
       <p>Lowest recorded accuracy: {{ data10 }}</p>
     </div>
   </div>
+</div>
+<div class="row" id="toggle-container">
+  <label class="toggle">
+<input type="checkbox" id="theme" onclick="changeTheme()"/>
+<span class="slider"></span>
+</label>
 </div>
 
 <div class="mobile-content">
