@@ -54,7 +54,7 @@ def get_friends(user):
     cursor.execute(f"SELECT friend_id FROM friends WHERE id = {user};")
     return [i[0] for i in cursor.fetchall()]
         
-def get_charts(user_id):
+def get_charts(user_id, max_wpm=0):
     #Due to the limitations of pyChartJS, chart and Data classes have been hardcoded
     #A chart is created by creating a class inheriting from BaseChart, defining classes for data, labels and (optionally) options
     #Inside the data class data can be represented by creating classes that incldue their own labels, data and options
@@ -103,13 +103,13 @@ def get_charts(user_id):
                 if len(friends) > 1:
                     label = get_uname(friends[1])
                     data = construct_data(friends[1], "wpm")
-                borderColor = Color.JSLinearGradient('ctx', 0, 0, 1000, 0,
-                                                     (0, Color.Yellow), 
-                                                     (1, Color.Orange)
-                                                     ).returnGradient()
-                fill = False
-                pointBorderWidth = 10
-                pointRadius = 3
+                    borderColor = Color.JSLinearGradient('ctx', 0, 0, 1000, 0,
+                                                         (0, Color.Yellow), 
+                                                         (1, Color.Orange)
+                                                         ).returnGradient()
+                    fill = False
+                    pointBorderWidth = 10
+                    pointRadius = 3
 
             class friend3:
                 friends = get_friends(user_id)
@@ -117,14 +117,14 @@ def get_charts(user_id):
                 if len(friends) > 2:
                     label = get_uname(friends[2])
                     data = construct_data(friends[2], "wpm")
-                _color = Color.JSLinearGradient('ctx', 0, 0, 1000, 0)
-                _color.addColorStop(0, Color.Teal)
-                _color.addColorStop(1, Color.Cyan)
-                
-                borderColor = _color.returnGradient()
-                fill = False
-                pointBorderWidth = 10
-                pointRadius = 3
+                    _color = Color.JSLinearGradient('ctx', 0, 0, 1000, 0)
+                    _color.addColorStop(0, Color.Teal)
+                    _color.addColorStop(1, Color.Cyan)
+                    
+                    borderColor = _color.returnGradient()
+                    fill = False
+                    pointBorderWidth = 10
+                    pointRadius = 3
 
             class friend4:
                 friends = get_friends(user_id)
@@ -132,13 +132,13 @@ def get_charts(user_id):
                 if len(friends) > 3:
                     label = get_uname(friends[3])
                     data = construct_data(friends[3], "wpm")
-                borderColor = Color.JSLinearGradient('ctx', 0, 0, 1000, 0,
-                                                         (0, Color.Red), 
-                                                         (1, Color.Magenta)
-                                                         ).returnGradient()
-                fill = False
-                pointBorderWidth = 10
-                pointRadius = 3
+                    borderColor = Color.JSLinearGradient('ctx', 0, 0, 1000, 0,
+                                                             (0, Color.Red), 
+                                                             (1, Color.Magenta)
+                                                             ).returnGradient()
+                    fill = False
+                    pointBorderWidth = 10
+                    pointRadius = 3
 
             class friend5:
                 friends = get_friends(user_id)
@@ -146,12 +146,12 @@ def get_charts(user_id):
                 if len(friends) > 4:
                     label = get_uname(friends[4])
                     data = construct_data(friends[4], "wpm")
-                _color = Color.JSLinearGradient('ctx', 0, 0, 1000, 0)
-                _color.addColorStop(0, Color.Beige)
-                _color.addColorStop(1, Color.Maroon)
-                fill = False
-                pointBorderWidth = 10
-                pointRadius = 3
+                    _color = Color.JSLinearGradient('ctx', 0, 0, 1000, 0)
+                    _color.addColorStop(0, Color.Beige)
+                    _color.addColorStop(1, Color.Maroon)
+                    fill = False
+                    pointBorderWidth = 10
+                    pointRadius = 3
 
         class labels:
             grouped = get_months()
@@ -160,7 +160,7 @@ def get_charts(user_id):
             title   = Options.Title(text="WPM Over Time", fontSize=18)
             _lables = Options.Legend_Labels(fontColor=Color.Gray, fullWidth=True)
             legend  = Options.Legend(position='Bottom', labels=_lables)
-            _yAxes = [Options.General(ticks=Options.General(beginAtZero=True, padding=15, max=215))]
+            _yAxes = [Options.General(ticks=Options.General(beginAtZero=True, padding=15, max = 200))]
             scales = Options.General(yAxes=_yAxes)
 
     class accChart(BaseChart):
@@ -186,13 +186,13 @@ def get_charts(user_id):
                 if len(friends) > 0:
                     label = get_uname(friends[0])
                     data = construct_data(friends[0], "acc")
-                borderColor = Color.JSLinearGradient('ctx', 0, 0, 1000, 0,
-                                                         (0, Color.Red), 
-                                                         (1, Color.Magenta)
-                                                         ).returnGradient()
-                fill = False
-                pointBorderWidth = 10
-                pointRadius = 3
+                    borderColor = Color.JSLinearGradient('ctx', 0, 0, 1000, 0,
+                                                             (0, Color.Red), 
+                                                             (1, Color.Magenta)
+                                                             ).returnGradient()
+                    fill = False
+                    pointBorderWidth = 10
+                    pointRadius = 3
 
             class friend2:
                 friends = get_friends(user_id)
@@ -200,13 +200,13 @@ def get_charts(user_id):
                 if len(friends) > 1:
                     label = get_uname(friends[1])
                     data = construct_data(friends[1], "acc")
-                borderColor = Color.JSLinearGradient('ctx', 0, 0, 1000, 0,
-                                                     (0, Color.Yellow), 
-                                                     (1, Color.Orange)
-                                                     ).returnGradient()
-                fill = False
-                pointBorderWidth = 10
-                pointRadius = 3
+                    borderColor = Color.JSLinearGradient('ctx', 0, 0, 1000, 0,
+                                                         (0, Color.Yellow), 
+                                                         (1, Color.Orange)
+                                                         ).returnGradient()
+                    fill = False
+                    pointBorderWidth = 10
+                    pointRadius = 3
 
             class friend3:
                 friends = get_friends(user_id)
@@ -214,14 +214,14 @@ def get_charts(user_id):
                 if len(friends) > 2:
                     label = get_uname(friends[2])
                     data = construct_data(friends[2], "acc")
-                _color = Color.JSLinearGradient('ctx', 0, 0, 1000, 0)
-                _color.addColorStop(0, Color.Teal)
-                _color.addColorStop(1, Color.Cyan)
-                
-                borderColor = _color.returnGradient()
-                fill = False
-                pointBorderWidth = 10
-                pointRadius = 3
+                    _color = Color.JSLinearGradient('ctx', 0, 0, 1000, 0)
+                    _color.addColorStop(0, Color.Teal)
+                    _color.addColorStop(1, Color.Cyan)
+                    
+                    borderColor = _color.returnGradient()
+                    fill = False
+                    pointBorderWidth = 10
+                    pointRadius = 3
 
             class friend4:
                 friends = get_friends(user_id)
@@ -229,13 +229,13 @@ def get_charts(user_id):
                 if len(friends) > 3:
                     label = get_uname(friends[3])
                     data = construct_data(friends[3], "acc")
-                borderColor = Color.JSLinearGradient('ctx', 0, 0, 1000, 0,
-                                                         (0, Color.Red), 
-                                                         (1, Color.Magenta)
-                                                         ).returnGradient()
-                fill = False
-                pointBorderWidth = 10
-                pointRadius = 3
+                    borderColor = Color.JSLinearGradient('ctx', 0, 0, 1000, 0,
+                                                             (0, Color.Red), 
+                                                             (1, Color.Magenta)
+                                                             ).returnGradient()
+                    fill = False
+                    pointBorderWidth = 10
+                    pointRadius = 3
 
             class friend5:
                 friends = get_friends(user_id)
@@ -243,12 +243,12 @@ def get_charts(user_id):
                 if len(friends) > 4:
                     label = get_uname(friends[4])
                     data = construct_data(friends[4], "acc")
-                _color = Color.JSLinearGradient('ctx', 0, 0, 1000, 0)
-                _color.addColorStop(0, Color.Beige)
-                _color.addColorStop(1, Color.Maroon)
-                fill = False
-                pointBorderWidth = 10
-                pointRadius = 3
+                    _color = Color.JSLinearGradient('ctx', 0, 0, 1000, 0)
+                    _color.addColorStop(0, Color.Beige)
+                    _color.addColorStop(1, Color.Maroon)
+                    fill = False
+                    pointBorderWidth = 10
+                    pointRadius = 3
 
         class labels:
             grouped = get_months()
