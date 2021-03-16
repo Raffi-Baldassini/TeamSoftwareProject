@@ -160,7 +160,7 @@ def get_charts(user_id):
             title   = Options.Title(text="WPM Over Time", fontSize=18)
             _lables = Options.Legend_Labels(fontColor=Color.Gray, fullWidth=True)
             legend  = Options.Legend(position='Bottom', labels=_lables)
-            _yAxes = [Options.General(ticks=Options.General(beginAtZero=True, padding=15, max=300))]
+            _yAxes = [Options.General(ticks=Options.General(beginAtZero=True, padding=15, max=215))]
             scales = Options.General(yAxes=_yAxes)
 
     class accChart(BaseChart):

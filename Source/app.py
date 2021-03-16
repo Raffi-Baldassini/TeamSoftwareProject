@@ -251,6 +251,26 @@ def ifLoggedInSendIDandWPM():
         return jsonify({'reply':'yes','id':userID,'wpm_day':wpms[0],'wpm_best':wpms[1]})
     return jsonify({'reply':''})
 
+@app.route('/follow',methods=['POST'])
+def followUser():
+    global userID
+    if userID != None:
+        userToFollow = stats=request.args.get('value').split(",")[0]
+        if userToFollow = userID:
+            return jsonify({'reply':'failure'})
+        con = DB.connect_db()
+        cursor = con.cursor()
+        cursor.execute("SELECT id FROM user WHERE uname = %s;", (userToFollow))
+        response = cursor.fetchall()
+        if len(response) == 0:
+            cursor.execute("SELECT id FROM user WHERE id = %s;", (userToFollow))
+            response = cursor.fetchall()
+            if len(response) == 0:
+                return jsonify({'reply':'failure'})
+        cursor.execute("INSERT INTO friends(id, friend_id) VALUES (%s, %s), (%s, %s);", (userID, response, response, userID))
+        con.commit()
+        con.close()
+        return jsonify({'reply':'success'})
 
 # Run the applications
 if __name__ == '__main__':
