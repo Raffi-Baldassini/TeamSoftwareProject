@@ -74,7 +74,7 @@ function setStatLoop() {
 
 //sets stats in page to current values
 function updateStats() {
-	//highlights WPM if best-of day or best-of all-time is currently achieved
+	//highlights WPM if best-of day (pink) or best-of all-time (gold) is currently achieved
 	if (wpm_best){
 		if (wpm > wpm_day && wpm <= wpm_best) {
 			wpm_span = "<b style='color:#FF33EC;'>";
@@ -139,12 +139,15 @@ setTimeout(next, 500);
 
 //Changes character at currentLetterIndex to green and increments to next character
 function MoveForwardOne() {
+	//spaces get underlined to avoid confusion
 	if (generated[currentLetterIndex] == " ") {
 		newGenerated = newGenerated + '<span style="color:green; text-decoration: underline;">' + " " + '</span>';
 	}
+	//general case
 	else {
 		newGenerated = newGenerated + '<span style="color:green;">' + generated[currentLetterIndex] + '</span>';
 	}
+	//If not on the last chracter of the text then the next character to be typed will be made bold and slightly larger
 	if (currentLetterIndex < generated.length - 1) {
 		document.getElementsByClassName('generated')[0].innerHTML = newGenerated + "<b style='font-size:19'>" + generated[currentLetterIndex + 1] + "</b>" + generated.substring(currentLetterIndex + 2, generated.length);
     }
@@ -224,7 +227,7 @@ document.body.addEventListener('keydown', function(e) {
                     MoveForwardOne()
                 }
             }
-            //check for colon or semi
+            //check for colon or semi-colon
             else if ((e.keyCode || e.which) == 186) {
                 if (generated[currentLetterIndex].charCodeAt(0) == 59 || generated[currentLetterIndex].charCodeAt(0) == 58) {
                     MoveForwardOne()
@@ -256,6 +259,8 @@ document.body.addEventListener('keydown', function(e) {
 			else if ((e.keyCode || e.which) == 20) {
 				uppercase = !uppercase;
 			}
+			//the code obtained from a keypress is always the uppercase version of the letter so using the uppercase var and the
+			//actual text like this is the best I could come up with
             //generic catch for upper-case
             else if (uppercase && generated[currentLetterIndex].toUpperCase().charCodeAt(0) == generated[currentLetterIndex].charCodeAt(0) &&
 					generated[currentLetterIndex].toUpperCase().charCodeAt(0) == (e.keyCode || e.which)) {
@@ -318,7 +323,7 @@ document.body.addEventListener('keydown', function(e) {
     }
 });
 
-//removes 'pressed' attribute, flips uppercase if shifts
+//removes 'pressed' attribute, flips uppercase if shift or capslock interaction occurs
 document.body.addEventListener('keyup', function(e) {
     var key = getKey(e);
 	if ((e.keyCode || e.which) == 16) {
@@ -335,6 +340,7 @@ document.body.addEventListener('keyup', function(e) {
     
 });
 
+//sets key-text size
 function size() {
     var size = keyboard.parentNode.clientWidth / 90;
     keyboard.style.fontSize = size + 'px';
@@ -367,8 +373,8 @@ function changeTheme(){
 	}
 }
 //sets size of keyboard text
-//begins the loop for updating stats
-//and retrieves user information
 size();
+//begins the loop for updating stats
 setStatLoop();
+//and retrieves user information
 displayProfileandGetInfoIfLoggedIN();
