@@ -255,16 +255,21 @@ def ifLoggedInSendIDandWPM():
 def followUser():
     global userID
     if userID != None:
-        userToFollow = stats=request.args.get('value').split(",")[0]
-        if userToFollow = userID:
-            return jsonify({'reply':'failure'})
+        #get uname/id entered
+        userToFollow = stats=request.args.get('value').split(",")[0]            
         con = DB.connect_db()
         cursor = con.cursor()
+        #attempt to obtain id assuming uname was entered
         cursor.execute("SELECT id FROM user WHERE uname = %s;", (userToFollow))
         response = cursor.fetchall()
+        #reject if either value entered or obtained from db matches userID
+        if userToFollow == userID or response == int(userID):
+            return jsonify({'reply':'failure'})
+        #value entered is not username
         if len(response) == 0:
             cursor.execute("SELECT id FROM user WHERE id = %s;", (userToFollow))
             response = cursor.fetchall()
+            #id does not exist
             if len(response) == 0:
                 return jsonify({'reply':'failure'})
         cursor.execute("INSERT INTO friends(id, friend_id) VALUES (%s, %s), (%s, %s);", (userID, response, response, userID))
