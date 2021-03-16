@@ -33,7 +33,7 @@ function displayProfileandGetInfoIfLoggedIN() {
 		type:'GET',
 		contentType:'application/json;charset-utf-08',
 		dataType:'json',
-		url:'http://127.0.0.1:5000/loggedinidwpm',
+		url:'/loggedinidwpm',
 		success:function(data) {
 			if (data.reply == "yes") {
 				document.getElementById('profile-link').innerHTML = "<a class='nav-link' href='/profile'>Profile</a>";
@@ -205,7 +205,7 @@ document.body.addEventListener('keydown', function(e) {
 				type:'GET',
 				contentType:'application/json;charset-utf-08',
 				dataType:'json',
-				url:'http://127.0.0.1:5000/reset',
+				url:'/reset',
 				success:function(data) {
 					resetGame(data.reply);
 				}
@@ -301,7 +301,7 @@ document.body.addEventListener('keydown', function(e) {
 					type:'POST',
 					contentType:'application/json;charset-utf-08',
 					dataType:'json',
-					url:'http://127.0.0.1:5000/stats?value='+stats,
+					url:'/stats?value='+stats,
 					success:function(data) {
 						var reply=data.reply;
 						if (reply=="success") {
