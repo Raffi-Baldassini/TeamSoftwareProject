@@ -20,6 +20,7 @@ class LoginForm(FlaskForm):
 
 # Represent the Flask user registration form - will be passed into flask bootstrap at routing
 class RegistrationForm(FlaskForm):
+    # Error messages for invalid fields
     email_message = "Please enter a valid email address"
     password_length_message = "Password must be between 8-80 characters"
     password_confirm_message = "Passwords do not match"
