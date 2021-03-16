@@ -76,11 +76,6 @@ def index():
 @app.route('/profile', methods=['POST', 'GET'])
 @login_required
 def profile():
-    #search_form = um.SearchForm()
-    #submitted_user = User.query.filter_by(email=search_form.data).first()
-    #user_id = db.session.query(User.user.id).filter(User.user.username==username)
-    #user_stats = db.session.query(User.stats.*).filter(User.stats.id==user_id)
-    #return render_template('/template/profile.html', username=username, user_id=user_id, solo_games=user_stats.solo_games, online_games=user_stats.online_games, words=user_stats.words, chars=user_stats.chars, wpm=user_stats.wpm, accuracy=user_stats.accuracy, acc_best=user_stats.acc_best, acc_worst=user_stats.acc_worst, wpm_best=user_stats.wpm_best, wpm_worst=user_stats.wpm_worst)
     cursor = DB.get_cursor()
     global userID
 
