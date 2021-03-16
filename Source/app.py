@@ -207,7 +207,7 @@ def practice():
 
     return render_template('practice.html', generated_text=output)
 
-
+#obtain a fresh text set to be used in the game in JSON formatr
 @app.route('/reset', methods=['GET'])
 def reset():
     if platform.system() == 'Linux':
@@ -226,7 +226,8 @@ def reset():
 
     return jsonify({'reply':output})
 
-
+#receive statistics from a played game, associate them with a user
+#and forward them to the method upload_game() in the DB class
 @app.route('/stats',methods=['POST'])
 def store_stats():
     global userID
@@ -238,7 +239,7 @@ def store_stats():
         DB.upload_game(stats)
     return jsonify({'reply':'success'})
 
-
+#obtain the id and day-best and all-time-best WPM for userID in JSON format
 @app.route('/loggedinidwpm',methods=['GET'])
 def ifLoggedInSendIDandWPM():
     global userID
