@@ -13,12 +13,10 @@ from Source.db_setup import username, password, server, db_name
 from Source.RandomWordMarkovGenerator import read_frequency_JSON, generate_random_paragraph
 from Source.db_interaction import DB
 
-userID = None
 
 # Configure and instantiate the flask app
 app = Flask(__name__, template_folder='template')
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://%s:%s@%s/%s'\
-                                        % (username, password, server, db_name)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://%s:%s@%s/%s' % (username, password, server, db_name)
 app.config['SECRET_KEY'] = 'secret_key'
 
 # Instantiates the login manager
@@ -31,13 +29,17 @@ Bootstrap(app)
 db = SQLAlchemy(app)
 
 
-# Represents user credentials
+# Represents user credentials by modelling mySQL columns
 # Provides default implementations for the methods that Flask-Login expects user objects to have
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     uname = db.Column(db.String(10), unique=True)
     email = db.Column(db.String(50), unique=True)
     pword = db.Column(db.String(80), unique=True)
+
+
+# Global variable used to keep track of a user id if logged in
+userID = None
 
 
 # Connects flask_login 'abstract' users to users that are defined in the DB
@@ -51,18 +53,21 @@ def load_user(user_id):
 @app.route('/', methods=['POST', 'GET'])
 def index():
     global userID
+
+    # Returns the user login-form with validated fields
     login_form = um.LoginForm()
 
+    # If the form can be validated
     if login_form.validate_on_submit():
         submitted_user = User.query.filter_by(email=login_form.email.data).first()
-        # If form email matches stored email
+        # If the email provided in the form matches stored email
         if submitted_user:
             # If hashed form password == hashed stored password
             if check_password_hash(submitted_user.pword, login_form.password.data):
                 userID = submitted_user.id
                 login_user(submitted_user, remember=login_form.remember.data)
                 flash("Successfully logged in!")
-                return render_template('index.html', form=login_form)
+                return redirect(url_for('profile'))
             else:
                 flash("Invalid login details!")
     return render_template('index.html', form=login_form)
@@ -133,12 +138,15 @@ def signup():
 
     # If form is submitted
     if reg_form.validate_on_submit():
+        # Generates a password hash which will be stored in the DB
         password_hash = generate_password_hash(reg_form.password.data, method='sha256')
+        # Creates User class which will be used to populate the D, if successful
         new_user = User(uname=reg_form.username.data.lower(),
                         email=reg_form.email.data.lower(),
                         pword=password_hash
                         )
 
+        # Query if username/email already exist and provide appropriate error messages
         check_email = User.query.filter_by(email=reg_form.email.data).first()
         check_username = User.query.filter_by(uname=reg_form.username.data).first()
 
@@ -154,7 +162,7 @@ def signup():
     return render_template('signup.html', form=reg_form)
 
 
-# Login page route
+# Login page route - same login procedure as with 'index'
 @app.route('/login', methods=['POST', 'GET'])
 def login():
     login_form = um.LoginForm()
@@ -166,16 +174,17 @@ def login():
             if check_password_hash(submitted_user.pword, login_form.password.data):
                 login_user(submitted_user, remember=login_form.remember.data)
                 flash("Successfully logged in!")
-                return render_template('practice.html')
+                return redirect(url_for('profile'))
             else:
                 flash("Invalid login details!")
     return render_template('login.html', form=login_form)
 
 
-# logout page
+# logout page - hardcoded logout function
 @app.route('/logout')
 @login_required
 def logout():
+    form = um.LoginForm
     global userID
     userID = None
     logout_user()
@@ -183,17 +192,10 @@ def logout():
     return redirect(url_for('index'))
 
 
-# Test page for private pages that require authentication
-@app.route('/secret_page', methods=['POST', 'GET'])
-@login_required
-def secret_page():
-    return "<h1>Test Page - Only logged in users should see this message</h1>"
-
-
 # Practice page for non-authenticated user
 @app.route('/practice', methods=['POST', 'GET'])
 def practice():
-    
+    # Ensure paths are correct for Windows and linux - only necessary for local testing
     if platform.system() == 'Linux':
         Frequency_dicts = os.listdir('TextGeneration/FrequencyDictionaries')
         Frequency_dicts.remove('LetterFrequency.json')
@@ -209,7 +211,8 @@ def practice():
     output = " ".join([str(word) for word in output])
 
     return render_template('practice.html', generated_text=output)
-    
+
+
 @app.route('/reset', methods=['GET'])
 def reset():
     if platform.system() == 'Linux':
@@ -228,6 +231,7 @@ def reset():
 
     return jsonify({'reply':output})
 
+
 @app.route('/stats',methods=['POST'])
 def store_stats():
     global userID
@@ -238,7 +242,8 @@ def store_stats():
         stats = [userID] + stats
         DB.upload_game(stats)
     return jsonify({'reply':'success'})
-    
+
+
 @app.route('/loggedinidwpm',methods=['GET'])
 def ifLoggedInSendIDandWPM():
     global userID
