@@ -12,6 +12,7 @@ import Source.user_management as um
 from Source.db_setup import username, password, server, db_name
 from Source.RandomWordMarkovGenerator import read_frequency_JSON, generate_random_paragraph
 from Source.db_interaction import DB
+from Source import friendsChart
 
 
 # Configure and instantiate the flask app
@@ -122,7 +123,9 @@ def profile():
     wpm_worst_statement = "SELECT `wpm_worst` FROM `stats` WHERE id = %s;" % userID
     cursor.execute(wpm_worst_statement)
     wpm_worst_response = cursor.fetchall()[0][0]
-    return render_template('profile.html', uname = username_response, data1 = solo_game_response, data2 = online_game_response, data3 = words_response, data4 = chars_response, data5 = wpm_response, data6 = accuracy_response, data7 = wpm_best_response, data8 = wpm_worst_response, data9 = acc_best_response, data10 = acc_worst_response)
+  
+    (wpmChartJSON, accChartJSON) = friendsChart.get_charts(userID)
+    return render_template('profile.html', uname = username_response, data1 = solo_game_response, data2 = online_game_response, data3 = words_response, data4 = chars_response, data5 = wpm_response, data6 = accuracy_response, data7 = wpm_best_response, data8 = wpm_worst_response, data9 = acc_best_response, data10 = acc_worst_response, wpmChartJSON = wpmChartJSON, accChartJSON = accChartJSON)
 
 
 # signup page
