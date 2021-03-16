@@ -261,9 +261,9 @@ def followUser():
         cursor = con.cursor()
         #attempt to obtain id assuming uname was entered
         cursor.execute("SELECT id FROM user WHERE uname = %s;", (userToFollow))
-        response = cursor.fetchall()
+        response = cursor.fetchall()[0][0]
         #reject if either value entered or obtained from db matches userID
-        if userToFollow == userID or response == int(userID):
+        if str(userToFollow) == str(userID) or str(response) == int(userID):
             return jsonify({'reply':'failure'})
         #value entered is not username
         if len(response) == 0:
