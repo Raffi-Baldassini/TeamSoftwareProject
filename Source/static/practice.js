@@ -205,7 +205,6 @@ function resetGame(newText) {
   currentLetterIndex = 0;
   over = false;
   isRedo = false;
-  displayProfileandGetInfoIfLoggedIN();
   setStatLoop();
 }
 
