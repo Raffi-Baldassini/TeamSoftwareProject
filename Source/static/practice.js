@@ -317,11 +317,13 @@ document.body.addEventListener("keydown", function (e) {
       }
       //changes incorrect character to be red
       else {
+		mistakeBuffer = 31
         if (currentLetterIndex !== 0) {
           mistakes++;
           if (generated[currentLetterIndex] == " ") {
             newGenerated =
-              newGenerated + '<b style="color:#8B0000;">' + "_" + "</b>";
+              newGenerated + '<b style="color:#8B0000; text-decoration: underline;">' + "_" + "</b>";
+			  mistakeBuffer = 59
           } else {
             newGenerated =
               newGenerated +
@@ -332,7 +334,7 @@ document.body.addEventListener("keydown", function (e) {
           document.getElementsByClassName("generated")[0].innerHTML =
             newGenerated +
             generated.substring(currentLetterIndex + 1, generated.length);
-          newGenerated = newGenerated.substring(0, newGenerated.length - 31);
+          newGenerated = newGenerated.substring(0, newGenerated.length - mistakeBuffer);
         }
       }
     }
