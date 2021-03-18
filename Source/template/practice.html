@@ -2,156 +2,155 @@
 {% import "bootstrap/wtf.html" as wtf %}
 
 {% block head %}
-  {{ super() }}
-  <meta charset="utf-8" />
-  <title>{% block title %}{% endblock %}Tying Trainer</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	{{ super() }}
+	<meta charset="utf-8" />
+	<title>{% block title %}{% endblock %}Tying Trainer</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 {% endblock %}
 
 {% block styles %}
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-  <link rel="stylesheet" href="{{url_for('.static', filename='normalize.css')}}">
-  <link rel="stylesheet" href="{{url_for('.static', filename='base.css')}}">
-  
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	<link rel="stylesheet" href="{{url_for('.static', filename='normalize.css')}}">
+	<link rel="stylesheet" href="{{url_for('.static', filename='base.css')}}">
 {% endblock %}
 
 {% block content %}
 	
 
     <nav class="navbar navbar-expand">
-      <div class="container-fluid">
-        <a class="navbar-brand" href="../">Typing Trainer</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-            <li class="nav-item" id="profile-link">
-              
-            </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="dropdown04"  role="button" data-bs-toggle="dropdown" aria-expanded="false">Categories</a>
-              <ul class="dropdown-menu" aria-labelledby="dropdown04">
-                <li><a class="dropdown-item" href="#">Category 1</a></li>
-                <li><a class="dropdown-item" href="#">Category 2</a></li>
-                <li><a class="dropdown-item" href="#">Category 3</a></li>
-              </ul>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </nav>
-    {% with messages = get_flashed_messages() %}
-    {% if messages %}
-      {% for message in messages %}
-        <div class="row" id="message_box_container">
-          <div id="message_box">
-            <h3>{{ message }}</h3>
-          </div>
-        </div>
-      {% endfor %}
-    {% endif %}
-    {% endwith %}
-
-    <div class="row" id="header-container">
-      <div class="col-md">
-        <h1 style="font-size:2vw">Practice </h1>
-      </div>
-    </div>
-	
-    <div class="row" id="header-container">
-      <div style="position: relative;width:50vw;height:7.5vw;margin: 0 auto">
-			<div class="game-box">
-				<p class="generated">{{ generated_text }}</p>
-				<br>
-				<p class="stats">
-				words: 0 characters: 0 time taken: 0 mistakes: 0 wpm: 0 acc: 0
-				</p>
+		<div class="container-fluid">
+			<a class="navbar-brand" href="../">Typing Trainer</a>
+			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+			<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+				<li class="nav-item" id="profile-link">
+				
+				</li>
+				<li class="nav-item dropdown">
+				<a class="nav-link dropdown-toggle" href="#" id="dropdown04"  role="button" data-bs-toggle="dropdown" aria-expanded="false">Categories</a>
+				<ul class="dropdown-menu" aria-labelledby="dropdown04">
+					<li><a class="dropdown-item" href="#">Category 1</a></li>
+					<li><a class="dropdown-item" href="#">Category 2</a></li>
+					<li><a class="dropdown-item" href="#">Category 3</a></li>
+				</ul>
+				</li>
+			</ul>
 			</div>
-      </div>
-    </div>
-	
-	<div class="row" id="header-container">
-		<div class="game-box" style="position: relative;width:80vw;height:19vw;margin: 0 auto">				
-				<div class="keyboard">
-				  <div class="keyboard__row">
-					<div class="key--double" data-key="222">
-					  <div>~</div>
-					  <div>`</div>
+		</div>
+		</nav>
+		{% with messages = get_flashed_messages() %}
+		{% if messages %}
+		{% for message in messages %}
+			<div class="row" id="message_box_container">
+			<div id="message_box">
+				<h3>{{ message }}</h3>
+			</div>
+			</div>
+		{% endfor %}
+		{% endif %}
+		{% endwith %}
+
+		<div class="row" id="header-container">
+		<div class="col-md">
+			<h1 style="font-size:2vw">Practice </h1>
+		</div>
+		</div>
+		
+		<div class="row" id="header-container">
+		<div style="position: relative;width:50vw;height:7.5vw;margin: 0 auto">
+				<div class="game-box">
+					<p class="generated">{{ generated_text }}</p>
+					<br>
+					<p class="stats">
+					words: 0 characters: 0 time taken: 0 mistakes: 0 wpm: 0 acc: 0
+					</p>
+				</div>
+		</div>
+		</div>
+		
+		<div class="row" id="header-container">
+			<div class="game-box" style="position: relative;width:80vw;height:19vw;margin: 0 auto">				
+					<div class="keyboard">
+					<div class="keyboard__row">
+						<div class="key--double" data-key="222">
+						<div>~</div>
+						<div>`</div>
+						</div>
+						<div class="key--double" data-key="49">
+						<div>!</div>
+						<div>1</div>
+						</div>
+						<div class="key--double" data-key="50">
+						<div>@</div>
+						<div>2</div>
+						</div>
+						<div class="key--double" data-key="51">
+						<div>#</div>
+						<div>3</div>
+						</div>
+						<div class="key--double" data-key="52">
+						<div>$</div>
+						<div>4</div>
+						</div>
+						<div class="key--double" data-key="53">
+						<div>%</div>
+						<div>5</div>
+						</div>
+						<div class="key--double" data-key="54">
+						<div>^</div>
+						<div>6</div>
+						</div>
+						<div class="key--double" data-key="55">
+						<div>&</div>
+						<div>7</div>
+						</div>
+						<div class="key--double" data-key="56">
+						<div>*</div>
+						<div>8</div>
+						</div>
+						<div class="key--double" data-key="57">
+						<div>(</div>
+						<div>9</div>
+						</div>
+						<div class="key--double" data-key="48">
+						<div>)</div>
+						<div>0</div>
+						</div>
+						<div class="key--double" data-key="189">
+						<div>_</div>
+						<div>-</div>
+						</div>
+						<div class="key--double" data-key="187">
+						<div>+</div>
+						<div>=</div>
+						</div>
+						<div class="key--bottom-right key--word key--w4" id="backspace" data-key="8">
+						<span>reset</span>
+						</div>
 					</div>
-					<div class="key--double" data-key="49">
-					  <div>!</div>
-					  <div>1</div>
-					</div>
-					<div class="key--double" data-key="50">
-					  <div>@</div>
-					  <div>2</div>
-					</div>
-					<div class="key--double" data-key="51">
-					  <div>#</div>
-					  <div>3</div>
-					</div>
-					<div class="key--double" data-key="52">
-					  <div>$</div>
-					  <div>4</div>
-					</div>
-					<div class="key--double" data-key="53">
-					  <div>%</div>
-					  <div>5</div>
-					</div>
-					<div class="key--double" data-key="54">
-					  <div>^</div>
-					  <div>6</div>
-					</div>
-					<div class="key--double" data-key="55">
-					  <div>&</div>
-					  <div>7</div>
-					</div>
-					<div class="key--double" data-key="56">
-					  <div>*</div>
-					  <div>8</div>
-					</div>
-					<div class="key--double" data-key="57">
-					  <div>(</div>
-					  <div>9</div>
-					</div>
-					<div class="key--double" data-key="48">
-					  <div>)</div>
-					  <div>0</div>
-					</div>
-					<div class="key--double" data-key="189">
-					  <div>_</div>
-					  <div>-</div>
-					</div>
-					<div class="key--double" data-key="187">
-					  <div>+</div>
-					  <div>=</div>
-					</div>
-					<div class="key--bottom-right key--word key--w4" id="backspace" data-key="8">
-					  <span>reset</span>
-					</div>
-				  </div>
-				  <div class="keyboard__row">
-					<div class="key--bottom-left key--word key--w4" data-key="9">
-					  <span>tab</span>
-					</div>
-					<div class="key--letter" data-char="Q">Q</div>
-					<div class="key--letter" data-char="W">W</div>
-					<div class="key--letter" data-char="E">E</div>
-					<div class="key--letter" data-char="R">R</div>
-					<div class="key--letter" data-char="T">T</div>
-					<div class="key--letter" data-char="Y">Y</div>
-					<div class="key--letter" data-char="U">U</div>
-					<div class="key--letter" data-char="I">I</div>
-					<div class="key--letter" data-char="O">O</div>
-					<div class="key--letter" data-char="P">P</div>
-					<div class="key--double" data-key="219" data-char="{[">
-					  <div>{</div>
-					  <div>[</div>
-					</div>
-					<div class="key--double" data-key="221" data-char="}]">
-					  <div>}</div>
-					  <div>]</div>
+					<div class="keyboard__row">
+						<div class="key--bottom-left key--word key--w4" data-key="9">
+						<span>tab</span>
+						</div>
+						<div class="key--letter" data-char="Q">Q</div>
+						<div class="key--letter" data-char="W">W</div>
+						<div class="key--letter" data-char="E">E</div>
+						<div class="key--letter" data-char="R">R</div>
+						<div class="key--letter" data-char="T">T</div>
+						<div class="key--letter" data-char="Y">Y</div>
+						<div class="key--letter" data-char="U">U</div>
+						<div class="key--letter" data-char="I">I</div>
+						<div class="key--letter" data-char="O">O</div>
+						<div class="key--letter" data-char="P">P</div>
+						<div class="key--double" data-key="219" data-char="{[">
+						<div>{</div>
+						<div>[</div>
+						</div>
+						<div class="key--double" data-key="221" data-char="}]">
+						<div>}</div>
+						<div>]</div>
 					</div>
 					<div class="key--double" data-key="220" data-char="|\">
 					  <div>|</div>

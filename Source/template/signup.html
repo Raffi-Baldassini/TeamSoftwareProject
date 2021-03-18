@@ -2,74 +2,74 @@
 {% import "bootstrap/wtf.html" as wtf %}
 
 {% block head %}
-  {{ super() }}
-  <meta charset="utf-8" />
-  <title>{% block title %}{% endblock %}Tying Trainer</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <script src="{{url_for('.static', filename='scripts.js')}}"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-{% endblock %}
+    {{ super() }}
+    <meta charset="utf-8" />
+    <title>{% block title %}{% endblock %}Tying Trainer</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <script src="{{url_for('.static', filename='scripts.js')}}"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    {% endblock %}
 
 {% block styles %}
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-  <link rel="stylesheet" href="{{url_for('.static', filename='normalize.css')}}">
-  <link rel="stylesheet" href="{{url_for('.static', filename='base.css')}}">
-  <link rel="stylesheet" href="{{url_for('.static', filename='signup.css')}}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{url_for('.static', filename='normalize.css')}}">
+    <link rel="stylesheet" href="{{url_for('.static', filename='base.css')}}">
+    <link rel="stylesheet" href="{{url_for('.static', filename='signup.css')}}">
 {% endblock %}
 
 {% block content %}
-<div class="container">
-  <div class="row" id="header">
-    <a href="{{ url_for('index') }}">
-      <h1>Typing Trainer</h1>
-    </a>
-  </div>
-
-  <div class="row" id="account_popup">
-    {% with messages = get_flashed_messages() %}
-      {% if messages %}
-        {% for message in messages %}
-          <div class="row" id="message_box_container">
-            <div id="message_box">
-              <h3>{{ message }}</h3>
-            </div>
-
-          </div>
-        {% endfor %}
-      {% endif %}
-    {% endwith %}
-
-    <div class="col-md" id="account_popup_container">
-      <a href="{{ url_for('index') }}">
-        <button class="row btn exit">Close</button>
-      </a>
-
-      <form class="form-signin" method="POST" action="/signup">
-        {{ form.hidden_tag() }} <!--- XSS request forgery token --->
-        {{ wtf.form_field(form.username) }}
-        {{ wtf.form_field(form.email) }}
-        {{ wtf.form_field(form.password) }}
-        {{ wtf.form_field(form.confirm_password) }}
-        <button type="submit" class="btn">Create Account</button>
-      </form>
-
-      <div class="row" id="sign_up_container">
-        <h2>Already have an account?</h2>
-        <button class="signup_button">
-          <a href="{{ url_for('index') }}">Sign in</a>
-        </button>
-      </div>
+    <div class="container">
+    <div class="row" id="header">
+        <a href="{{ url_for('index') }}">
+        <h1>Typing Trainer</h1>
+        </a>
     </div>
-  </div>
-</div>
 
-<div class="mobile-content">
-  <h2>Typing Trainer</h2>
-  <p>Oops! Our developers found a tear in the spacetime continuum and haven't returned yet to develop a mobile version
-    of Typing Trainer!</p>
-    <br>
-  <p>Come back to us on a laptop or PC!</p>
-  <img src="static/assets/space_devs.gif">
-</div>
+    <div class="row" id="account_popup">
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+            <div class="row" id="message_box_container">
+                <div id="message_box">
+                <h3>{{ message }}</h3>
+                </div>
+
+            </div>
+            {% endfor %}
+        {% endif %}
+        {% endwith %}
+
+        <div class="col-md" id="account_popup_container">
+        <a href="{{ url_for('index') }}">
+            <button class="row btn exit">Close</button>
+        </a>
+
+        <form class="form-signin" method="POST" action="/signup">
+            {{ form.hidden_tag() }} <!--- XSS request forgery token --->
+            {{ wtf.form_field(form.username) }}
+            {{ wtf.form_field(form.email) }}
+            {{ wtf.form_field(form.password) }}
+            {{ wtf.form_field(form.confirm_password) }}
+            <button type="submit" class="btn">Create Account</button>
+        </form>
+
+        <div class="row" id="sign_up_container">
+            <h2>Already have an account?</h2>
+            <button class="signup_button">
+            <a href="{{ url_for('index') }}">Sign in</a>
+            </button>
+        </div>
+        </div>
+    </div>
+    </div>
+
+    <div class="mobile-content">
+    <h2>Typing Trainer</h2>
+    <p>Oops! Our developers found a tear in the spacetime continuum and haven't returned yet to develop a mobile version
+        of Typing Trainer!</p>
+        <br>
+    <p>Come back to us on a laptop or PC!</p>
+    <img src="static/assets/space_devs.gif">
+    </div>
 
 {% endblock %}

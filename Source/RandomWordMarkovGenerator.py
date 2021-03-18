@@ -21,7 +21,7 @@ def generate_word_dictionary(inputString):
         appendItem = get_NGram(wordList, i, order)
         if i == 0:
             firstNGram = appendItem
-        nextNGram = get_NGram(wordList, i+order, order)
+        nextNGram = get_NGram(wordList, i + order, order)
         if appendItem not in wordDictionary:
             wordDictionary[appendItem] = {}
         if nextNGram not in wordDictionary[appendItem]:
@@ -33,6 +33,7 @@ def generate_word_dictionary(inputString):
         wordDictionary[finalNGram] = {firstNGram: 1}
 
     return wordDictionary
+
 
 def get_NGram(wordList, position, order):
     '''
@@ -57,6 +58,7 @@ def get_NGram(wordList, position, order):
 
     return output.strip()
 
+
 def clean_input_text(inputString):
     '''
     Cleans the input text, removing obscure characters and splitting dashed words
@@ -71,7 +73,9 @@ def clean_input_text(inputString):
     inputString = list(inputString)
     for char in range(len(inputString)):
 
-        if not inputString[char].isalpha() and inputString[char] not in ['.', ',', ';', '?', '\'']:
+        if not inputString[char].isalpha() and inputString[char] not in [
+                '.', ',', ';', '?', '\''
+        ]:
             if inputString[char] == '’':
                 inputString[char] = '\''
             else:
@@ -82,9 +86,8 @@ def clean_input_text(inputString):
     for word in range(len(cleanedText)):
         if not check_valid_word(cleanedText[word]):
             cleanedText[word] = ''
-    
-    return ' '.join(map(str, cleanedText))
 
+    return ' '.join(map(str, cleanedText))
 
 
 def check_valid_word(checkedWord):
@@ -138,10 +141,7 @@ def generate_random_paragraph(wordDictionary, length):
 if __name__ == '__main__':
 
     wordDictionary = generate_word_dictionary(
-        clean_input_text(
-            import_text_file(
-                'TextGeneration\\Frankenstein.txt'
-            )))
+        clean_input_text(import_text_file('TextGeneration\\Frankenstein.txt')))
     generate_frequency_JSON(wordDictionary, 'FrankensteinWordFrequency')
     startTime = time.time()
     if platform.system() == 'Linux':
@@ -149,8 +149,7 @@ if __name__ == '__main__':
             'TextGeneration/FrankensteinWordFrequency.json')
     elif platform.system() == 'Windows':
         wordDictionary = read_frequency_JSON(
-            'TextGeneration\\FrankensteinWordFrequency.JSON'
-        )
+            'TextGeneration\\FrankensteinWordFrequency.JSON')
 
     print(time.time() - startTime)
     for i in range(10):

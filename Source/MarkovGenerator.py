@@ -1,7 +1,7 @@
 from random import choice, randint
 
-
-with open("TextGeneration/Texts/Frankenstein.txt", encoding='UTF-8') as inputFile:
+with open("TextGeneration/Texts/Frankenstein.txt",
+          encoding='UTF-8') as inputFile:
     inputText = inputFile.read()
 
 
@@ -41,7 +41,8 @@ def markovGenerator(textInput, order, Textlength, nGrams=None):
                                              order):len(markovString)]
     return markovString
 
-if __name__ == '__main__':
-    print('\nNGram order of 1:\n',markovGenerator(inputText, 1, 30))
 
-    print('\nNGram order of 5:\n',markovGenerator(inputText, 5, 30))
+if __name__ == '__main__':
+    print('\nNGram order of 1:\n', markovGenerator(inputText, 1, 30))
+
+    print('\nNGram order of 5:\n', markovGenerator(inputText, 5, 30))

@@ -4,15 +4,15 @@ import pymysql
 from Source.db_interaction import DB
 from datetime import datetime, date
 import time
-
 """
 TO_DO:
     Format to style guide
 """
 
+
 #gets a username from an id
 def get_uname(user):
-    cursor=DB.get_cursor()
+    cursor = DB.get_cursor()
     cursor.execute("SELECT uname FROM user WHERE id=%s;", (user))
     return cursor.fetchall()[0][0]
 
@@ -20,7 +20,12 @@ def get_uname(user):
 #creates a list of tuples (year, month) to be used for generating x-axis labels and for querying Db
 def last_six_months():
     now = time.localtime()
-    t = [time.localtime(time.mktime((now.tm_year, now.tm_mon - n, 1, 0, 0, 0, 0, 0, 0)))[:2] for n in range(6)]
+    t = [
+        time.localtime(
+            time.mktime(
+                (now.tm_year, now.tm_mon - n, 1, 0, 0, 0, 0, 0, 0)))[:2]
+        for n in range(6)
+    ]
     t.reverse()
     return t
 
@@ -32,7 +37,9 @@ def construct_data(user, stat):
     data = []
     for n in range(6):
         #extracts the highest value achieved by a user in a stat for each of the last six months
-        cursor.execute(f"SELECT max({stat}) FROM records WHERE MONTH(score_date) = {last_six[n][1]} AND YEAR(score_date) = {last_six[n][0]} AND id = {user};")
+        cursor.execute(
+            f"SELECT max({stat}) FROM records WHERE MONTH(score_date) = {last_six[n][1]} AND YEAR(score_date) = {last_six[n][0]} AND id = {user};"
+        )
         wpm = cursor.fetchall()[0][0]
         #None value equates to a max stat of 0
         if wpm == None:
@@ -45,7 +52,6 @@ def construct_data(user, stat):
 #returns a list of the last six months' string representation
 def get_months():
     return [date(1900, i[1], 1).strftime('%B') for i in last_six_months()]
-    
 
 
 #obtains a list of the ids that are registered as friends of 'user'
@@ -53,7 +59,8 @@ def get_friends(user):
     cursor = DB.get_cursor()
     cursor.execute(f"SELECT friend_id FROM friends WHERE id = {user};")
     return [i[0] for i in cursor.fetchall()]
-        
+
+
 def get_charts(user_id, max_wpm=0):
     #Due to the limitations of pyChartJS, chart and Data classes have been hardcoded
     #A chart is created by creating a class inheriting from BaseChart, defining classes for data, labels and (optionally) options
@@ -77,7 +84,7 @@ def get_charts(user_id, max_wpm=0):
                 _color = Color.JSLinearGradient('ctx', 0, 0, 1000, 0)
                 _color.addColorStop(0, Color.Olive)
                 _color.addColorStop(1, Color.Green)
-                
+
                 borderColor = _color.returnGradient()
                 fill = False
                 pointBorderWidth = 10
@@ -89,10 +96,9 @@ def get_charts(user_id, max_wpm=0):
                 if len(friends) > 0:
                     label = get_uname(friends[0])
                     data = construct_data(friends[0], "wpm")
-                borderColor = Color.JSLinearGradient('ctx', 0, 0, 1000, 0,
-                                                         (0, Color.Red), 
-                                                         (1, Color.Magenta)
-                                                         ).returnGradient()
+                borderColor = Color.JSLinearGradient(
+                    'ctx', 0, 0, 1000, 0, (0, Color.Red),
+                    (1, Color.Magenta)).returnGradient()
                 fill = False
                 pointBorderWidth = 10
                 pointRadius = 3
@@ -103,10 +109,9 @@ def get_charts(user_id, max_wpm=0):
                 if len(friends) > 1:
                     label = get_uname(friends[1])
                     data = construct_data(friends[1], "wpm")
-                    borderColor = Color.JSLinearGradient('ctx', 0, 0, 1000, 0,
-                                                         (0, Color.Yellow), 
-                                                         (1, Color.Orange)
-                                                         ).returnGradient()
+                    borderColor = Color.JSLinearGradient(
+                        'ctx', 0, 0, 1000, 0, (0, Color.Yellow),
+                        (1, Color.Orange)).returnGradient()
                     fill = False
                     pointBorderWidth = 10
                     pointRadius = 3
@@ -120,7 +125,7 @@ def get_charts(user_id, max_wpm=0):
                     _color = Color.JSLinearGradient('ctx', 0, 0, 1000, 0)
                     _color.addColorStop(0, Color.Teal)
                     _color.addColorStop(1, Color.Cyan)
-                    
+
                     borderColor = _color.returnGradient()
                     fill = False
                     pointBorderWidth = 10
@@ -132,10 +137,9 @@ def get_charts(user_id, max_wpm=0):
                 if len(friends) > 3:
                     label = get_uname(friends[3])
                     data = construct_data(friends[3], "wpm")
-                    borderColor = Color.JSLinearGradient('ctx', 0, 0, 1000, 0,
-                                                             (0, Color.Red), 
-                                                             (1, Color.Magenta)
-                                                             ).returnGradient()
+                    borderColor = Color.JSLinearGradient(
+                        'ctx', 0, 0, 1000, 0, (0, Color.Red),
+                        (1, Color.Magenta)).returnGradient()
                     fill = False
                     pointBorderWidth = 10
                     pointRadius = 3
@@ -157,15 +161,18 @@ def get_charts(user_id, max_wpm=0):
             grouped = get_months()
 
         class options:
-            title   = Options.Title(text="WPM Over Time", fontSize=18)
-            _lables = Options.Legend_Labels(fontColor=Color.Gray, fullWidth=True)
-            legend  = Options.Legend(position='Bottom', labels=_lables)
-            _yAxes = [Options.General(ticks=Options.General(beginAtZero=True, padding=15, max = 200))]
+            title = Options.Title(text="WPM Over Time", fontSize=18)
+            _lables = Options.Legend_Labels(fontColor=Color.Gray,
+                                            fullWidth=True)
+            legend = Options.Legend(position='Bottom', labels=_lables)
+            _yAxes = [
+                Options.General(ticks=Options.General(
+                    beginAtZero=True, padding=15, max=200))
+            ]
             scales = Options.General(yAxes=_yAxes)
 
     class accChart(BaseChart):
         type = ChartType.Line
-        
 
         class data:
             class user:
@@ -174,7 +181,7 @@ def get_charts(user_id, max_wpm=0):
                 _color = Color.JSLinearGradient('ctx', 0, 0, 1000, 0)
                 _color.addColorStop(0, Color.Olive)
                 _color.addColorStop(1, Color.Green)
-                
+
                 borderColor = _color.returnGradient()
                 fill = False
                 pointBorderWidth = 10
@@ -186,10 +193,9 @@ def get_charts(user_id, max_wpm=0):
                 if len(friends) > 0:
                     label = get_uname(friends[0])
                     data = construct_data(friends[0], "acc")
-                    borderColor = Color.JSLinearGradient('ctx', 0, 0, 1000, 0,
-                                                             (0, Color.Red), 
-                                                             (1, Color.Magenta)
-                                                             ).returnGradient()
+                    borderColor = Color.JSLinearGradient(
+                        'ctx', 0, 0, 1000, 0, (0, Color.Red),
+                        (1, Color.Magenta)).returnGradient()
                     fill = False
                     pointBorderWidth = 10
                     pointRadius = 3
@@ -200,10 +206,9 @@ def get_charts(user_id, max_wpm=0):
                 if len(friends) > 1:
                     label = get_uname(friends[1])
                     data = construct_data(friends[1], "acc")
-                    borderColor = Color.JSLinearGradient('ctx', 0, 0, 1000, 0,
-                                                         (0, Color.Yellow), 
-                                                         (1, Color.Orange)
-                                                         ).returnGradient()
+                    borderColor = Color.JSLinearGradient(
+                        'ctx', 0, 0, 1000, 0, (0, Color.Yellow),
+                        (1, Color.Orange)).returnGradient()
                     fill = False
                     pointBorderWidth = 10
                     pointRadius = 3
@@ -217,7 +222,7 @@ def get_charts(user_id, max_wpm=0):
                     _color = Color.JSLinearGradient('ctx', 0, 0, 1000, 0)
                     _color.addColorStop(0, Color.Teal)
                     _color.addColorStop(1, Color.Cyan)
-                    
+
                     borderColor = _color.returnGradient()
                     fill = False
                     pointBorderWidth = 10
@@ -229,10 +234,9 @@ def get_charts(user_id, max_wpm=0):
                 if len(friends) > 3:
                     label = get_uname(friends[3])
                     data = construct_data(friends[3], "acc")
-                    borderColor = Color.JSLinearGradient('ctx', 0, 0, 1000, 0,
-                                                             (0, Color.Red), 
-                                                             (1, Color.Magenta)
-                                                             ).returnGradient()
+                    borderColor = Color.JSLinearGradient(
+                        'ctx', 0, 0, 1000, 0, (0, Color.Red),
+                        (1, Color.Magenta)).returnGradient()
                     fill = False
                     pointBorderWidth = 10
                     pointRadius = 3
@@ -252,14 +256,18 @@ def get_charts(user_id, max_wpm=0):
 
         class labels:
             grouped = get_months()
-            
+
         class options:
-            title   = Options.Title(text="Accuracy Over Time", fontSize=18)
-            _lables = Options.Legend_Labels(fontColor=Color.Gray, fullWidth=True)
-            legend  = Options.Legend(position='Bottom', labels=_lables)
-            _yAxes = [Options.General(ticks=Options.General(beginAtZero=True, padding=15, max=100))]
+            title = Options.Title(text="Accuracy Over Time", fontSize=18)
+            _lables = Options.Legend_Labels(fontColor=Color.Gray,
+                                            fullWidth=True)
+            legend = Options.Legend(position='Bottom', labels=_lables)
+            _yAxes = [
+                Options.General(ticks=Options.General(
+                    beginAtZero=True, padding=15, max=100))
+            ]
             scales = Options.General(yAxes=_yAxes)
-    
+
     wpm = wpmChart()
     acc = accChart()
     return wpm.get(), acc.get()
