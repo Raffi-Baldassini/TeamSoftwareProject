@@ -272,7 +272,7 @@ def followUser():
             #id does not exist
             if not response:
                 return jsonify({'reply':'failure'})
-        cursor.execute("INSERT INTO friends(id, friend_id) VALUES (%s, %s), (%s, %s);", (userID, response, response, userID))
+        cursor.execute("INSERT INTO friends(id, friend_id) VALUES (%s, %s);", (userID, response))
         con.commit()
         con.close()
         return jsonify({'reply':'success'})
