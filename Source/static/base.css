@@ -194,7 +194,9 @@ button>p:hover {
 #sign_up_container h2{
 	color: white;
 }
-
+.account_button{
+    margin: 22px 0px 22px 22px;
+}
 /* Login screen popup */
 #account_popup{
     position: fixed;
