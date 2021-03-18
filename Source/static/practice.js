@@ -401,8 +401,6 @@ if (currTheme == "dark") {
 
 function changeTheme() {
   var x = document.getElementById("themeLabel");
-  console.log(x);
-  console.log("hello");
   if (document.getElementById("theme").checked == true) {
     document.documentElement.setAttribute("theme", "dark");
     document.documentElement.classList.add("change");
