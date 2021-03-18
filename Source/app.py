@@ -266,11 +266,11 @@ def followUser():
         if str(userToFollow) == str(userID) or str(response) == int(userID):
             return jsonify({'reply':'failure'})
         #value entered is not username
-        if len(response) == 0:
+        if !response:
             cursor.execute("SELECT id FROM user WHERE id = %s;", (userToFollow))
             response = cursor.fetchall()
             #id does not exist
-            if len(response) == 0:
+            if !response:
                 return jsonify({'reply':'failure'})
         cursor.execute("INSERT INTO friends(id, friend_id) VALUES (%s, %s), (%s, %s);", (userID, response, response, userID))
         con.commit()
