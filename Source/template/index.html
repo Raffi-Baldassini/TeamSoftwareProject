@@ -47,16 +47,12 @@
                 <p>Login/Signup</p>
             </button>
             {% else %}
-            <button>
-                <a href="{{ url_for('logout') }}">Logout</a>
-            </button>
+                <a href="{{ url_for('logout') }}"><button><p>Logout</p></button></a>
             {% endif %}
         </div>
 
         <div class="col-md">
-            <button class="guest_button">
-                <a href="{{ url_for('practice') }}">Practice</a>
-            </button>
+                <a href="{{ url_for('practice') }}"><button class="guest_button"><p>Practice</p></button></a>    
         </div>
     </div>
 
