@@ -42,9 +42,15 @@
 
     <div class="row" id="button-container">
       <div class="col-md">
+        {% if current_user.is_anonymous %}
         <button class="account_button" onclick="openLogin()">
           <p>Login/Signup</p>
         </button>
+        {% else %}
+        <button>
+          <a href="{{ url_for('logout') }}">Logout</a>
+        </button>
+        {% endif %}
       </div>
 
       <div class="col-md">
