@@ -1,12 +1,12 @@
 # TeamSoftwareProject - Group 8
 
-## Beta-Release Documentation
+## Final Release Documentation
 
 ## About the Project:
 
 This typing trainer was developed as a means to practice touch typing, receiving feedback with every attempt and a way to collate your practice data over and extended period of time. Using Markov Chains, we generate text that closely mirrors real life applications. It was developed as a flask web app, and using JavaScript as the front end for the gameplay. The beta release only uses text generated from Mary Shelley's Frankenstein, but the final release will have a variety of sources to pull from to generate the practice sets.
 
-## Running the Beta:
+## Running the Project:
 
 ### From Your Local Machine:
 
@@ -25,7 +25,8 @@ or use the command `git clone  https://github.com/Raffi-Baldassini/TeamSoftwareP
 
 Once on the site, whether locally hosted or not, you'll have the option to sign-in, sign-up, or play as a guest. Further information on the specifics can be found on [this](https://github.com/Raffi-Baldassini/TeamSoftwareProject/blob/Development/Documents/howto.pdf) document.
 
-
+## Code Conventions:
+We employed the Google Python style guidelines while writing our code
 ## Contributors:
 
 * Shane Fitzgerald Knott
