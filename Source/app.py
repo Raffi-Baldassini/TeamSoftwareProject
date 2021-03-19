@@ -79,54 +79,72 @@ def index():
 @app.route('/profile', methods=['POST', 'GET'])
 @login_required
 def profile():
-    cursor = DB.get_cursor()
     global userID
-
+    con = DB.connect_db()
+    cursor = con.cursor()
+    
     username_statement = "SELECT `uname` FROM `user` WHERE id = %s;" % userID
     cursor.execute(username_statement)
     username_response = cursor.fetchall()[0][0]
+    
+    cursor.execute("SELECT id FROM stats WHERE id = %s", (userID))
+    if len(cursor.fetchall()) == 0:
+        cursor.execute("INSERT INTO stats VALUES (%s,0,0,0,0,0,0,0,0,0,0)", (userID))
+        con.commit()
+        solo_game_response = 0
+        online_game_response = 0
+        words_response = 0
+        chars_response = 0
+        wpm_response = 0
+        accuracy_response = 0
+        acc_best_response =  0
+        acc_worst_response = 0
+        wpm_best_response = 0
+        wpm_worst_response = 0
+    else: 
 
-    solo_game_statement = "SELECT `solo_games` FROM `stats` WHERE id = %s;" % userID
-    cursor.execute(solo_game_statement)
-    solo_game_response = cursor.fetchall()[0][0]
+        solo_game_statement = "SELECT `solo_games` FROM `stats` WHERE id = %s;" % userID
+        cursor.execute(solo_game_statement)
+        solo_game_response = cursor.fetchall()[0][0]
 
-    online_game_statement = "SELECT `online_games` FROM `stats` WHERE id = %s;" % userID
-    cursor.execute(online_game_statement)
-    online_game_response = cursor.fetchall()[0][0]
+        online_game_statement = "SELECT `online_games` FROM `stats` WHERE id = %s;" % userID
+        cursor.execute(online_game_statement)
+        online_game_response = cursor.fetchall()[0][0]
 
-    words_statement = "SELECT `words` FROM `stats` WHERE id = %s;" % userID
-    cursor.execute(words_statement)
-    words_response = cursor.fetchall()[0][0]
+        words_statement = "SELECT `words` FROM `stats` WHERE id = %s;" % userID
+        cursor.execute(words_statement)
+        words_response = cursor.fetchall()[0][0]
 
-    chars_statement = "SELECT `chars` FROM `stats` WHERE id = %s;" % userID
-    cursor.execute(chars_statement)
-    chars_response = cursor.fetchall()[0][0]
+        chars_statement = "SELECT `chars` FROM `stats` WHERE id = %s;" % userID
+        cursor.execute(chars_statement)
+        chars_response = cursor.fetchall()[0][0]
 
-    wpm_statement = "SELECT `wpm` FROM `stats` WHERE id = %s;" % userID
-    cursor.execute(wpm_statement)
-    wpm_response = cursor.fetchall()[0][0]
+        wpm_statement = "SELECT `wpm` FROM `stats` WHERE id = %s;" % userID
+        cursor.execute(wpm_statement)
+        wpm_response = cursor.fetchall()[0][0]
 
-    accuracy_statement = "SELECT `accuracy` FROM `stats` WHERE id = %s;" % userID
-    cursor.execute(accuracy_statement)
-    accuracy_response = cursor.fetchall()[0][0]
+        accuracy_statement = "SELECT `accuracy` FROM `stats` WHERE id = %s;" % userID
+        cursor.execute(accuracy_statement)
+        accuracy_response = cursor.fetchall()[0][0]
 
-    acc_best_statement = "SELECT `acc_best` FROM `stats` WHERE id = %s;" % userID
-    cursor.execute(acc_best_statement)
-    acc_best_response = cursor.fetchall()[0][0]
+        acc_best_statement = "SELECT `acc_best` FROM `stats` WHERE id = %s;" % userID
+        cursor.execute(acc_best_statement)
+        acc_best_response = cursor.fetchall()[0][0]
 
-    acc_worst_statement = "SELECT `acc_worst` FROM `stats` WHERE id = %s;" % userID
-    cursor.execute(acc_worst_statement)
-    acc_worst_response = cursor.fetchall()[0][0]
+        acc_worst_statement = "SELECT `acc_worst` FROM `stats` WHERE id = %s;" % userID
+        cursor.execute(acc_worst_statement)
+        acc_worst_response = cursor.fetchall()[0][0]
 
-    wpm_best_statement = "SELECT `wpm_best` FROM `stats` WHERE id = %s;" % userID
-    cursor.execute(wpm_best_statement)
-    wpm_best_response = cursor.fetchall()[0][0]
+        wpm_best_statement = "SELECT `wpm_best` FROM `stats` WHERE id = %s;" % userID
+        cursor.execute(wpm_best_statement)
+        wpm_best_response = cursor.fetchall()[0][0]
 
-    wpm_worst_statement = "SELECT `wpm_worst` FROM `stats` WHERE id = %s;" % userID
-    cursor.execute(wpm_worst_statement)
-    wpm_worst_response = cursor.fetchall()[0][0]
+        wpm_worst_statement = "SELECT `wpm_worst` FROM `stats` WHERE id = %s;" % userID
+        cursor.execute(wpm_worst_statement)
+        wpm_worst_response = cursor.fetchall()[0][0]
 
     (wpmChartJSON, accChartJSON) = friendsChart.get_charts(userID)
+    
     return render_template('profile.html',
                            uname=username_response,
                            data1=solo_game_response,
@@ -158,6 +176,7 @@ def signup():
         new_user = User(uname=reg_form.username.data.lower(),
                         email=reg_form.email.data.lower(),
                         pword=password_hash)
+        
 
         # Query if username/email already exist and provide appropriate error messages
         check_email = User.query.filter_by(email=reg_form.email.data).first()
