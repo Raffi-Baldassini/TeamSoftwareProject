@@ -406,12 +406,12 @@ function changeTheme() {
     document.documentElement.setAttribute("theme", "dark");
     document.documentElement.classList.add("change");
     localStorage.setItem("theme", "dark");
-    x.innerHTML = "Dark Mode";
+    x.innerHTML = "Dark";
   } else {
     document.documentElement.setAttribute("theme", "");
     document.documentElement.classList.add("change");
     localStorage.setItem("theme", "");
-    x.innerHTML = "Light Mode";
+    x.innerHTML = "Light";
   }
 }
 //sets size of keyboard text
