@@ -12,24 +12,51 @@ def generate_word_dictionary(inputString):
     Returns: 
         Dictionary of format: {Word: {Subsequent Word: frequency}}
     '''
+    order = 2
     wordList = inputString.split()
     wordDictionary = {}
-    for i in range(len(wordList) - 1):
-        #Not necessary to define these variables, but makes functionality clear
-        currentWord = wordList[i].strip('(!?){}[];:’‘_"“”$')
-        nextWord = wordList[i + 1].strip('(!?){}[];:’‘_"“”$')
-        if not (check_valid_word(nextWord)):
-            nextWord = wordList[i + 2].strip('(!?){}[];:’‘_"“”$')
-        if check_valid_word(currentWord):
-            if currentWord not in wordDictionary:
-                wordDictionary[currentWord] = {nextWord: 0}
-            if nextWord not in wordDictionary[currentWord]:
-                wordDictionary[currentWord][nextWord] = 0
-            wordDictionary[currentWord][nextWord] += 1
-        else:
-            pass
+    finalNGram = None
+    firstNGram = None
+    for i in range(len(wordList)):
+        appendItem = get_NGram(wordList, i, order)
+        if i == 0:
+            firstNGram = appendItem
+        nextNGram = get_NGram(wordList, i + order, order)
+        if appendItem not in wordDictionary:
+            wordDictionary[appendItem] = {}
+        if nextNGram not in wordDictionary[appendItem]:
+            wordDictionary[appendItem][nextNGram] = 0
+        wordDictionary[appendItem][nextNGram] += 1
+        finalNGram = nextNGram
+
+    if finalNGram not in wordDictionary:
+        wordDictionary[finalNGram] = {firstNGram: 1}
 
     return wordDictionary
+
+
+def get_NGram(wordList, position, order):
+    '''
+    Generates an NGram of words
+
+    Args:
+        wordList: List containing every word in the text being analysed
+        position: index of first word in the NGram in the list
+        order: Length of generated NGram
+
+    Returns:
+        A NGram of specified length
+    '''
+    output = ''
+    for i in range(order):
+        index = position + i
+        if index >= len(wordList):
+            index = index - len(wordList)
+            output = output + ' ' + wordList[index]
+        else:
+            output = output + ' ' + wordList[index]
+
+    return output.strip()
 
 
 def clean_input_text(inputString):
@@ -46,10 +73,21 @@ def clean_input_text(inputString):
     inputString = list(inputString)
     for char in range(len(inputString)):
 
-        if not inputString[char].isalpha():
-            inputString[char] = ' '
+        if not inputString[char].isalpha() and inputString[char] not in [
+                '.', ',', ';', '?', '\''
+        ]:
+            if inputString[char] == '’':
+                inputString[char] = '\''
+            else:
+                inputString[char] = ' '
     cleanedText = ''
-    return cleanedText.join(inputString)
+    cleanedText = cleanedText.join(inputString).split()
+
+    for word in range(len(cleanedText)):
+        if not check_valid_word(cleanedText[word]):
+            cleanedText[word] = ''
+
+    return ' '.join(map(str, cleanedText))
 
 
 def check_valid_word(checkedWord):
@@ -62,7 +100,7 @@ def check_valid_word(checkedWord):
     Returns:
         True or False based on validity of word
     '''
-    blacklist = ['Project', 'Gutenberg', '\ufeffthe', 'pglaf', 'ebooks,']
+    blacklist = ['Project', 'Gutenberg', '\ufeffthe', 'pglaf', 'ebooks,', '.']
     if checkedWord in blacklist:
         return False
 
@@ -103,10 +141,7 @@ def generate_random_paragraph(wordDictionary, length):
 if __name__ == '__main__':
 
     wordDictionary = generate_word_dictionary(
-        clean_input_text(
-            import_text_file(
-                'c:\\Users\\Raffi\\Documents\\College\\Programming\\TeamSoftwareProject\\Source\\TextGeneration\\Frankenstein.txt'
-            )))
+        clean_input_text(import_text_file('TextGeneration\\Frankenstein.txt')))
     generate_frequency_JSON(wordDictionary, 'FrankensteinWordFrequency')
     startTime = time.time()
     if platform.system() == 'Linux':
@@ -114,11 +149,10 @@ if __name__ == '__main__':
             'TextGeneration/FrankensteinWordFrequency.json')
     elif platform.system() == 'Windows':
         wordDictionary = read_frequency_JSON(
-            'c:\\Users\\Raffi\\Documents\\College\\Programming\\TeamSoftwareProject\\Source\\TextGeneration\\FrankensteinWordFrequency.JSON'
-        )
+            'TextGeneration\\FrankensteinWordFrequency.JSON')
 
     print(time.time() - startTime)
-    for i in range(100):
+    for i in range(10):
 
-        print(*generate_random_paragraph(wordDictionary, 100))
+        print(*generate_random_paragraph(wordDictionary, 30))
         print('\n')

@@ -97,13 +97,14 @@ if __name__ == '__main__':
 
     startTime = time.time()
     if platform.system() == 'Linux':
-        wordString = import_text_file('TextGeneration/EnglishWords.txt')
+        wordString = import_text_file('TextGeneration/Texts/EnglishWords.txt')
         letterDictionary = generate_letter_frequency_dictionary(wordString)
         letterDictionary = read_frequency_JSON(
             'TextGeneration/LetterFrequency.json')
 
     elif platform.system() == 'Windows':
-        wordString = import_text_file('TextGeneration\\EnglishWords.txt')
+        wordString = import_text_file(
+            'TextGeneration\\Texts\\EnglishWords.txt')
         letterDictionary = generate_letter_frequency_dictionary(wordString)
         letterDictionary = read_frequency_JSON(
             'TextGeneration\\LetterFrequency.json')

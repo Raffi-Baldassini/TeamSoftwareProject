@@ -1,94 +1,100 @@
-{% extends "bootstrap/base.html" %}
-{% import "bootstrap/wtf.html" as wtf %}
-
-{% block head %}
-  {{ super() }}
-  <meta charset="utf-8" />
-  <title>{% block title %}{% endblock %}Tying Trainer</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-{% endblock %}
+{% extends "bootstrap/base.html" %} {% import "bootstrap/wtf.html" as wtf %} 
+{% block head %} 
+    {{ super() }}
+    <meta charset="utf-8" />
+    <title>{% block title %}{% endblock %}Tying Trainer</title>
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+{% endblock %} 
 
 {% block styles %}
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-  <link rel="stylesheet" href="{{url_for('.static', filename='normalize.css')}}">
-  <link rel="stylesheet" href="{{url_for('.static', filename='base.css')}}">
-  <script src="{{url_for('.static', filename='scripts.js')}}"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-{% endblock %}
-
-
-
-{% block content %}
-  <div class="container-fluid">
-
-    {% with messages = get_flashed_messages() %}
-    {% if messages %}
-      {% for message in messages %}
-        <div class="row" id="message_box_container">
-          <div id="message_box">
+    <link
+    rel="stylesheet"
+    href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+    crossorigin="anonymous"
+    />
+    <link
+    rel="stylesheet"
+    href="{{url_for('.static', filename='normalize.css')}}"
+    />
+    <link rel="stylesheet" href="{{url_for('.static', filename='base.css')}}" />
+    <script src="{{url_for('.static', filename='scripts.js')}}"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    {% endblock %} {% block content %}
+    <div class="container-fluid">
+    {% with messages = get_flashed_messages() %} {% if messages %} {% for message
+    in messages %}
+    <div class="row" id="message_box_container">
+        <div id="message_box">
             <h3>{{ message }}</h3>
-          </div>
-
         </div>
-      {% endfor %}
-    {% endif %}
-    {% endwith %}
+    </div>
+    {% endfor %} {% endif %} {% endwith %}
 
     <div class="row" id="header-container">
-      <div class="col-md">
-        <h1>Typing Trainer</h1>
-      </div>
+        <div class="col-md">
+            <h1>Typing Trainer</h1>
+        </div>
     </div>
 
     <div class="row" id="button-container">
-      <div class="col-md">
-        <button class="account_button" onclick="openLogin()">
-          <p>Login/Signup</p>
-        </button>
-      </div>
+        <div class="col-md">
+            {% if current_user.is_anonymous %}
+            <button class="account_button" onclick="openLogin()">
+                <p>Login/Signup</p>
+            </button>
+            {% else %}
+                <a href="{{ url_for('logout') }}"><button><p>Logout</p></button></a>
+            {% endif %}
+        </div>
 
-      <div class="col-md">
-        <button class="guest_button">
-          <a href="{{ url_for('practice') }}">Practice as<br> Guest</a>
-        </button>
-      </div>
+        <div class="col-md">
+                <a href="{{ url_for('practice') }}"><button class="guest_button"><p>Practice</p></button></a>    
+        </div>
     </div>
-    
+
     <div class="row" id="toggle-container">
         <label class="toggle">
-			<input type="checkbox" id="theme" onclick="changeTheme()"/>
-			<span class="slider"></span>
-		</label>
+            <div id="themeLabel">Light</div>
+            <input type="checkbox" id="theme" onclick="changeTheme()" />
+            <span class="slider"></span>
+        </label>
     </div>
 
     <div class="row" id="account_popup">
-      <div class="col-md" id="account_popup_container">
-        <button class="row btn exit" onclick="closeLogin()">Close</button>
-        <form class="form-signin" method="POST">
-          {{ form.hidden_tag() }} <!--- XSS request forgery token --->
-          {{ wtf.form_field(form.email, extra_classes='form_field') }}
-          {{ wtf.form_field(form.password, extra_classes='form_field') }}
-          {{ wtf.form_field(form.remember, extra_classes='form_field remember') }}
-          <button class="btn" type="submit">Sign in</button>
-        </form>
+        <div class="col-md" id="account_popup_container">
+            <button class="row btn exit" onclick="closeLogin()">Close</button>
+            <form class="form-signin" method="POST">
+                {{ form.hidden_tag() }}
+                <!--- XSS request forgery token --->
+                {{ wtf.form_field(form.email, extra_classes='form_field') }} {{
+                wtf.form_field(form.password, extra_classes='form_field') }} {{
+                wtf.form_field(form.remember, extra_classes='form_field remember')
+                }}
+                <button class="btn" type="submit">Sign in</button>
+            </form>
 
-        <div class="row" id="sign_up_container">
-          <h2>Dont have an account yet?</h2>
-          <button class="signup_button">
-            <a href="{{ url_for('signup') }}">Sign up</a>
-          </button>
+            <div class="row" id="sign_up_container">
+                <h2>Dont have an account yet?</h2>
+                <button class="signup_button">
+                <a href="{{ url_for('signup') }}">Sign up</a>
+                </button>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
+    </div>
 
-<div class="mobile-content">
-  <h2>Typing Trainer</h2>
-  <p>Oops! Our developers found a tear in the spacetime continuum and haven't returned yet to develop a mobile version
-    of Typing Trainer!</p>
-    <br>
-  <p>Come back to us on a laptop or PC!</p>
-  <img src="static/assets/space_devs.gif">
-</div>
+    <div class="mobile-content">
+    <h2>Typing Trainer</h2>
+    <p>
+        Oops! Our developers found a tear in the spacetime continuum and haven't
+        returned yet to develop a mobile version of Typing Trainer!
+    </p>
+    <br />
+    <p>Come back to us on a laptop or PC!</p>
+    <img src="static/assets/space_devs.gif" />
+    </div>
 {% endblock %}
-

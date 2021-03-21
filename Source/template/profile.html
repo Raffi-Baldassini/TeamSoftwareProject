@@ -1,0 +1,124 @@
+{% extends "bootstrap/base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block head %}
+    {{ super() }}
+    <meta charset="utf-8" />
+    <title>{% block title %}{% endblock %}Tying Trainer</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Chart.JS resources are here -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"></script>
+{% endblock %}
+
+{% block styles %}
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{url_for('.static', filename='normalize.css')}}">
+    <link rel="stylesheet" href="{{url_for('.static', filename='base.css')}}">
+    <script src="{{url_for('.static', filename='scripts.js')}}"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+{% endblock %}
+
+
+
+{% block content %}
+
+    <nav class="navbar navbar-expand">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="../">Typing Trainer</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item" id="practice-link">
+            <a class='nav-link' href='/practice'>Practice</a>
+            </li>
+        </ul>
+        </div>
+    <form> 
+        <label for="follow" style="float:left" > Follow user by id/username</label> 
+        <input type="text" id="follow" name="follow" style="float:left">
+    </form>
+    </div>
+    </nav>
+    <div class="row">
+        <div class="col-md-3">
+        <div id="user_stats">
+            <div>
+            <h2>User: {{ uname }}</h2>
+            </div>
+            <div>
+            <p>Solo games played: {{ data1 }}</p>
+            </div>
+            <div>
+            <p>Online games played: {{ data2 }}</p>
+            </div>
+            <div>
+            <p>Words typed: {{ data3 }}</p>
+            </div>
+            <div>
+            <p>Characters typed: {{ data4 }}</p>
+            </div>
+            <div>
+            <p>Overall WPM: {{ data5 }}</p>
+            </div>
+            <div>
+            <p>Overall Accuracy: {{ data6 }}</p>
+            </div>
+            <div>
+            <p>Highest recorded WPM: {{ data7 }}</p>
+            </div>
+            <div>
+            <p>Lowest recorded WPM: {{ data8 }}</p>
+            </div>
+            <div>
+            <p>Highest recorded accuracy: {{ data9 }}</p>
+            </div>
+            <div>
+            <p>Lowest recorded accuracy: {{ data10 }}</p>
+            </div>
+        </div>
+        </div>
+        <div class ="col-md-9">
+            <!-- The only way that I could find to properly control the alignment was to put the canvas in a div, feel
+                free to fix if this is bad-->
+            <div  style="width: 30vw; height:20vw; float: left">
+                <canvas id="wpmChart";></canvas>
+                <script>
+                    <!-- Information constructed in python file is collected here-->
+                    var ctx = document.getElementById("wpmChart").getContext('2d');
+                    var data = {{ wpmChartJSON | safe }}
+                    var wpmChart = new Chart(ctx, data);
+                </script>
+            </div>
+            <div style="width: 30vw; height:20vw; float: left">
+                <canvas id="accChart";></canvas>
+                <script>
+                    var ctx2 = document.getElementById("accChart").getContext('2d');
+                    var data = {{ accChartJSON | safe }}
+                    var accChart = new Chart(ctx2, data);
+                </script>
+            </div>
+        </div>
+    </div>
+    <div class="row" id="toggle-container"> 
+        <label class="toggle">
+        <div id="themeLabel">Light</div>
+        <input type="checkbox" id="theme" onclick="changeTheme()"/>
+        <span class="slider"></span>
+        </label>
+    </div>
+
+
+    <div class="mobile-content">
+    <h2>Typing Trainer</h2>
+    <p>Oops! Our developers found a tear in the spacetime continuum and haven't returned yet to develop a mobile version
+        of Typing Trainer!</p>
+        <br>
+    <p>Come back to us on a laptop or PC!</p>
+    <img src="static/assets/space_devs.gif">
+    </div>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script src="..\static\profile.js"></script>
+{% endblock %}
+

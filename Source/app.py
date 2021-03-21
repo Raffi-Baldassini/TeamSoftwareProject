@@ -1,35 +1,23 @@
-from flask import Flask, render_template, redirect, url_for, request, flash
+from flask import Flask, render_template, redirect, url_for, request, flash, jsonify
 from flask_bootstrap import Bootstrap
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
+from random import choice
 import platform
+import pymysql
+import os
 
 import Source.user_management as um
 from Source.db_setup import username, password, server, db_name
 from Source.RandomWordMarkovGenerator import read_frequency_JSON, generate_random_paragraph
-"""
-TO DO:
-    - Encrypt SQL login details (read them in indirectly)
-    - Set up secret key generation - consider key rotation?
-    
-TO TEST:
-    - Run script and go to http://127.0.0.1:5000/ in browser to view flask app
-        - This will be index.html or home
-    - Click sign up and complete the registration with fake details
-        - The username and email are not validated for uniqueness yet so this does not matter
-    - Go to: http://127.0.0.1:5000/secret_page
-        - This is only visible when logged in
-    - Go to: http://127.0.0.1:5000/logout
-    - Then back to http://127.0.0.1:5000/ and http://127.0.0.1:5000/secret_page
-        - The login screen should pop up
-"""
-
+from Source.db_interaction import DB
+from Source import friendsChart
 
 # Configure and instantiate the flask app
 app = Flask(__name__, template_folder='template')
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://%s:%s@%s/%s'\
-                                        % (username, password, server, db_name)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://%s:%s@%s/%s' % (
+    username, password, server, db_name)
 app.config['SECRET_KEY'] = 'secret_key'
 
 # Instantiates the login manager
@@ -42,13 +30,17 @@ Bootstrap(app)
 db = SQLAlchemy(app)
 
 
-# Represents user credentials
+# Represents user credentials by modelling mySQL columns
 # Provides default implementations for the methods that Flask-Login expects user objects to have
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     uname = db.Column(db.String(10), unique=True)
     email = db.Column(db.String(50), unique=True)
     pword = db.Column(db.String(80), unique=True)
+
+
+# Global variable used to keep track of a user id if logged in
+userID = None
 
 
 # Connects flask_login 'abstract' users to users that are defined in the DB
@@ -61,20 +53,118 @@ def load_user(user_id):
 # home page
 @app.route('/', methods=['POST', 'GET'])
 def index():
+    global userID
+
+    # Returns the user login-form with validated fields
     login_form = um.LoginForm()
 
+    # If the form can be validated
     if login_form.validate_on_submit():
-        submitted_user = User.query.filter_by(email=login_form.email.data).first()
-        # If form email matches stored email
+        submitted_user = User.query.filter_by(
+            email=login_form.email.data).first()
+        # If the email provided in the form matches stored email
         if submitted_user:
             # If hashed form password == hashed stored password
-            if check_password_hash(submitted_user.pword, login_form.password.data):
+            if check_password_hash(submitted_user.pword,
+                                   login_form.password.data):
+                userID = submitted_user.id
                 login_user(submitted_user, remember=login_form.remember.data)
                 flash("Successfully logged in!")
-                return render_template('index.html', form=login_form)
+                return redirect(url_for('profile'))
             else:
                 flash("Invalid login details!")
     return render_template('index.html', form=login_form)
+
+
+# Profile Page
+@app.route('/profile', methods=['POST', 'GET'])
+@login_required
+def profile():
+    global userID
+    con = DB.connect_db()
+    cursor = con.cursor()
+    
+    # Gets the user's username
+    username_statement = "SELECT `uname` FROM `user` WHERE id = %s;" % userID
+    cursor.execute(username_statement)
+    username_response = cursor.fetchall()[0][0]
+    
+    cursor.execute("SELECT id FROM stats WHERE id = %s", (userID))
+    
+    # If there is no entries in the db it will set them all to 0 
+    if len(cursor.fetchall()) == 0:
+        cursor.execute("INSERT INTO stats VALUES (%s,0,0,0,0,0,0,0,0,0,0)", (userID))
+        con.commit()
+        solo_game_response = 0
+        online_game_response = 0
+        words_response = 0
+        chars_response = 0
+        wpm_response = 0
+        accuracy_response = 0
+        acc_best_response =  0
+        acc_worst_response = 0
+        wpm_best_response = 0
+        wpm_worst_response = 0
+    
+    # If there are entries in the db then it will fetch them all to be outputted to the user profile page
+    else: 
+
+        solo_game_statement = "SELECT `solo_games` FROM `stats` WHERE id = %s;" % userID
+        cursor.execute(solo_game_statement)
+        solo_game_response = cursor.fetchall()[0][0]
+
+        online_game_statement = "SELECT `online_games` FROM `stats` WHERE id = %s;" % userID
+        cursor.execute(online_game_statement)
+        online_game_response = cursor.fetchall()[0][0]
+
+        words_statement = "SELECT `words` FROM `stats` WHERE id = %s;" % userID
+        cursor.execute(words_statement)
+        words_response = cursor.fetchall()[0][0]
+
+        chars_statement = "SELECT `chars` FROM `stats` WHERE id = %s;" % userID
+        cursor.execute(chars_statement)
+        chars_response = cursor.fetchall()[0][0]
+
+        wpm_statement = "SELECT `wpm` FROM `stats` WHERE id = %s;" % userID
+        cursor.execute(wpm_statement)
+        wpm_response = cursor.fetchall()[0][0]
+
+        accuracy_statement = "SELECT `accuracy` FROM `stats` WHERE id = %s;" % userID
+        cursor.execute(accuracy_statement)
+        accuracy_response = cursor.fetchall()[0][0]
+
+        acc_best_statement = "SELECT `acc_best` FROM `stats` WHERE id = %s;" % userID
+        cursor.execute(acc_best_statement)
+        acc_best_response = cursor.fetchall()[0][0]
+
+        acc_worst_statement = "SELECT `acc_worst` FROM `stats` WHERE id = %s;" % userID
+        cursor.execute(acc_worst_statement)
+        acc_worst_response = cursor.fetchall()[0][0]
+
+        wpm_best_statement = "SELECT `wpm_best` FROM `stats` WHERE id = %s;" % userID
+        cursor.execute(wpm_best_statement)
+        wpm_best_response = cursor.fetchall()[0][0]
+
+        wpm_worst_statement = "SELECT `wpm_worst` FROM `stats` WHERE id = %s;" % userID
+        cursor.execute(wpm_worst_statement)
+        wpm_worst_response = cursor.fetchall()[0][0]
+
+    (wpmChartJSON, accChartJSON) = friendsChart.get_charts(userID)
+    
+    return render_template('profile.html',
+                           uname=username_response,
+                           data1=solo_game_response,
+                           data2=online_game_response,
+                           data3=words_response,
+                           data4=chars_response,
+                           data5=wpm_response,
+                           data6=accuracy_response,
+                           data7=wpm_best_response,
+                           data8=wpm_worst_response,
+                           data9=acc_best_response,
+                           data10=acc_worst_response,
+                           wpmChartJSON=wpmChartJSON,
+                           accChartJSON=accChartJSON)
 
 
 # signup page
@@ -85,14 +175,19 @@ def signup():
 
     # If form is submitted
     if reg_form.validate_on_submit():
-        password_hash = generate_password_hash(reg_form.password.data, method='sha256')
+        # Generates a password hash which will be stored in the DB
+        password_hash = generate_password_hash(reg_form.password.data,
+                                               method='sha256')
+        # Creates User class which will be used to populate the D, if successful
         new_user = User(uname=reg_form.username.data.lower(),
                         email=reg_form.email.data.lower(),
-                        pword=password_hash
-                        )
+                        pword=password_hash)
+        
 
+        # Query if username/email already exist and provide appropriate error messages
         check_email = User.query.filter_by(email=reg_form.email.data).first()
-        check_username = User.query.filter_by(uname=reg_form.username.data).first()
+        check_username = User.query.filter_by(
+            uname=reg_form.username.data).first()
 
         if check_email:
             flash("An account is already registered with that email address!")
@@ -106,54 +201,141 @@ def signup():
     return render_template('signup.html', form=reg_form)
 
 
-# Login page route
+# Login page route - same login procedure as with 'index'
 @app.route('/login', methods=['POST', 'GET'])
 def login():
     login_form = um.LoginForm()
-
     if login_form.validate_on_submit():
-        submitted_user = User.query.filter_by(email=login_form.email.data).first()
+        submitted_user = User.query.filter_by(
+            email=login_form.email.data).first()
         # If form email matches stored email
         if submitted_user:
             # If hashed form password == hashed stored password
-            if check_password_hash(submitted_user.pword, login_form.password.data):
+            if check_password_hash(submitted_user.pword,
+                                   login_form.password.data):
                 login_user(submitted_user, remember=login_form.remember.data)
                 flash("Successfully logged in!")
-                return render_template('practice.html')
+                return redirect(url_for('profile'))
             else:
                 flash("Invalid login details!")
     return render_template('login.html', form=login_form)
 
 
-# logout page
+# logout page - hardcoded logout function
 @app.route('/logout')
 @login_required
 def logout():
+    form = um.LoginForm
+    global userID
+    userID = None
     logout_user()
     flash("Logout successful!")
     return redirect(url_for('index'))
 
 
-# Test page for private pages that require authentication
-@app.route('/secret_page', methods=['POST', 'GET'])
-@login_required
-def secret_page():
-    return "<h1>Test Page - Only logged in users should see this message</h1>"
-
-
 # Practice page for non-authenticated user
 @app.route('/practice', methods=['POST', 'GET'])
 def practice():
-
+    # Ensure paths are correct for Windows and linux - only necessary for local testing
     if platform.system() == 'Linux':
-        wordDictionary = read_frequency_JSON('TextGeneration/FrankensteinWordFrequency.json')
+        Frequency_dicts = os.listdir('TextGeneration/FrequencyDictionaries')
+        Frequency_dicts.remove('LetterFrequency.json')
+        filepath = choice(Frequency_dicts)
+        wordDictionary = read_frequency_JSON(
+            f'TextGeneration/FrequencyDictionaries/{filepath}')
     elif platform.system() == 'Windows':
-        wordDictionary = read_frequency_JSON('TextGeneration\\FrankensteinWordFrequency.JSON')
+        Frequency_dicts = os.listdir('TextGeneration\\FrequencyDictionaries')
+        Frequency_dicts.remove('LetterFrequency.json')
+        filepath = choice(Frequency_dicts)
+        wordDictionary = read_frequency_JSON(
+            f'TextGeneration\\FrequencyDictionaries\\{filepath}')
 
-    output = generate_random_paragraph(wordDictionary, 30)
+    output = generate_random_paragraph(wordDictionary, 10)
     output = " ".join([str(word) for word in output])
 
     return render_template('practice.html', generated_text=output)
+
+
+#obtain a fresh text set to be used in the game in JSON formatr
+@app.route('/reset', methods=['GET'])
+def reset():
+    if platform.system() == 'Linux':
+        Frequency_dicts = os.listdir('TextGeneration/FrequencyDictionaries')
+        Frequency_dicts.remove('LetterFrequency.json')
+        filepath = choice(Frequency_dicts)
+        wordDictionary = read_frequency_JSON(
+            f'TextGeneration/FrequencyDictionaries/{filepath}')
+    elif platform.system() == 'Windows':
+        Frequency_dicts = os.listdir('TextGeneration\\FrequencyDictionaries')
+        Frequency_dicts.remove('LetterFrequency.json')
+        filepath = choice(Frequency_dicts)
+        wordDictionary = read_frequency_JSON(
+            f'TextGeneration\\FrequencyDictionaries\\{filepath}')
+
+    output = generate_random_paragraph(wordDictionary, 10)
+    output = " ".join([str(word) for word in output])
+
+    return jsonify({'reply': output})
+
+
+#receive statistics from a played game, associate them with a user
+#and forward them to the method upload_game() in the DB class
+@app.route('/stats', methods=['POST'])
+def store_stats():
+    global userID
+    if userID:
+        stats = request.args.get('value').split(",")
+        for i in range(len(stats)):
+            stats[i] = int(stats[i].strip())
+        stats = [userID] + stats
+        DB.upload_game(stats)
+    return jsonify({'reply': 'success'})
+
+
+#obtain the id and day-best and all-time-best WPM for userID in JSON format
+@app.route('/loggedinidwpm', methods=['GET'])
+def ifLoggedInSendIDandWPM():
+    global userID
+    if userID != None:
+        wpms = DB.getBestWPM(userID)
+        return jsonify({
+            'reply': 'yes',
+            'id': userID,
+            'wpm_day': wpms[0],
+            'wpm_best': wpms[1]
+        })
+    return jsonify({'reply': ''})
+
+
+@app.route('/follow', methods=['POST'])
+def followUser():
+    global userID
+    if userID != None:
+        #get uname/id entered
+        userToFollow = stats = request.args.get('value').split(",")[0]
+        con = DB.connect_db()
+        cursor = con.cursor()
+        #attempt to obtain id assuming uname was entered
+        cursor.execute("SELECT id FROM user WHERE uname = %s;", (userToFollow))
+        response = cursor.fetchall()[0][0]
+        #reject if either value entered or obtained from db matches userID
+        if str(userToFollow) == str(userID) or str(response) == int(userID):
+            return jsonify({'reply': 'failure'})
+        #value entered is not username
+        if not response:
+            cursor.execute("SELECT id FROM user WHERE id = %s;",
+                           (userToFollow))
+            response = cursor.fetchall()
+            #id does not exist
+            if not response:
+                return jsonify({'reply': 'failure'})
+        cursor.execute(
+            "INSERT INTO friends(id, friend_id) VALUES (%s, %s);",
+            (userID, response))
+
+        con.commit()
+        con.close()
+        return jsonify({'reply': 'success'})
 
 
 # Run the applications

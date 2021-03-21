@@ -13,7 +13,7 @@ html {
 	--keypad: #3B8EA5;
 	--input-color: #565656;
 	--title: #7F5C79;
-	--title-shading: #6D597A;	
+	--title-shading: #59396e;	
 	--signup-bg1: #4a7687;
 	--signup-bg2: #629CB3;
 	--signup-btn: #f7f8ee;
@@ -194,7 +194,9 @@ button>p:hover {
 #sign_up_container h2{
 	color: white;
 }
-
+.account_button{
+    margin: 22px 0px 22px 22px;
+}
 /* Login screen popup */
 #account_popup{
     position: fixed;
@@ -537,12 +539,21 @@ input[type=text]{
     text-align: center;
 }
 
+#enter {
+	background-color: #9E1A1A;
+}
+
+#backspace {
+	background-color: #9E1A1A;
+}
+
 .stats{
 	position: relative;
 	text-align: center;
-	line-height: 30px;
-	font-size: 25px;
+	font-size: 1vw !important;
 	background-color: var(--text-bg);
+    max-width:100ch;
+    margin:auto;
 }
 
 .game-box{
@@ -551,7 +562,9 @@ input[type=text]{
 
 .generated{
 	background-color: var(--text-bg);
-	font-size: 15px !important;
+	font-size: 1.3vw !important;
+    max-width:100ch;
+    margin:auto;
 }
 
 /* nav bar */
@@ -565,6 +578,7 @@ nav {
     height: 4em;
     padding: 0;
 }
+
 nav li{
 	margin: 20px;
 }
@@ -573,7 +587,6 @@ nav li a{
 	border: 2px solid var(--title);
 	box-sizing: border-box;
 	border-radius: 20px;
-	margin-left: 0.5em;
 	color: var(--title) !important;
 	text-align: center;
 	font-size: 20px ;
