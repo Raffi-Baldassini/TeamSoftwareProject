@@ -36,7 +36,15 @@ You can use the 'backspace' and 'enter' keys to reset the current textset and ge
 Game-specific stats are updated every 100ms and displayed between the virtual keyboard and generated text.
 Any changes to your overall statistics will be reflected in your profile.
 
+## Known Issues
+
+*These remain in this version due to time constraints*
+Some portions have not been made fully adaptive to dark mode, specifically the error messages on the sign in/up and login pop-ups, and the profile page.
+Some portions of the site do not respond well to certain screen sizes, see project brief Section 11 for more info.
+
+
 ## Code Conventions:
+
 We employed the Google Python style guidelines while writing our code
 
 ## Contributors:
