@@ -2,6 +2,7 @@
 
 ## Guide to Submission
 The directory tree below includes only files deemed relevant to this submission for simplicity.
+```
     │
     │Overview.md
     │	
@@ -53,6 +54,7 @@ The directory tree below includes only files deemed relevant to this submission 
                ├───FrequencyDictionaries
                │
                └───Texts
+```
 ## Final Documentation
 Contains the final versions of the Project Brief and Lessons Learned from the group
 ## TeamSoftwareProject
