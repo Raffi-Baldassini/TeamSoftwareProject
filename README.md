@@ -15,7 +15,7 @@ or use the command `git clone  https://github.com/Raffi-Baldassini/TeamSoftwareP
 
 2. Install the dependencies using `pip install -r requirements.txt`
 
-3. In the Source directory, use the command `flask run` to start the server and then go to the IP address it tells you it is running on
+3. In the Source directory, use the command `flask run` to start the server and then go to the [locally hosted IP address](http://127.0.0.1:5000/).
 
 ### From Hosted Version:
 
@@ -27,6 +27,7 @@ Once on the site, whether locally hosted or not, you'll have the option to sign-
 
 ## Code Conventions:
 We employed the Google Python style guidelines while writing our code
+
 ## Contributors:
 
 * Shane Fitzgerald Knott
