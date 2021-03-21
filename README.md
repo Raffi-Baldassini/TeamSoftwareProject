@@ -12,6 +12,8 @@ This typing trainer was developed as a means to practice touch typing, receiving
 
 ### From Your Local Machine:
 
+*Note: Python 3.9 may be necessary to run locally however older versions have worked for some. pip3 will be necessary.*
+
 1. If you wish to run the beta offline and directly from your machine, then you will need to download the development branch as a zip file
 or use the command `git clone  https://github.com/Raffi-Baldassini/TeamSoftwareProject.git`
 
@@ -27,11 +29,11 @@ or use the command `git clone  https://github.com/Raffi-Baldassini/TeamSoftwareP
 
 Once on the site, whether locally hosted or not, you'll have the option to sign-in, sign-up, or play as a guest.
 All pages on the site have a toggle button for theme-switching in the bottom right corner.
-If you sign-in, you will be redirected to your new profile were you will be able to view your current statistics, and view historical records for yourself and people you follow using the form on the page.
+If you sign-in, you will be redirected to your profile where you will be able to view your current statistics, and view historical records for yourself and people you follow using the form on the page.
 On the practice page you will see the generated text for you to practice on.
 The game is played using your keyboard to match the text displayed in the grey box.
 You can use the 'backspace' and 'enter' keys to reset the current textset and generate a new one.
-Game-specific stats are updated every 100ms and displayed between the virtual keyboard and generated texts.
+Game-specific stats are updated every 100ms and displayed between the virtual keyboard and generated text.
 Any changes to your overall statistics will be reflected in your profile.
 
 ## Code Conventions:
