@@ -76,6 +76,7 @@ def index():
     return render_template('index.html', form=login_form)
 
 
+# Profile Page
 @app.route('/profile', methods=['POST', 'GET'])
 @login_required
 def profile():
@@ -83,11 +84,14 @@ def profile():
     con = DB.connect_db()
     cursor = con.cursor()
     
+    # Gets the user's username
     username_statement = "SELECT `uname` FROM `user` WHERE id = %s;" % userID
     cursor.execute(username_statement)
     username_response = cursor.fetchall()[0][0]
     
     cursor.execute("SELECT id FROM stats WHERE id = %s", (userID))
+    
+    # If there is no entries in the db it will set them all to 0 
     if len(cursor.fetchall()) == 0:
         cursor.execute("INSERT INTO stats VALUES (%s,0,0,0,0,0,0,0,0,0,0)", (userID))
         con.commit()
@@ -101,6 +105,8 @@ def profile():
         acc_worst_response = 0
         wpm_best_response = 0
         wpm_worst_response = 0
+    
+    # If there are entries in the db then it will fetch them all to be outputted to the user profile page
     else: 
 
         solo_game_statement = "SELECT `solo_games` FROM `stats` WHERE id = %s;" % userID
